@@ -23,12 +23,11 @@ function DraftReplyEditor({
   return (
     <div className="space-y-4">
       <div>
-        <label className="block text-xs font-semibold uppercase tracking-wider text-gray-300">
+        <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700 dark:text-gray-300">
           Taxpayer Notes &amp; Payment/Invoice Details (Optional)
         </label>
         <textarea
-          className="mt-2 w-full rounded-lg border bg-black/40 p-3 text-xs text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500"
-          style={{ borderColor: 'var(--color-border)' }}
+          className="mt-2 w-full rounded-lg border bg-slate-50 border-slate-300 p-3 text-xs text-slate-900 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-black/40 dark:text-white dark:border-[#252542]"
           rows={4}
           placeholder="e.g. All tax invoices were paid via Bank RTGS on 15/04/2023. GSTR-2B reconciliation is annexed showing bona fide outward tax compliance."
           value={userNotes}
@@ -39,7 +38,7 @@ function DraftReplyEditor({
       <button
         onClick={onGenerate}
         disabled={loading}
-        className="w-full rounded-xl bg-purple-600 py-3 text-xs font-bold uppercase tracking-wider text-white shadow-lg transition-transform active:scale-98 hover:bg-purple-500 disabled:opacity-50"
+        className="w-full rounded-xl bg-[#3733C8] hover:bg-[#2B28A8] text-white shadow-md shadow-indigo-100 dark:bg-gradient-to-r dark:from-[#3521C1] dark:via-[#4338CA] dark:to-[#585EF8] dark:shadow-indigo-950/50 py-3 text-xs font-bold uppercase tracking-wider transition-transform active:scale-98 disabled:opacity-50"
         data-testid="generate-draft-btn"
       >
         {loading ? 'Drafting Grounded Legal Reply...' : 'Generate Legal Draft Reply'}
@@ -52,13 +51,12 @@ function DraftReplyViewer({ draft, onCopy, copied }: { draft: DraftReply; onCopy
   return (
     <div className="space-y-4">
       {draft.caEscalationWarning && (
-        <div className="rounded-lg border border-red-500/80 bg-red-950/40 p-3 text-xs text-red-200">
+        <div className="rounded-lg border border-red-300 bg-red-50 p-3 text-xs text-red-900 dark:border-red-500/80 dark:bg-red-950/40 dark:text-red-200">
           ⚠️ {draft.caEscalationWarning}
         </div>
       )}
       <div
-        className="rounded-lg border bg-black/60 p-4 font-mono text-xs leading-relaxed text-gray-200 whitespace-pre-wrap max-h-[50vh] overflow-y-auto"
-        style={{ borderColor: 'var(--color-border)' }}
+        className="rounded-lg border bg-slate-50 border-slate-300 p-4 font-mono text-xs leading-relaxed text-slate-900 dark:bg-black/60 dark:text-gray-200 dark:border-[#252542] whitespace-pre-wrap max-h-[50vh] overflow-y-auto"
         data-testid="draft-reply-text"
       >
         {draft.fullReplyText}
@@ -117,15 +115,14 @@ export function DraftReplyModal({ notice, isOpen, onClose }: DraftReplyModalProp
       data-testid="draft-reply-modal"
     >
       <div
-        className="relative flex max-h-[90vh] w-full max-w-3xl flex-col rounded-2xl border p-6 shadow-2xl"
-        style={{ backgroundColor: '#0F0F1E', borderColor: 'var(--color-border)' }}
+        className="relative flex max-h-[90vh] w-full max-w-3xl flex-col rounded-2xl border p-6 shadow-2xl bg-white border-slate-200 dark:bg-[#0F0F1E] dark:border-[#252542]"
       >
         <div className="flex items-center justify-between border-b pb-4" style={{ borderColor: 'var(--color-border)' }}>
           <div>
-            <h3 className="text-lg font-bold text-white">Formal GST Portal Reply Drafter</h3>
-            <p className="text-xs text-gray-400">Grounded legal submission under Section 75(4) of the CGST Act, 2017.</p>
+            <h3 className="text-lg font-bold text-slate-900 dark:text-white">Formal GST Portal Reply Drafter</h3>
+            <p className="text-xs text-slate-600 dark:text-gray-400">Grounded legal submission under Section 75(4) of the CGST Act, 2017.</p>
           </div>
-          <button onClick={onClose} className="rounded-lg p-2 text-gray-400 hover:bg-white/10 hover:text-white" data-testid="close-modal-btn">
+          <button onClick={onClose} className="rounded-lg p-2 text-slate-500 hover:bg-slate-100 hover:text-slate-800 dark:text-gray-400 dark:hover:bg-white/10 dark:hover:text-white" data-testid="close-modal-btn">
             ✕
           </button>
         </div>
@@ -137,7 +134,7 @@ export function DraftReplyModal({ notice, isOpen, onClose }: DraftReplyModalProp
           )}
         </div>
         <div className="flex justify-end gap-3 border-t pt-4" style={{ borderColor: 'var(--color-border)' }}>
-          <button onClick={onClose} className="rounded-lg border px-4 py-2 text-xs font-medium text-gray-300 hover:bg-white/10">
+          <button onClick={onClose} className="rounded-lg border border-slate-300 dark:border-slate-700 px-4 py-2 text-xs font-medium text-slate-700 hover:bg-slate-100 dark:text-gray-300 dark:hover:bg-white/10">
             Close
           </button>
         </div>

@@ -63,43 +63,72 @@
 
 /* ─── Base styles ────────────────────────────────────────────────── */
 :root {
-  --color-bg: var(--color-neutral-0);
-  --color-surface: var(--color-neutral-50);
-  --color-surface-raised: var(--color-neutral-0);
-  --color-border: var(--color-neutral-200);
-  --color-border-strong: var(--color-neutral-300);
-  --color-text: var(--color-neutral-900);
-  --color-text-muted: var(--color-neutral-500);
-  --color-text-subtle: var(--color-neutral-400);
-  --color-primary: var(--color-primary-500);
-  --color-primary-hover: var(--color-primary-600);
-  --color-primary-subtle: var(--color-primary-50);
-  --color-primary-text: var(--color-primary-700);
+  --color-bg: #F8FAFC;
+  --color-surface: #FFFFFF;
+  --color-surface-raised: #FFFFFF;
+  --color-border: #E2E8F0;
+  --color-border-strong: #CBD5E1;
+  --color-text: #0F172A;
+  --color-text-muted: #475569;
+  --color-text-subtle: #64748B;
+  --color-primary: #3733C8;
+  --color-primary-hover: #2B28A8;
+  --color-primary-subtle: #EEF2FF;
+  --color-primary-text: #1E1B4B;
 
-  /* Light theme soft diffused ambient glow */
-  --ambient-glow-1: rgba(55, 51, 200, 0.07);
-  --ambient-glow-2: rgba(120, 60, 220, 0.06);
+  /* Light theme: clean executive ambiance */
+  --ambient-glow-1: rgba(55, 51, 200, 0.04);
+  --ambient-glow-2: rgba(99, 102, 241, 0.03);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-bg: #0A0A16;
-    --color-surface: #121224;
-    --color-surface-raised: #1A1A32;
-    --color-border: #252542;
-    --color-border-strong: #38385E;
-    --color-text: #F3F3FA;
-    --color-text-muted: #8E8EA8;
-    --color-text-subtle: #686884;
-    --color-primary: var(--color-primary-400);
-    --color-primary-hover: var(--color-primary-300);
-    --color-primary-subtle: var(--color-primary-900);
-    --color-primary-text: var(--color-primary-100);
+html.dark {
+  --color-bg: #0A0A16;
+  --color-surface: #121224;
+  --color-surface-raised: #1A1A32;
+  --color-border: #252542;
+  --color-border-strong: #38385E;
+  --color-text: #F3F3FA;
+  --color-text-muted: #8E8EA8;
+  --color-text-subtle: #686884;
+  --color-primary: #585EF8;
+  --color-primary-hover: #7777EE;
+  --color-primary-subtle: #161468;
+  --color-primary-text: #D4D4FF;
 
-    /* Dark theme rich diffused glow */
-    --ambient-glow-1: rgba(60, 38, 205, 0.32);
-    --ambient-glow-2: rgba(140, 42, 220, 0.25);
-  }
+  /* Dark theme: rich purple & luminous indigo glow */
+  --ambient-glow-1: rgba(60, 38, 205, 0.32);
+  --ambient-glow-2: rgba(140, 42, 220, 0.25);
+}
+
+/* ─── Custom sleek minimal scrollbar ─────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}
+
+html.dark ::-webkit-scrollbar-thumb {
+  background: #2D2D4A;
+}
+html.dark ::-webkit-scrollbar-thumb:hover {
+  background: #4B4B75;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #CBD5E1 transparent;
+}
+html.dark * {
+  scrollbar-color: #2D2D4A transparent;
 }
 
 /* Honor reduced-motion preference: collapse all durations & stop drift */
@@ -146,7 +175,7 @@ body {
   left: 1rem;
 }
 
-/* ─── Tactile noise overlay (sweet spot: visible analog texture) ──── */
+/* ─── Tactile noise overlay (active in dark mode only) ─────────────── */
 .grain-overlay {
   position: fixed;
   inset: 0;
@@ -154,16 +183,14 @@ body {
   height: 100%;
   pointer-events: none;
   z-index: 40;
-  opacity: 0.042;
+  display: none;
   background-repeat: repeat;
-  /* baseFrequency 1.05 gives distinct visible film jitter without chunky pixel blocks */
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='sweetNoise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.05' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23sweetNoise)'/%3E%3C/svg%3E");
 }
 
-@media (prefers-color-scheme: dark) {
-  .grain-overlay {
-    opacity: 0.058;
-  }
+html.dark .grain-overlay {
+  display: block;
+  opacity: 0.058;
 }
 
 /* ─── Ambient softly drifting & ultra-soft feathered lighting ─────── */
@@ -175,12 +202,17 @@ body {
   z-index: 0;
 }
 
-/* Deep grounding vignette: transitions to deep black towards the bottom */
+/* Deep grounding vignette: active in dark mode */
 .ambient-vignette {
   position: absolute;
   inset: 0;
   pointer-events: none;
   z-index: 2;
+  display: none;
+}
+
+html.dark .ambient-vignette {
+  display: block;
   background: linear-gradient(
     to bottom,
     transparent 40%,

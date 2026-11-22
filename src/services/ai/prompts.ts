@@ -47,17 +47,18 @@ export function buildExplanationPrompt(
   lang: 'en' | 'hi' | 'bn'
 ): string {
   const langInstructions = {
-    en: 'Explain in simple, encouraging English for an Indian small business owner. Do not use intimidating legal jargon.',
-    hi: 'भारतीय छोटे व्यापारी के लिए सरल, स्पष्ट हिंदी में समझाएं। अनावश्यक कानूनी शब्दावली से बचें और बताएं कि आगे क्या कदम उठाना है।',
-    bn: 'ভারতের সাধারণ ছোট ব্যবসায়ীদের জন্য সহজ ও বোধগম্য বাংলায় ব্যাখ্যা করুন। অযথা জটিল আইনগত শব্দ এড়িয়ে চলুন এবং করণীয় স্পষ্ট করুন।',
+    en: 'Explain in simple, encouraging English for an Indian small business owner. Do not use intimidating legal jargon. Use the full word "Section", never the symbol "§".',
+    hi: 'भारतीय छोटे व्यापारी के लिए सरल, स्पष्ट हिंदी में समझाएं। पूरे विवरण को हिंदी में समझाएं, बिना किसी अधूरे अंग्रेजी कानूनी पाठ के। धारा के लिए "धारा" या "Section" लिखें, कभी भी "§" चिह्न का उपयोग न करें।',
+    bn: 'ভারতের সাধারণ ছোট ব্যবসায়ীদের জন্য সহজ ও বোধগম্য বাংলায় ব্যাখ্যা করুন। ধারার জন্য "ধারা" বা "Section" লিখুন, কখনোই "§" চিহ্ন ব্যবহার করবেন না।',
   }
 
   return `Explain this GST notice to the taxpayer in 3 clear paragraphs:
-1. What this notice is about and why the department issued it.
+1. What this notice is about and why the department issued it (in plain everyday language).
 2. The exact amounts due (in ₹) and the statutory deadline to reply.
 3. Plain action items (documents to prepare and whether to consult a CA).
 
 Language: ${langInstructions[lang]}
+Formatting Rule: Write the word "Section" or "धारा" / "ধারা" — never use the "§" symbol. Translate all concepts into genuine plain language.
 
 Notice Summary:
 - Type: ${notice.noticeTypeDescription} (${notice.noticeType})

@@ -9,57 +9,8 @@ import { EscalationCard } from './EscalationCard'
 import { ExplanationTabs } from './ExplanationTabs'
 import { StatutoryCitations, CitationItem } from './StatutoryCitations'
 import { DraftReplyModal } from './DraftReplyModal'
-
-const SAMPLES = {
-  asmt10: `FORM GST ASMT-10
-[See rule 99(1)]
-Notice for intimating discrepancies in the return after scrutiny
-Reference No: ASMT10/DL/2024/0912
-Date: 10/08/2024
-GSTIN: 07TESTU9999R1Z9
-Legal Name: M/s Apex Synthetic Supplies
-Tax Period: FY 2023-24
-
-This is to intimate that scrutiny of your return for the tax period under Section 61 of the CGST Act, 2017 read with Rule 99 has revealed discrepancy:
-Input Tax Credit availed in Table 4(A)(5) of GSTR-3B exceeds ITC available in GSTR-2B by Rs 42,000.
-
-Tax: Rs 42,000
-Interest under Sec 50: Rs 3,500
-Penalty: Rs 0
-Total Stated Demand: Rs 45,500
-
-You are requested to furnish an explanation within 30 days of receipt of this notice in FORM GST ASMT-11.`,
-
-  drc01Fraud: `FORM GST DRC-01
-[See rule 142(1)]
-Summary of Show Cause Notice
-Reference No: DRC01/MH/2024/7712
-Date: 04/09/2024
-GSTIN: 27FAKEX0000R1Z2
-Legal Name: M/s Fictional Metal Works
-Tax Period: July 2022 to March 2023
-
-Show Cause Notice under Section 74 of the CGST Act, 2017.
-It appears that outward tax liability has been evaded by reason of fraud and wilful misstatement of turnover with deliberate suppression of facts.
-
-Tax: Rs 6,80,000
-Interest under Sec 50: Rs 1,12,000
-Penalty under Sec 74: Rs 6,80,000
-Total Stated Demand: Rs 14,72,000
-
-You are directed to show cause within 30 days why the demand should not be confirmed.`,
-
-  gstr3a: `FORM GSTR-3A
-[See rule 68]
-Notice to return defaulter under Section 46 for not filing return
-Reference No: GSTR3A/KA/2024/3391
-Date: 25/08/2024
-GSTIN: 29MOCKY1111R1Z8
-Legal Name: M/s Synthetic Retailers
-
-Being a registered taxable person, you have not furnished return in GSTR-3B for the month of July 2024.
-You are hereby given notice under Section 46 of the CGST Act, 2017 to furnish the said return within 15 days, failing which the tax liability will be assessed under Section 62.`,
-}
+import { NoticeUploadZone } from './NoticeUploadZone'
+import { SampleNoticeButtons, SampleKey } from './SampleNoticeButtons'
 
 export interface AnalysisResponse {
   notice: ExtractedNotice
@@ -74,53 +25,71 @@ export interface AnalysisResponse {
   }
 }
 
-type SampleKey = 'asmt10' | 'drc01' | 'gstr3a'
-
-function SampleNoticeButtons({
-  selectedSample,
-  onSelect,
+function UploadSuccessBanner({
+  uploadedFile,
+  onClearUpload,
 }: {
-  selectedSample: SampleKey | null
-  onSelect: (key: SampleKey, text: string) => void
+  uploadedFile: { name: string; chars: number }
+  onClearUpload: () => void
 }) {
   return (
-    <div className="flex flex-wrap items-center gap-2">
-      <span className="text-xs font-semibold text-gray-400">Try sample notice:</span>
+    <div
+      className="mb-3 flex items-center justify-between rounded-lg border border-emerald-300 bg-emerald-50 dark:border-emerald-500/30 dark:bg-emerald-950/30 px-3 py-1.5 text-xs text-emerald-800 dark:text-emerald-300"
+      data-testid="upload-success-pill"
+    >
+      <span className="flex items-center gap-1.5 font-medium">
+        <span>✓</span>
+        <span>
+          Extracted from <strong>{uploadedFile.name}</strong> ({uploadedFile.chars.toLocaleString('en-IN')} chars)
+        </span>
+      </span>
       <button
-        onClick={() => onSelect('asmt10', SAMPLES.asmt10)}
-        className={
-          selectedSample === 'asmt10'
-            ? 'rounded-md border-2 border-purple-400 bg-purple-900/80 px-3 py-1 text-xs font-semibold text-purple-100 shadow-[0_0_12px_rgba(192,132,252,0.45)] ring-1 ring-purple-400/50 transition-all'
-            : 'rounded-md border border-purple-800 bg-purple-950/40 px-3 py-1 text-xs text-purple-300 hover:bg-purple-900/60 transition-colors'
-        }
-        aria-pressed={selectedSample === 'asmt10'}
-        data-testid="sample-asmt10-btn"
+        type="button"
+        onClick={onClearUpload}
+        className="text-emerald-700 dark:text-emerald-400 hover:underline text-[10px]"
       >
-        ASMT-10 (Scrutiny)
+        Clear
       </button>
+    </div>
+  )
+}
+
+function NoticeActionBar({
+  language,
+  onLanguageChange,
+  onAnalyze,
+  loading,
+  disabled,
+}: {
+  language: 'en' | 'hi' | 'bn'
+  onLanguageChange: (v: 'en' | 'hi' | 'bn') => void
+  onAnalyze: () => void
+  loading: boolean
+  disabled: boolean
+}) {
+  return (
+    <div className="mt-4 flex flex-wrap items-center justify-between gap-4">
+      <div className="flex items-center gap-2">
+        <span className="text-xs font-semibold text-slate-600 dark:text-gray-400">Language:</span>
+        <select
+          value={language}
+          onChange={e => onLanguageChange(e.target.value as 'en' | 'hi' | 'bn')}
+          className="rounded-lg border bg-white border-slate-300 px-3 py-1.5 text-xs text-slate-800 dark:bg-black/60 dark:text-gray-200 dark:border-[#252542] focus:outline-none"
+          data-testid="language-select"
+        >
+          <option value="en">English</option>
+          <option value="hi">हिन्दी (Hindi)</option>
+          <option value="bn">বাংলা (Bengali)</option>
+        </select>
+      </div>
+
       <button
-        onClick={() => onSelect('drc01', SAMPLES.drc01Fraud)}
-        className={
-          selectedSample === 'drc01'
-            ? 'rounded-md border-2 border-red-400 bg-red-900/80 px-3 py-1 text-xs font-semibold text-red-100 shadow-[0_0_12px_rgba(248,113,113,0.45)] ring-1 ring-red-400/50 transition-all'
-            : 'rounded-md border border-red-800 bg-red-950/40 px-3 py-1 text-xs text-red-300 hover:bg-red-900/60 transition-colors'
-        }
-        aria-pressed={selectedSample === 'drc01'}
-        data-testid="sample-drc01-btn"
+        onClick={onAnalyze}
+        disabled={disabled}
+        className="flex items-center gap-2 rounded-xl bg-[#3733C8] hover:bg-[#2B28A8] text-white shadow-md shadow-indigo-100 dark:bg-gradient-to-r dark:from-[#3521C1] dark:via-[#4338CA] dark:to-[#585EF8] dark:shadow-indigo-950/50 px-6 py-2.5 text-xs font-bold uppercase tracking-wider transition-transform active:scale-95 disabled:opacity-40"
+        data-testid="analyze-notice-btn"
       >
-        DRC-01 (§74 Fraud)
-      </button>
-      <button
-        onClick={() => onSelect('gstr3a', SAMPLES.gstr3a)}
-        className={
-          selectedSample === 'gstr3a'
-            ? 'rounded-md border-2 border-amber-400 bg-amber-900/80 px-3 py-1 text-xs font-semibold text-amber-100 shadow-[0_0_12px_rgba(251,191,36,0.45)] ring-1 ring-amber-400/50 transition-all'
-            : 'rounded-md border border-amber-800 bg-amber-950/40 px-3 py-1 text-xs text-amber-300 hover:bg-amber-900/60 transition-colors'
-        }
-        aria-pressed={selectedSample === 'gstr3a'}
-        data-testid="sample-gstr3a-btn"
-      >
-        GSTR-3A (Non-Filer)
+        {loading ? 'Analyzing Demand...' : 'Analyze GST Notice →'}
       </button>
     </div>
   )
@@ -129,106 +98,109 @@ function SampleNoticeButtons({
 function NoticeInputCard({
   noticeText,
   setNoticeText,
+  uploadedFile,
+  onClearUpload,
+  onTextExtracted,
   language,
   onLanguageChange,
   onAnalyze,
   loading,
   error,
+  onError,
 }: {
   noticeText: string
   setNoticeText: (v: string) => void
+  uploadedFile: { name: string; chars: number } | null
+  onClearUpload: () => void
+  onTextExtracted: (text: string, filename: string, charCount: number) => void
   language: 'en' | 'hi' | 'bn'
   onLanguageChange: (v: 'en' | 'hi' | 'bn') => void
   onAnalyze: () => void
   loading: boolean
   error: string | null
+  onError: (err: string) => void
 }) {
   return (
-    <div className="rounded-2xl border p-5 shadow-xl backdrop-blur-md" style={{ backgroundColor: 'var(--color-surface)', borderColor: 'var(--color-border)' }}>
-      <div className="flex items-center justify-between pb-3">
-        <label htmlFor="notice-input" className="text-xs font-bold uppercase tracking-wider text-gray-300">
-          Paste Official GST Notice Text / SCN
+    <div className="rounded-2xl border p-5 shadow-xl backdrop-blur-md bg-white border-slate-200 dark:bg-[#121224] dark:border-[#252542]">
+      <div className="flex flex-wrap items-center justify-between gap-2 pb-3">
+        <label htmlFor="notice-input" className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-gray-300">
+          Paste Notice Text or Upload File
         </label>
-        <span className="text-xs text-gray-500">{noticeText.length.toLocaleString('en-IN')} / 25,000 chars</span>
+        <div className="flex items-center gap-3">
+          <NoticeUploadZone onTextExtracted={onTextExtracted} onError={onError} />
+          <span className="text-xs text-slate-500 dark:text-gray-500">{noticeText.length.toLocaleString('en-IN')} / 25,000 chars</span>
+        </div>
       </div>
+
+      {uploadedFile && <UploadSuccessBanner uploadedFile={uploadedFile} onClearUpload={onClearUpload} />}
 
       <textarea
         id="notice-input"
         rows={7}
-        className="w-full rounded-xl border bg-black/50 p-4 font-mono text-xs text-gray-200 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500"
-        style={{ borderColor: 'var(--color-border)' }}
-        placeholder="Paste or type notice text here (e.g. FORM GST ASMT-10, DRC-01, GSTR-3A)..."
+        className="w-full rounded-xl border bg-slate-50 border-slate-300 text-slate-900 placeholder-slate-400 p-4 font-mono text-xs focus:bg-white focus:border-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-black/50 dark:border-[#252542] dark:text-gray-200 dark:placeholder-gray-500"
+        placeholder="Paste notice text (e.g. FORM GST ASMT-10, DRC-01, GSTR-3A) or upload a PDF above..."
         value={noticeText}
         onChange={e => setNoticeText(e.target.value)}
         data-testid="notice-input-textarea"
       />
 
-      {error && <div className="mt-3 rounded-lg border border-red-800 bg-red-950/50 p-3 text-xs text-red-300" data-testid="error-banner">{error}</div>}
+      {error && <div className="mt-3 rounded-lg border border-red-300 bg-red-50 p-3 text-xs text-red-800 dark:border-red-800 dark:bg-red-950/50 dark:text-red-300" data-testid="error-banner">{error}</div>}
 
-      <div className="mt-4 flex flex-wrap items-center justify-between gap-4">
-        <div className="flex items-center gap-2">
-          <span className="text-xs font-semibold text-gray-400">Language:</span>
-          <select
-            value={language}
-            onChange={e => onLanguageChange(e.target.value as 'en' | 'hi' | 'bn')}
-            className="rounded-lg border bg-black/60 px-3 py-1.5 text-xs text-gray-200 focus:outline-none"
-            style={{ borderColor: 'var(--color-border)' }}
-            data-testid="language-select"
-          >
-            <option value="en">English</option>
-            <option value="hi">हिन्दी (Hindi)</option>
-            <option value="bn">বাংলা (Bengali)</option>
-          </select>
-        </div>
-
-        <button
-          onClick={onAnalyze}
-          disabled={loading || noticeText.trim().length === 0}
-          className="flex items-center gap-2 rounded-xl bg-purple-600 px-6 py-2.5 text-xs font-bold uppercase tracking-wider text-white shadow-lg transition-transform active:scale-95 hover:bg-purple-500 disabled:opacity-40"
-          data-testid="analyze-notice-btn"
-        >
-          {loading ? 'Analyzing Demand...' : 'Analyze GST Notice →'}
-        </button>
-      </div>
+      <NoticeActionBar
+        language={language}
+        onLanguageChange={onLanguageChange}
+        onAnalyze={onAnalyze}
+        loading={loading}
+        disabled={loading || noticeText.trim().length === 0}
+      />
     </div>
   )
 }
 
-function AnalysisResultsView({
+function NoticeModalsAndResults({
   analysis,
   language,
   loading,
+  isDraftModalOpen,
   onLanguageChange,
   onOpenDraftModal,
+  onCloseDraftModal,
 }: {
-  analysis: AnalysisResponse
+  analysis: AnalysisResponse | null
   language: 'en' | 'hi' | 'bn'
   loading: boolean
-  onLanguageChange: (lang: 'en' | 'hi' | 'bn') => void
+  isDraftModalOpen: boolean
+  onLanguageChange: (l: 'en' | 'hi' | 'bn') => void
   onOpenDraftModal: () => void
+  onCloseDraftModal: () => void
 }) {
+  if (!analysis) return null
   return (
-    <div className="space-y-6 animate-fade-in" data-testid="analysis-results">
-      <ReceiptSummary notice={analysis.notice} totals={analysis.totals} deadline={analysis.deadline} />
-      <EscalationCard escalation={analysis.escalation} />
-      <div className="flex justify-end">
-        <button
-          onClick={onOpenDraftModal}
-          className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-purple-700 to-indigo-600 px-5 py-3 text-xs font-bold uppercase tracking-wider text-white shadow-lg transition-transform active:scale-95 hover:brightness-110"
-          data-testid="open-draft-modal-btn"
-        >
-          ✍️ Draft Formal Portal Reply under Section 75(4) →
-        </button>
+    <>
+      <div className="space-y-6 animate-fade-in" data-testid="analysis-results">
+        <ReceiptSummary notice={analysis.notice} totals={analysis.totals} deadline={analysis.deadline} />
+        <EscalationCard escalation={analysis.escalation} />
+        <div className="flex justify-end">
+          <button
+            onClick={onOpenDraftModal}
+            className="flex items-center gap-2 rounded-xl bg-[#3733C8] hover:bg-[#2B28A8] text-white shadow-md shadow-indigo-100 dark:bg-gradient-to-r dark:from-[#3521C1] dark:via-[#4338CA] dark:to-[#585EF8] dark:shadow-indigo-950/50 px-5 py-3 text-xs font-bold uppercase tracking-wider transition-transform active:scale-95"
+            data-testid="open-draft-modal-btn"
+          >
+            ✍️ Draft Formal Portal Reply under Section 75(4) →
+          </button>
+        </div>
+        <ExplanationTabs initialExplanation={analysis.explanation} onLanguageChange={onLanguageChange} currentLanguage={language} loading={loading} />
+        <StatutoryCitations citations={analysis.citations} />
       </div>
-      <ExplanationTabs initialExplanation={analysis.explanation} onLanguageChange={onLanguageChange} currentLanguage={language} loading={loading} />
-      <StatutoryCitations citations={analysis.citations} />
-    </div>
+      <DraftReplyModal notice={analysis.notice} isOpen={isDraftModalOpen} onClose={onCloseDraftModal} />
+    </>
   )
 }
 
 export function NoticeAnalyzer() {
   const [noticeText, setNoticeText] = useState('')
   const [selectedSample, setSelectedSample] = useState<SampleKey | null>(null)
+  const [uploadedFile, setUploadedFile] = useState<{ name: string; chars: number } | null>(null)
   const [language, setLanguage] = useState<'en' | 'hi' | 'bn'>('en')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -240,7 +212,6 @@ export function NoticeAnalyzer() {
       setError('Please enter at least 20 characters of the notice text.')
       return
     }
-
     setLoading(true)
     setError(null)
     try {
@@ -266,36 +237,38 @@ export function NoticeAnalyzer() {
         onSelect={(key, t) => {
           setSelectedSample(key)
           setNoticeText(t)
+          setUploadedFile(null)
           setAnalysis(null)
         }}
       />
-
       <NoticeInputCard
         noticeText={noticeText}
-        setNoticeText={t => {
-          setNoticeText(t)
+        setNoticeText={t => { setNoticeText(t); setSelectedSample(null); }}
+        uploadedFile={uploadedFile}
+        onClearUpload={() => { setUploadedFile(null); setNoticeText(''); }}
+        onTextExtracted={(txt, fn, count) => {
+          setNoticeText(txt)
+          setUploadedFile({ name: fn, chars: count })
           setSelectedSample(null)
+          setAnalysis(null)
+          setError(null)
         }}
         language={language}
         onLanguageChange={l => { setLanguage(l); if (analysis) handleAnalyze(l); }}
         onAnalyze={() => handleAnalyze()}
         loading={loading}
         error={error}
+        onError={msg => setError(msg)}
       />
-
-      {analysis && (
-        <AnalysisResultsView
-          analysis={analysis}
-          language={language}
-          loading={loading}
-          onLanguageChange={l => { setLanguage(l); handleAnalyze(l); }}
-          onOpenDraftModal={() => setIsDraftModalOpen(true)}
-        />
-      )}
-
-      {analysis && (
-        <DraftReplyModal notice={analysis.notice} isOpen={isDraftModalOpen} onClose={() => setIsDraftModalOpen(false)} />
-      )}
+      <NoticeModalsAndResults
+        analysis={analysis}
+        language={language}
+        loading={loading}
+        isDraftModalOpen={isDraftModalOpen}
+        onLanguageChange={l => { setLanguage(l); handleAnalyze(l); }}
+        onOpenDraftModal={() => setIsDraftModalOpen(true)}
+        onCloseDraftModal={() => setIsDraftModalOpen(false)}
+      />
     </div>
   )
 }

@@ -69,6 +69,17 @@ describe('NoticeAnalyzer Component', () => {
           json: () => Promise.resolve(mockAnalysisData),
         })
       }
+      if (url.includes('/api/parse-pdf')) {
+        return Promise.resolve({
+          ok: true,
+          json: () => Promise.resolve({
+            success: true,
+            text: 'FORM GST ASMT-10 Discrepancy Notice extracted from file',
+            filename: 'test_notice.pdf',
+            charCount: 56,
+          }),
+        })
+      }
       if (url.includes('/api/draft-reply')) {
         return Promise.resolve({
           ok: true,
@@ -116,11 +127,27 @@ describe('NoticeAnalyzer Component', () => {
     fireEvent.click(asmt10Btn)
 
     expect(asmt10Btn).toHaveAttribute('aria-pressed', 'true')
-    expect(asmt10Btn.className).toContain('border-purple-400')
+    expect(asmt10Btn.className).toContain('border-indigo-600')
 
     const textarea = screen.getByTestId('notice-input-textarea') as HTMLTextAreaElement
     expect(textarea.value).toContain('FORM GST ASMT-10')
     expect(screen.getByTestId('analyze-notice-btn')).not.toBeDisabled()
+  })
+
+  it('uploads a PDF/TXT notice file and populates notice text and success pill', async () => {
+    render(<NoticeAnalyzer />)
+    const fileInput = screen.getByTestId('pdf-file-input')
+    const sampleFile = new File(['sample content'], 'test_notice.pdf', { type: 'application/pdf' })
+
+    fireEvent.change(fileInput, { target: { files: [sampleFile] } })
+
+    await waitFor(() => {
+      expect(screen.getByTestId('upload-success-pill')).toBeInTheDocument()
+    })
+
+    const textarea = screen.getByTestId('notice-input-textarea') as HTMLTextAreaElement
+    expect(textarea.value).toContain('FORM GST ASMT-10 Discrepancy Notice extracted from file')
+    expect(screen.getByTestId('upload-success-pill')).toHaveTextContent('test_notice.pdf')
   })
 
   it('highlights selected sample button border and toggles selection between samples', () => {

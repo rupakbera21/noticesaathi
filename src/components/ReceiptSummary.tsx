@@ -27,20 +27,20 @@ function ReceiptHeader({
     <div className="mb-6 border-b border-dashed pb-4" style={{ borderColor: 'var(--color-border-strong)' }}>
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div>
-          <span className="text-xs font-semibold tracking-wider uppercase text-purple-400">
+          <span className="text-xs font-semibold tracking-wider uppercase text-indigo-600 dark:text-indigo-400">
             Tax Demand Assessment Receipt
           </span>
-          <h2 className="text-xl font-bold tracking-tight text-white md:text-2xl">
+          <h2 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white md:text-2xl">
             {notice.noticeTypeDescription}
           </h2>
         </div>
         <div
           className={`rounded-full px-3 py-1 text-xs font-bold tracking-wide uppercase ${
             deadline.isExpired
-              ? 'bg-red-900/60 text-red-200 border border-red-500'
+              ? 'bg-red-100 text-red-800 border border-red-300 dark:bg-red-900/60 dark:text-red-200 dark:border-red-500'
               : isUrgent
-              ? 'bg-amber-900/60 text-amber-200 border border-amber-500'
-              : 'bg-emerald-900/40 text-emerald-300 border border-emerald-600'
+              ? 'bg-amber-100 text-amber-800 border border-amber-300 dark:bg-amber-900/60 dark:text-amber-200 dark:border-amber-500'
+              : 'bg-emerald-100 text-emerald-800 border border-emerald-300 dark:bg-emerald-900/40 dark:text-emerald-300 dark:border-emerald-600'
           }`}
           data-testid="deadline-badge"
         >
@@ -55,24 +55,24 @@ function NoticeMetaGrid({ notice }: { notice: ExtractedNotice }) {
   return (
     <div className="mb-6 grid grid-cols-2 gap-4 text-xs md:grid-cols-4">
       <div>
-        <span className="block text-gray-400">Taxpayer GSTIN</span>
-        <span className="font-mono font-semibold text-gray-200" data-testid="taxpayer-gstin">
+        <span className="block text-slate-500 dark:text-gray-400">Taxpayer GSTIN</span>
+        <span className="font-mono font-semibold text-slate-800 dark:text-gray-200" data-testid="taxpayer-gstin">
           {notice.taxpayerGstin || 'Not Cited'}
         </span>
       </div>
       <div>
-        <span className="block text-gray-400">Notice DIN / Ref</span>
-        <span className="font-mono font-semibold text-gray-200" data-testid="notice-reference">
+        <span className="block text-slate-500 dark:text-gray-400">Notice DIN / Ref</span>
+        <span className="font-mono font-semibold text-slate-800 dark:text-gray-200" data-testid="notice-reference">
           {notice.noticeReferenceNumber || 'Pending DIN'}
         </span>
       </div>
       <div>
-        <span className="block text-gray-400">Notice Date</span>
-        <span className="font-semibold text-gray-200">{notice.noticeDate || 'Not specified'}</span>
+        <span className="block text-slate-500 dark:text-gray-400">Notice Date</span>
+        <span className="font-semibold text-slate-800 dark:text-gray-200">{notice.noticeDate || 'Not specified'}</span>
       </div>
       <div>
-        <span className="block text-gray-400">Tax Period</span>
-        <span className="font-semibold text-gray-200">{notice.taxPeriod || 'Specified Period'}</span>
+        <span className="block text-slate-500 dark:text-gray-400">Tax Period</span>
+        <span className="font-semibold text-slate-800 dark:text-gray-200">{notice.taxPeriod || 'Specified Period'}</span>
       </div>
     </div>
   )
@@ -81,33 +81,32 @@ function NoticeMetaGrid({ notice }: { notice: ExtractedNotice }) {
 function FinancialBreakdown({ notice }: { notice: ExtractedNotice }) {
   return (
     <div
-      className="mb-6 rounded-lg p-4 font-mono text-sm"
-      style={{ backgroundColor: 'rgba(10, 10, 22, 0.6)', border: '1px solid var(--color-border)' }}
+      className="mb-6 rounded-lg p-4 font-mono text-sm bg-slate-50 dark:bg-black/50 border border-slate-200 dark:border-white/10"
     >
-      <div className="flex justify-between py-1 text-gray-300">
+      <div className="flex justify-between py-1 text-slate-700 dark:text-gray-300">
         <span>Tax Demand</span>
         <span data-testid="amount-tax">₹{notice.taxDemand.toLocaleString('en-IN')}</span>
       </div>
-      <div className="flex justify-between py-1 text-gray-300">
-        <span>Interest (§50 CGST)</span>
+      <div className="flex justify-between py-1 text-slate-700 dark:text-gray-300">
+        <span>Interest (Section 50 CGST)</span>
         <span data-testid="amount-interest">₹{notice.interestDemand.toLocaleString('en-IN')}</span>
       </div>
-      <div className="flex justify-between py-1 text-gray-300">
-        <span>Penalty (§73 / §74)</span>
+      <div className="flex justify-between py-1 text-slate-700 dark:text-gray-300">
+        <span>Penalty (Section 73 / Section 74)</span>
         <span data-testid="amount-penalty">₹{notice.penaltyDemand.toLocaleString('en-IN')}</span>
       </div>
       {notice.otherDemand > 0 && (
-        <div className="flex justify-between py-1 text-gray-300">
+        <div className="flex justify-between py-1 text-slate-700 dark:text-gray-300">
           <span>Other Late Fee / Fees</span>
           <span>₹{notice.otherDemand.toLocaleString('en-IN')}</span>
         </div>
       )}
       <div
-        className="mt-3 flex justify-between border-t border-dashed pt-3 text-base font-bold text-white"
+        className="mt-3 flex justify-between border-t border-dashed pt-3 text-base font-bold text-slate-900 dark:text-white"
         style={{ borderColor: 'var(--color-border-strong)' }}
       >
         <span>TOTAL STATED DUE</span>
-        <span className="text-purple-300" data-testid="amount-total">
+        <span className="text-indigo-700 dark:text-indigo-300 font-extrabold" data-testid="amount-total">
           ₹{notice.totalStatedDemand.toLocaleString('en-IN')}
         </span>
       </div>
