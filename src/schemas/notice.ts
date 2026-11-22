@@ -45,3 +45,26 @@ export const ExtractedNoticeSchema = z.object({
 })
 
 export type ExtractedNotice = z.infer<typeof ExtractedNoticeSchema>
+
+export const StatutoryGroundSchema = z.object({
+  provision: z.string(),
+  explanation: z.string(),
+})
+
+export const DraftReplySchema = z.object({
+  noticeReference: z.string().nullable(),
+  taxpayerGstin: z.string().nullable(),
+  taxpayerName: z.string().nullable(),
+  issuingAuthority: z.string().nullable(),
+  dateOfReply: z.string(),
+  subject: z.string(),
+  openingStatement: z.string(),
+  factualSubmissions: z.array(z.string()),
+  statutoryGrounds: z.array(StatutoryGroundSchema),
+  enclosedDocuments: z.array(z.string()),
+  prayerOrReliefSought: z.string(),
+  caEscalationWarning: z.string().nullable(),
+  fullReplyText: z.string(),
+})
+
+export type DraftReply = z.infer<typeof DraftReplySchema>
