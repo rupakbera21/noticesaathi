@@ -86,6 +86,15 @@ The logo is a **deep indigo** (`#3733C8` area) chat-bubble-cum-document mark wit
 
 ---
 
+## 2b. Atmospheric backdrop & tactile grain
+
+To avoid a sterile, plastic digital look while honoring the brand palette, the canvas incorporates **calm atmospheric lighting with tactile grain**:
+- **Ambient Aura**: Soft radial gradient pools placed at page edges and card backdrops using deep logo indigo (`#2020C0`), brand primary (`#3733C8`), and deep violet accents (`#4F28A4`).
+- **Tactile Grain**: An ultra-lightweight SVG-based fractal noise overlay (~3% opacity in dark theme, ~2% in light theme) applied via a fixed pointer-events-none layer. This gives the surface a tactile paper/matte canvas feel without any heavy image assets or network overhead.
+- **Surface Legibility**: Content cards, form inputs, and especially the **notice receipt** remain crisp and solid to ensure 100% legibility and WCAG AAA compliance for tax and legal figures.
+
+---
+
 ## 3. Typography
 
 Two typefaces chosen via `next/font`. Neither is Inter, Sora, Poppins, DM Sans, Space Grotesk or Playfair.
