@@ -134,17 +134,82 @@ Elevation is expressed through **borders** (`--color-border`, `--color-border-st
 
 ---
 
-## 6. Motion tokens
+## 6. Motion tokens and interaction animations
+
+The goal is **calm aliveness** — the interface breathes and responds, but never distracts. Every animation has a job: confirm an action, guide attention, or reduce perceived wait time. Nothing animates just to look clever.
+
+`prefers-reduced-motion: reduce` → all durations become `1ms`, no transforms, no fades below 100% opacity. Tested in CI with `jest-axe` and a Playwright media-feature override.
+
+### 6a. Core timing tokens
 
 | Token | Value | Usage |
 |---|---|---|
-| `--duration-fast` | 100ms | Hover state, button press |
-| `--duration-base` | 180ms | Drawer open, toast enter |
-| `--duration-slow` | 300ms | Dialog, page transition |
-| `--ease-out` | `cubic-bezier(0.0, 0.0, 0.2, 1)` | Elements entering |
+| `--duration-instant` | 80ms | Button press, checkbox tick — purely tactile |
+| `--duration-fast` | 150ms | Hover bg/border, focus ring, badge change |
+| `--duration-base` | 220ms | Cards entering, toast, tooltip |
+| `--duration-slow` | 320ms | Drawer slide, dialog open, page section reveal |
+| `--duration-receipt` | 400ms | Receipt card drop — the signature moment |
+| `--ease-spring` | `cubic-bezier(0.34, 1.20, 0.64, 1)` | Elements that "settle" (receipt drop, dialog pop) |
+| `--ease-out` | `cubic-bezier(0.0, 0.0, 0.2, 1)` | Elements entering the screen |
 | `--ease-in` | `cubic-bezier(0.4, 0.0, 1.0, 1)` | Elements leaving |
+| `--ease-smooth` | `cubic-bezier(0.4, 0.0, 0.2, 1)` | Hover, focus, state changes |
 
-`prefers-reduced-motion: reduce` → all durations become 0ms, no transforms.
+### 6b. Interaction catalogue
+
+#### Buttons
+- **Rest → Hover:** background steps one shade darker, `--duration-fast`, `--ease-smooth`. No scale.
+- **Hover → Press:** `scale(0.97)`, `--duration-instant`, `--ease-smooth` — a small tactile sink that confirms the click.
+- **Disabled:** opacity 50%, no transition on hover.
+
+#### Inputs and Textarea
+- **Focus ring:** `outline` grows from 0 to 2px, color transitions from transparent to `--color-primary` over `--duration-fast`. Feels like a gentle highlight rather than a snap.
+- **Textarea with notice text:** when the user pastes or loads a sample, the border briefly pulses to `--color-primary` once (200ms) then settles — confirming the content arrived.
+
+#### Cards and surfaces
+- **Page mount (once per route):** cards fade in and rise `4px` → `0px`, staggered 40ms per card, `--duration-base`, `--ease-out`. Subtle enough to feel like a page settling, not a slide show.
+- **Hover on interactive cards (sample notice list):** background lightens/darkens one step, `border-color` steps to `--color-border-strong`, `--duration-fast`. No lift, no shadow — matches the border-first elevation system.
+
+#### Receipt card — the signature animation
+- When the receipt card first appears (after analysis completes), it **drops onto the surface**: starts at `translateY(-8px)` and `opacity: 0`, lands at `translateY(0)` and `opacity: 1`, with `--ease-spring` over `--duration-receipt` (400ms). The spring overshoot (1.20 in the cubic) gives a tiny bounce as it settles — like a printed slip being placed on a desk.
+- The **total amount** counts up from `₹ 0` to its final value over 600ms with an easing curve — only the display value animates; the real value is always in the DOM for screen readers.
+- The **perforated edge dots** stagger in left-to-right over 200ms after the card lands.
+
+#### Deadline countdown
+- The **days remaining** number has a soft pulse: `opacity: 0.7 → 1 → 0.7` on a 3-second loop, `ease-in-out`. Calm, like a heartbeat. Stops and shows a static warning color when under 7 days.
+- When the deadline passes (zero days), the countdown switches color to `--color-danger` with a single 300ms fade — no flash or shake.
+
+#### Citations and source drawer
+- Citation `[1]` tap/click: a small underline-to-highlight transition (`--duration-fast`) then the drawer slides up from the bottom (mobile) or expands inline (desktop) over `--duration-slow`, `--ease-out`.
+- Drawer close: `--ease-in`, `--duration-base` — slightly faster out than in.
+
+#### Escalation banner
+- **Appears** with a fade + `translateY(-4px)` → `0` settle, `--duration-base`. No red flash; it should feel serious, not alarming.
+- The warning icon has a single gentle pulse on first render (one cycle, 400ms) to draw the eye, then goes static.
+
+#### Toast / status messages
+- Enter: slides in from the bottom-right, `translateY(8px)` → `0`, `opacity: 0 → 1`, `--duration-base`, `--ease-out`.
+- Exit: fades out only (no slide), `--duration-fast`, `--ease-in` — leaving is less important than arriving.
+
+#### Skeleton loaders
+- A slow shimmer sweeps left to right: `background-position` moves over 1.5s, looping. No color flash — the shimmer is a subtle lighter band over `--color-neutral-100` / `--color-neutral-200`. This is the only looping animation in the product other than the countdown pulse.
+
+#### Collapsible sections ("How this was made", "Response plan")
+- Height animates with a `grid-template-rows: 0fr → 1fr` trick (no JS height measurement), `--duration-base`, `--ease-out`. Content fades in at `--duration-fast` with a 60ms delay so it doesn't appear before the row opens.
+- The chevron icon rotates 180° over `--duration-fast`.
+
+#### Navigation / route transitions
+- Outgoing page: `opacity: 1 → 0` over `--duration-fast`.
+- Incoming page: `opacity: 0 → 1` over `--duration-base`, `--ease-out`. No slide — route changes are not spatial navigations in this product, so slides would be confusing.
+
+#### Language selector
+- Dropdown opens with `scaleY(0.95) → 1` from the top, `opacity: 0 → 1`, `--duration-fast`, `--ease-out`. Items don't stagger — it's a utility, not a showcase.
+
+### 6c. What we do not animate
+- Table rows and list items (too many; staggering more than 4 items feels fidgety)
+- Error messages (they must appear instantly — delay reads as the app ignoring you)
+- The trace / "How this was made" panel content (data, not UI)
+- Anything triggered by polling or background updates
+
 
 ---
 
