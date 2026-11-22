@@ -24,9 +24,11 @@ yarn-error.log*
 coverage/
 .nyc_output/
 
-# Local screenshots (never commit screenshots)
+# Local screenshots and test reports (never commit screenshots)
 screenshots/
 local-screenshots/
+playwright-report/
+test-results/
 
 # Large fixture caches (Olostep raw responses)
 data/cache/

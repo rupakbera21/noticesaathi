@@ -44,6 +44,9 @@ Track: LLM apps. Statement: C1 — "The $15-an-hour expert."
 | Upstash Redis | Managed Redis | Rate limiting and circuit-breaker state |
 | Next.js | React framework | App Router, API routes, SSR/streaming |
 | React | UI library | Component model |
+| react-dom | React rendering | DOM renderer for React |
+| @google/generative-ai | Google Gen AI SDK | Official Gemini API client |
+| groq-sdk | Groq SDK | Fallback provider client |
 | Zod | Schema validation | Input validation on every route and AI output parsing |
 | Zustand | Client state | Persisted notice history, language preference |
 | MiniSearch | Lexical search | Knowledge base retrieval over chunks |

@@ -1,0 +1,59 @@
+name: UI feedback
+description: Report a UI issue after a preview deploy
+title: "[UI] "
+labels: [ui-feedback]
+assignees: []
+body:
+  - type: dropdown
+    id: screen
+    attributes:
+      label: Screen
+      options:
+        - Intake (home)
+        - Review
+        - Summary
+        - Response plan
+        - Reply draft
+        - Escalation / CA summary
+        - Ask follow-up
+        - Trust page
+        - Privacy / history
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: device
+    attributes:
+      label: Device and viewport
+      placeholder: "e.g. iPhone 15, 390px or Desktop Chrome 1280px"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: What is wrong
+      description: Describe the issue clearly. Attach a screenshot if possible.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity
+      options:
+        - Critical (broken, unusable)
+        - High (significantly impairs use)
+        - Medium (noticeable but workaround exists)
+        - Low (polish / cosmetic)
+    validations:
+      required: true
+
+  - type: input
+    id: preview-url
+    attributes:
+      label: Preview URL
+      placeholder: "https://noticesaathi-xxx.vercel.app"
+    validations:
+      required: false
