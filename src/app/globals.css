@@ -175,6 +175,20 @@ body {
   z-index: 0;
 }
 
+/* Deep grounding vignette: transitions to deep black towards the bottom */
+.ambient-vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  background: linear-gradient(
+    to bottom,
+    transparent 40%,
+    rgba(10, 10, 22, 0.4) 65%,
+    var(--color-bg) 95%
+  );
+}
+
 @keyframes ambientDriftTop {
   0% {
     transform: translate3d(0px, 0px, 0) scale(1);

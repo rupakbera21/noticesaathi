@@ -86,6 +86,7 @@ export default function HomePage() {
       {/* Tactile film grain and ambient light leak overlays */}
       <div className="grain-overlay" aria-hidden="true" />
       <div className="ambient-glow" aria-hidden="true" />
+      <div className="ambient-vignette" aria-hidden="true" />
 
       <Header />
       <main id="main-content" className="relative z-10 flex flex-1 flex-col items-center justify-center gap-8 px-6 py-16">
