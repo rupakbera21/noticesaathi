@@ -10,7 +10,7 @@ async function testGemini() {
   try {
     const { GoogleGenerativeAI } = await import('@google/generative-ai')
     const genAI = new GoogleGenerativeAI(key)
-    const modelName = process.env.GEMINI_MODEL || 'gemini-1.5-flash'
+    const modelName = process.env.GEMINI_MODEL || 'gemini-3.5-flash-lite'
     const model = genAI.getGenerativeModel({ model: modelName })
     const res = await model.generateContent('ping')
     if (res?.response?.text()) {
@@ -29,11 +29,11 @@ async function testGroq() {
   try {
     const { Groq } = await import('groq-sdk')
     const groq = new Groq({ apiKey: key })
-    const modelName = process.env.GROQ_MODEL || 'llama-3.3-70b-versatile'
+    const modelName = process.env.GROQ_MODEL || 'openai/gpt-oss-120b'
     const res = await groq.chat.completions.create({
       messages: [{ role: 'user', content: 'ping' }],
       model: modelName,
-      max_tokens: 5,
+      max_completion_tokens: 150,
     })
     if (res?.choices?.[0]?.message?.content) {
       return { name: `Groq (${modelName})`, ok: true }

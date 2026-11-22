@@ -10,7 +10,7 @@ export class GroqProvider implements AiProvider {
   public readonly modelId: string
   private client: Groq
 
-  constructor(apiKey: string, modelId: string = 'llama-3.3-70b-versatile') {
+  constructor(apiKey: string, modelId: string = 'openai/gpt-oss-120b') {
     this.modelId = modelId
     this.client = new Groq({ apiKey })
   }
