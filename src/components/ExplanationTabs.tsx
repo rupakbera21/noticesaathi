@@ -24,7 +24,7 @@ export function ExplanationTabs({
 
   return (
     <div
-      className="w-full rounded-xl border p-5 backdrop-blur-md"
+      className="w-full rounded-2xl border p-5 backdrop-blur-md shadow-xs"
       style={{
         backgroundColor: 'var(--color-surface)',
         borderColor: 'var(--color-border)',
@@ -32,7 +32,7 @@ export function ExplanationTabs({
       data-testid="explanation-tabs"
     >
       <div className="flex flex-wrap items-center justify-between border-b pb-3" style={{ borderColor: 'var(--color-border)' }}>
-        <h3 className="text-sm font-semibold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">
+        <h3 className="text-sm font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">
           Plain-Language Legal Explanation
         </h3>
         <div className="flex rounded-lg bg-slate-100 dark:bg-black/40 p-1" role="tablist">
@@ -41,8 +41,8 @@ export function ExplanationTabs({
             aria-selected={activeTab === 'en'}
             className={`rounded-md px-3 py-1 text-xs font-semibold transition-all ${
               activeTab === 'en'
-                ? 'bg-[#3733C8] text-white shadow dark:bg-indigo-600'
-                : 'text-slate-600 hover:text-slate-900 dark:text-gray-400 dark:hover:text-white'
+                ? 'bg-indigo-600 text-white shadow-xs font-bold'
+                : 'text-slate-600 hover:text-slate-900 dark:text-gray-400 dark:hover:text-white font-medium'
             }`}
             onClick={() => handleTabClick('en')}
             data-testid="tab-en"
@@ -54,8 +54,8 @@ export function ExplanationTabs({
             aria-selected={activeTab === 'hi'}
             className={`rounded-md px-3 py-1 text-xs font-semibold transition-all ${
               activeTab === 'hi'
-                ? 'bg-[#3733C8] text-white shadow dark:bg-indigo-600'
-                : 'text-slate-600 hover:text-slate-900 dark:text-gray-400 dark:hover:text-white'
+                ? 'bg-indigo-600 text-white shadow-xs font-bold'
+                : 'text-slate-600 hover:text-slate-900 dark:text-gray-400 dark:hover:text-white font-medium'
             }`}
             onClick={() => handleTabClick('hi')}
             data-testid="tab-hi"
@@ -67,8 +67,8 @@ export function ExplanationTabs({
             aria-selected={activeTab === 'bn'}
             className={`rounded-md px-3 py-1 text-xs font-semibold transition-all ${
               activeTab === 'bn'
-                ? 'bg-[#3733C8] text-white shadow dark:bg-indigo-600'
-                : 'text-slate-600 hover:text-slate-900 dark:text-gray-400 dark:hover:text-white'
+                ? 'bg-indigo-600 text-white shadow-xs font-bold'
+                : 'text-slate-600 hover:text-slate-900 dark:text-gray-400 dark:hover:text-white font-medium'
             }`}
             onClick={() => handleTabClick('bn')}
             data-testid="tab-bn"

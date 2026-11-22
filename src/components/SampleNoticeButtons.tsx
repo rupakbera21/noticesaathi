@@ -64,13 +64,13 @@ export function SampleNoticeButtons({
 }) {
   return (
     <div className="flex flex-wrap items-center gap-2">
-      <span className="text-xs font-semibold text-gray-400">Try sample notice:</span>
+      <span className="text-xs font-semibold text-slate-600 dark:text-gray-400">Try sample notice:</span>
       <button
         onClick={() => onSelect('asmt10', SAMPLES.asmt10)}
         className={
           selectedSample === 'asmt10'
-            ? 'rounded-md border-2 border-indigo-600 bg-indigo-100 text-indigo-900 font-semibold ring-1 ring-indigo-400 px-3 py-1 text-xs dark:border-indigo-400 dark:bg-indigo-900/80 dark:text-white dark:shadow-[0_0_12px_rgba(129,140,248,0.5)] transition-all'
-            : 'rounded-md border border-indigo-200 bg-indigo-50 text-indigo-700 hover:bg-indigo-100 px-3 py-1 text-xs dark:border-indigo-800 dark:bg-indigo-950/40 dark:text-indigo-300 dark:hover:bg-indigo-900/60 transition-colors'
+            ? 'rounded-lg border-2 border-indigo-600 bg-indigo-50 text-indigo-900 font-bold ring-2 ring-indigo-200 px-3 py-1 text-xs shadow-xs dark:border-indigo-400 dark:bg-indigo-900/80 dark:text-white dark:ring-0 dark:shadow-[0_0_12px_rgba(129,140,248,0.5)] transition-all'
+            : 'rounded-lg border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 hover:border-indigo-300 px-3 py-1 text-xs shadow-xs dark:border-indigo-800 dark:bg-indigo-950/40 dark:text-indigo-300 dark:hover:bg-indigo-900/60 transition-colors'
         }
         aria-pressed={selectedSample === 'asmt10'}
         data-testid="sample-asmt10-btn"
@@ -81,8 +81,8 @@ export function SampleNoticeButtons({
         onClick={() => onSelect('drc01', SAMPLES.drc01Fraud)}
         className={
           selectedSample === 'drc01'
-            ? 'rounded-md border-2 border-red-600 bg-red-100 text-red-900 font-semibold ring-1 ring-red-400 px-3 py-1 text-xs dark:border-red-400 dark:bg-red-900/80 dark:text-red-100 dark:shadow-[0_0_12px_rgba(248,113,113,0.5)] transition-all'
-            : 'rounded-md border border-red-200 bg-red-50 text-red-700 hover:bg-red-100 px-3 py-1 text-xs dark:border-red-800 dark:bg-red-950/40 dark:text-red-300 dark:hover:bg-red-900/60 transition-colors'
+            ? 'rounded-lg border-2 border-rose-600 bg-rose-50 text-rose-900 font-bold ring-2 ring-rose-200 px-3 py-1 text-xs shadow-xs dark:border-red-400 dark:bg-red-900/80 dark:text-red-100 dark:ring-0 dark:shadow-[0_0_12px_rgba(248,113,113,0.5)] transition-all'
+            : 'rounded-lg border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 hover:border-rose-300 px-3 py-1 text-xs shadow-xs dark:border-red-800 dark:bg-red-950/40 dark:text-red-300 dark:hover:bg-red-900/60 transition-colors'
         }
         aria-pressed={selectedSample === 'drc01'}
         data-testid="sample-drc01-btn"
@@ -93,8 +93,8 @@ export function SampleNoticeButtons({
         onClick={() => onSelect('gstr3a', SAMPLES.gstr3a)}
         className={
           selectedSample === 'gstr3a'
-            ? 'rounded-md border-2 border-amber-600 bg-amber-100 text-amber-900 font-semibold ring-1 ring-amber-400 px-3 py-1 text-xs dark:border-amber-400 dark:bg-amber-900/80 dark:text-amber-100 dark:shadow-[0_0_12px_rgba(251,191,36,0.5)] transition-all'
-            : 'rounded-md border border-amber-200 bg-amber-50 text-amber-700 hover:bg-amber-100 px-3 py-1 text-xs dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-300 dark:hover:bg-amber-900/60 transition-colors'
+            ? 'rounded-lg border-2 border-amber-600 bg-amber-50 text-amber-900 font-bold ring-2 ring-amber-200 px-3 py-1 text-xs shadow-xs dark:border-amber-400 dark:bg-amber-900/80 dark:text-amber-100 dark:ring-0 dark:shadow-[0_0_12px_rgba(251,191,36,0.5)] transition-all'
+            : 'rounded-lg border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 hover:border-amber-300 px-3 py-1 text-xs shadow-xs dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-300 dark:hover:bg-amber-900/60 transition-colors'
         }
         aria-pressed={selectedSample === 'gstr3a'}
         data-testid="sample-gstr3a-btn"

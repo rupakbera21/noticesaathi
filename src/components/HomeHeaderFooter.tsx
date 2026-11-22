@@ -37,7 +37,7 @@ export function ThemeToggle() {
     <button
       onClick={toggleTheme}
       type="button"
-      className="flex items-center gap-1.5 rounded-full border border-slate-300 bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700 shadow-sm transition-all hover:bg-slate-200 dark:border-indigo-500/40 dark:bg-indigo-950/60 dark:text-indigo-200 dark:hover:bg-indigo-900/60"
+      className="flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-3.5 py-1 text-xs font-semibold text-slate-700 shadow-xs transition-all hover:bg-slate-50 hover:border-slate-300 dark:border-indigo-500/40 dark:bg-indigo-950/60 dark:text-indigo-200 dark:hover:bg-indigo-900/60"
       aria-label={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
       data-testid="theme-toggle-btn"
     >
@@ -49,11 +49,11 @@ export function ThemeToggle() {
 export function Header() {
   return (
     <header
-      className="relative z-10 flex items-center justify-between border-b px-6 py-4 backdrop-blur-md bg-white/90 border-slate-200 dark:bg-[#0A0A16]/85 dark:border-[#252542]"
+      className="relative z-10 flex items-center justify-between border-b px-6 py-4 backdrop-blur-md bg-white/95 border-slate-200/80 shadow-xs dark:bg-[#0A0A16]/85 dark:border-[#252542]"
     >
       <div className="flex items-center gap-3">
         <Image
-          src="/logo/logo-light@2x.png"
+          src="/logo/logo-light.png"
           alt="NoticeSaathi"
           width={160}
           height={53}
@@ -62,7 +62,7 @@ export function Header() {
           data-testid="logo-light"
         />
         <Image
-          src="/logo/logo-dark@2x.png"
+          src="/logo/logo-dark.png"
           alt="NoticeSaathi"
           width={160}
           height={53}
@@ -92,16 +92,16 @@ export function Header() {
 export function TrustPills() {
   return (
     <div className="flex flex-wrap items-center justify-center gap-2 pt-2 text-[11px] font-medium text-slate-600 dark:text-gray-400">
-      <span className="rounded-full border border-slate-200 bg-slate-100 dark:border-gray-800 dark:bg-white/5 px-3 py-1">
+      <span className="rounded-full border border-slate-200 bg-white dark:border-gray-800 dark:bg-white/5 px-3 py-1 shadow-xs">
         🧮 100% Deterministic Math (Section 50 &amp; Section 47)
       </span>
-      <span className="rounded-full border border-slate-200 bg-slate-100 dark:border-gray-800 dark:bg-white/5 px-3 py-1">
+      <span className="rounded-full border border-slate-200 bg-white dark:border-gray-800 dark:bg-white/5 px-3 py-1 shadow-xs">
         📜 Official CBIC Grounding
       </span>
-      <span className="rounded-full border border-slate-200 bg-slate-100 dark:border-gray-800 dark:bg-white/5 px-3 py-1">
+      <span className="rounded-full border border-slate-200 bg-white dark:border-gray-800 dark:bg-white/5 px-3 py-1 shadow-xs">
         🌐 English • हिन्दी • বাংলা
       </span>
-      <span className="rounded-full border border-slate-200 bg-slate-100 dark:border-gray-800 dark:bg-white/5 px-3 py-1">
+      <span className="rounded-full border border-slate-200 bg-white dark:border-gray-800 dark:bg-white/5 px-3 py-1 shadow-xs">
         🔒 100% Private (In-Browser Storage)
       </span>
     </div>

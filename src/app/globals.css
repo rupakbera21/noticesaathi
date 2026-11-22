@@ -76,9 +76,10 @@
   --color-primary-subtle: #EEF2FF;
   --color-primary-text: #1E1B4B;
 
-  /* Light theme: clean executive ambiance */
-  --ambient-glow-1: rgba(55, 51, 200, 0.04);
-  --ambient-glow-2: rgba(99, 102, 241, 0.03);
+  /* Executive Light theme: subtle high-contrast crisp shadows */
+  --receipt-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.06), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
+  --ambient-glow-1: rgba(99, 102, 241, 0.05);
+  --ambient-glow-2: rgba(59, 130, 246, 0.03);
 }
 
 html.dark {
@@ -96,6 +97,7 @@ html.dark {
   --color-primary-text: #D4D4FF;
 
   /* Dark theme: rich purple & luminous indigo glow */
+  --receipt-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6);
   --ambient-glow-1: rgba(60, 38, 205, 0.32);
   --ambient-glow-2: rgba(140, 42, 220, 0.25);
 }
@@ -200,9 +202,14 @@ html.dark .grain-overlay {
   pointer-events: none;
   overflow: hidden;
   z-index: 0;
+  display: none;
 }
 
-/* Deep grounding vignette: active in dark mode */
+html.dark .ambient-glow {
+  display: block;
+}
+
+/* Deep grounding vignette: active in dark mode only */
 .ambient-vignette {
   position: absolute;
   inset: 0;

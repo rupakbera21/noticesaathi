@@ -37,10 +37,10 @@ function ReceiptHeader({
         <div
           className={`rounded-full px-3 py-1 text-xs font-bold tracking-wide uppercase ${
             deadline.isExpired
-              ? 'bg-red-100 text-red-800 border border-red-300 dark:bg-red-900/60 dark:text-red-200 dark:border-red-500'
+              ? 'bg-rose-50 text-rose-700 border border-rose-200 dark:bg-red-900/60 dark:text-red-200 dark:border-red-500'
               : isUrgent
-              ? 'bg-amber-100 text-amber-800 border border-amber-300 dark:bg-amber-900/60 dark:text-amber-200 dark:border-amber-500'
-              : 'bg-emerald-100 text-emerald-800 border border-emerald-300 dark:bg-emerald-900/40 dark:text-emerald-300 dark:border-emerald-600'
+              ? 'bg-amber-50 text-amber-800 border border-amber-200 dark:bg-amber-900/60 dark:text-amber-200 dark:border-amber-500'
+              : 'bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-900/40 dark:text-emerald-300 dark:border-emerald-600'
           }`}
           data-testid="deadline-badge"
         >
@@ -117,11 +117,11 @@ function FinancialBreakdown({ notice }: { notice: ExtractedNotice }) {
 export function ReceiptSummary({ notice, totals, deadline }: ReceiptSummaryProps) {
   return (
     <div
-      className="relative w-full rounded-xl border p-6 shadow-2xl backdrop-blur-md transition-all"
+      className="relative w-full rounded-2xl border p-6 backdrop-blur-md transition-all"
       style={{
         backgroundColor: 'var(--color-surface)',
         borderColor: 'var(--color-border)',
-        boxShadow: '0 20px 40px -15px rgba(0,0,0,0.5)',
+        boxShadow: 'var(--receipt-shadow)',
       }}
       data-testid="receipt-summary"
     >
@@ -129,16 +129,16 @@ export function ReceiptSummary({ notice, totals, deadline }: ReceiptSummaryProps
       <NoticeMetaGrid notice={notice} />
       <FinancialBreakdown notice={notice} />
 
-      <div className="flex items-center gap-2 text-xs">
+      <div className="flex items-center gap-2 text-xs font-medium">
         {totals.isConsistent ? (
-          <span className="flex items-center gap-1.5 text-emerald-400" data-testid="consistent-badge">
+          <span className="flex items-center gap-1.5 text-emerald-700 dark:text-emerald-400" data-testid="consistent-badge">
             <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
             </svg>
             Line items match total stated demand exactly.
           </span>
         ) : (
-          <span className="flex items-center gap-1.5 text-amber-400" data-testid="discrepancy-badge">
+          <span className="flex items-center gap-1.5 text-amber-800 dark:text-amber-300" data-testid="discrepancy-badge">
             <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
             </svg>

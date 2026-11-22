@@ -74,7 +74,7 @@ function NoticeActionBar({
         <select
           value={language}
           onChange={e => onLanguageChange(e.target.value as 'en' | 'hi' | 'bn')}
-          className="rounded-lg border bg-white border-slate-300 px-3 py-1.5 text-xs text-slate-800 dark:bg-black/60 dark:text-gray-200 dark:border-[#252542] focus:outline-none"
+          className="rounded-lg border bg-white border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-800 shadow-xs dark:bg-black/60 dark:text-gray-200 dark:border-[#252542] focus:outline-none"
           data-testid="language-select"
         >
           <option value="en">English</option>
@@ -86,7 +86,7 @@ function NoticeActionBar({
       <button
         onClick={onAnalyze}
         disabled={disabled}
-        className="flex items-center gap-2 rounded-xl bg-[#3733C8] hover:bg-[#2B28A8] text-white shadow-md shadow-indigo-100 dark:bg-gradient-to-r dark:from-[#3521C1] dark:via-[#4338CA] dark:to-[#585EF8] dark:shadow-indigo-950/50 px-6 py-2.5 text-xs font-bold uppercase tracking-wider transition-transform active:scale-95 disabled:opacity-40"
+        className="flex items-center gap-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white shadow-md shadow-indigo-200/60 dark:bg-gradient-to-r dark:from-[#3521C1] dark:via-[#4338CA] dark:to-[#585EF8] dark:shadow-indigo-950/50 px-6 py-2.5 text-xs font-bold uppercase tracking-wider transition-all active:scale-95 disabled:opacity-40"
         data-testid="analyze-notice-btn"
       >
         {loading ? 'Analyzing Demand...' : 'Analyze GST Notice →'}
@@ -121,7 +121,7 @@ function NoticeInputCard({
   onError: (err: string) => void
 }) {
   return (
-    <div className="rounded-2xl border p-5 shadow-xl backdrop-blur-md bg-white border-slate-200 dark:bg-[#121224] dark:border-[#252542]">
+    <div className="rounded-2xl border p-5 shadow-lg shadow-slate-200/50 backdrop-blur-md bg-white border-slate-200/90 dark:bg-[#121224] dark:border-[#252542] dark:shadow-2xl">
       <div className="flex flex-wrap items-center justify-between gap-2 pb-3">
         <label htmlFor="notice-input" className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-gray-300">
           Paste Notice Text or Upload File
@@ -137,7 +137,7 @@ function NoticeInputCard({
       <textarea
         id="notice-input"
         rows={7}
-        className="w-full rounded-xl border bg-slate-50 border-slate-300 text-slate-900 placeholder-slate-400 p-4 font-mono text-xs focus:bg-white focus:border-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-black/50 dark:border-[#252542] dark:text-gray-200 dark:placeholder-gray-500"
+        className="w-full rounded-xl border bg-slate-50/70 border-slate-200 text-slate-900 placeholder-slate-400 p-4 font-mono text-xs focus:bg-white focus:border-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-100 dark:bg-black/50 dark:border-[#252542] dark:text-gray-200 dark:placeholder-gray-500"
         placeholder="Paste notice text (e.g. FORM GST ASMT-10, DRC-01, GSTR-3A) or upload a PDF above..."
         value={noticeText}
         onChange={e => setNoticeText(e.target.value)}
@@ -183,7 +183,7 @@ function NoticeModalsAndResults({
         <div className="flex justify-end">
           <button
             onClick={onOpenDraftModal}
-            className="flex items-center gap-2 rounded-xl bg-[#3733C8] hover:bg-[#2B28A8] text-white shadow-md shadow-indigo-100 dark:bg-gradient-to-r dark:from-[#3521C1] dark:via-[#4338CA] dark:to-[#585EF8] dark:shadow-indigo-950/50 px-5 py-3 text-xs font-bold uppercase tracking-wider transition-transform active:scale-95"
+            className="flex items-center gap-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white shadow-md shadow-indigo-200/60 dark:bg-gradient-to-r dark:from-[#3521C1] dark:via-[#4338CA] dark:to-[#585EF8] dark:shadow-indigo-950/50 px-5 py-3 text-xs font-bold uppercase tracking-wider transition-all active:scale-95"
             data-testid="open-draft-modal-btn"
           >
             ✍️ Draft Formal Portal Reply under Section 75(4) →

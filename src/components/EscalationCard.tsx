@@ -17,42 +17,42 @@ export function EscalationCard({ escalation }: EscalationCardProps) {
   return (
     <aside
       aria-label="Professional Escalation Advisory"
-      className={`relative w-full rounded-xl border p-5 transition-all ${
+      className={`relative w-full rounded-2xl border p-5 transition-all ${
         isCritical
-          ? 'border-red-300 bg-red-50 text-red-950 shadow-red-100 dark:border-red-500/80 dark:bg-red-950/40 dark:text-red-100 dark:shadow-red-950/50'
-          : 'border-amber-300 bg-amber-50 text-amber-950 shadow-amber-100 dark:border-amber-500/80 dark:bg-amber-950/40 dark:text-amber-100 dark:shadow-amber-950/50'
-      } shadow-xl backdrop-blur-md`}
+          ? 'border-rose-200 bg-rose-50/90 text-rose-950 shadow-sm shadow-rose-100/50 dark:border-red-500/80 dark:bg-red-950/40 dark:text-red-100 dark:shadow-red-950/50'
+          : 'border-amber-200 bg-amber-50/90 text-amber-950 shadow-sm shadow-amber-100/50 dark:border-amber-500/80 dark:bg-amber-950/40 dark:text-amber-100 dark:shadow-amber-950/50'
+      } backdrop-blur-md`}
       data-testid="escalation-card"
     >
       <div className="flex items-start gap-3.5">
         <div className="mt-0.5 flex-shrink-0">
-          <span className="flex h-7 w-7 items-center justify-center rounded-full bg-red-100 text-red-600 dark:bg-red-500/20 dark:text-red-400">
+          <span className="flex h-7 w-7 items-center justify-center rounded-full bg-rose-100 text-rose-600 border border-rose-200 dark:bg-red-500/20 dark:text-red-400 dark:border-transparent">
             ⚠️
           </span>
         </div>
         <div className="flex-1">
           <div className="flex items-center gap-2">
-            <h3 className="text-base font-bold tracking-tight text-red-950 dark:text-white">
+            <h3 className="text-base font-bold tracking-tight text-rose-950 dark:text-white">
               Chartered Accountant (CA) Escalation Recommended
             </h3>
             <span
-              className={`rounded px-2 py-0.5 text-xs font-black uppercase ${
-                isCritical ? 'bg-red-200 text-red-900 dark:bg-red-800 dark:text-red-200' : 'bg-amber-200 text-amber-900 dark:bg-amber-800 dark:text-amber-200'
+              className={`rounded-full px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider ${
+                isCritical ? 'bg-rose-100 text-rose-800 border border-rose-200 dark:bg-red-800 dark:text-red-200 dark:border-red-600' : 'bg-amber-100 text-amber-800 border border-amber-200 dark:bg-amber-800 dark:text-amber-200 dark:border-amber-600'
               }`}
             >
               {escalation.riskLevel} Risk
             </span>
           </div>
 
-          <p className="mt-1.5 text-xs leading-relaxed text-red-900/90 dark:text-gray-300">
+          <p className="mt-1.5 text-xs leading-relaxed text-rose-950/90 dark:text-gray-300">
             This notice contains high-stakes statutory allegations or financial liabilities that
             carry severe legal consequences if mishandled. We strongly advise taking your books of accounts to a qualified CA or GST Practitioner.
           </p>
 
           <ul className="mt-3 space-y-1.5 text-xs">
             {escalation.reasons.map((reason, idx) => (
-              <li key={idx} className="flex items-start gap-2 text-red-950 dark:text-gray-200">
-                <span className="text-red-600 dark:text-red-400">•</span>
+              <li key={idx} className="flex items-start gap-2 text-rose-950 dark:text-gray-200">
+                <span className="text-rose-600 dark:text-red-400 font-bold">•</span>
                 <span>{reason}</span>
               </li>
             ))}
