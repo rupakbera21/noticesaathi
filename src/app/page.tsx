@@ -1,118 +1,101 @@
 import Image from 'next/image'
+import { NoticeAnalyzer } from '@/components/NoticeAnalyzer'
 
 function Header() {
   return (
     <header
-      className="relative z-10 flex items-center border-b px-6 py-4 backdrop-blur-md"
-      style={{ borderColor: 'var(--color-border)', backgroundColor: 'rgba(var(--color-bg), 0.7)' }}
+      className="relative z-10 flex items-center justify-between border-b px-6 py-4 backdrop-blur-md"
+      style={{ borderColor: 'var(--color-border)', backgroundColor: 'rgba(10, 10, 22, 0.75)' }}
     >
-      <Image
-        src="/logo/logo-light@2x.png"
-        alt="NoticeSaathi"
-        width={160}
-        height={53}
-        priority
-        className="block dark:hidden"
-        data-testid="logo-light"
-      />
-      <Image
-        src="/logo/logo-dark@2x.png"
-        alt="NoticeSaathi"
-        width={160}
-        height={53}
-        priority
-        className="hidden dark:block"
-        data-testid="logo-dark"
-      />
-    </header>
-  )
-}
+      <div className="flex items-center gap-3">
+        <Image
+          src="/logo/logo-light@2x.png"
+          alt="NoticeSaathi"
+          width={160}
+          height={53}
+          priority
+          className="block dark:hidden"
+          data-testid="logo-light"
+        />
+        <Image
+          src="/logo/logo-dark@2x.png"
+          alt="NoticeSaathi"
+          width={160}
+          height={53}
+          priority
+          className="hidden dark:block"
+          data-testid="logo-dark"
+        />
+      </div>
 
-function ProofSection() {
-  return (
-    <div className="flex flex-col items-center gap-4" data-testid="tailwind-proof">
-      <div
-        className="rounded-lg px-6 py-3 text-sm font-semibold text-white shadow-lg transition-transform active:scale-95"
-        style={{
-          backgroundColor: 'var(--color-primary)',
-          borderRadius: 'var(--radius-md)',
-        }}
-        data-testid="primary-swatch"
-      >
-        Primary color — indigo #3733C8
+      <div className="flex items-center gap-2">
+        <span className="rounded-full border border-purple-500/30 bg-purple-950/40 px-3 py-1 text-xs font-semibold text-purple-300">
+          GST AI Companion
+        </span>
       </div>
-      <div
-        className="rounded-lg border px-6 py-3 text-sm backdrop-blur-sm"
-        style={{
-          borderColor: 'var(--color-border)',
-          backgroundColor: 'var(--color-surface)',
-          color: 'var(--color-text-muted)',
-          borderRadius: 'var(--radius-md)',
-        }}
-        data-testid="surface-swatch"
-      >
-        Surface + border — tactile atmospheric backdrop
-      </div>
-    </div>
+    </header>
   )
 }
 
 function Footer() {
   return (
     <footer
-      className="relative z-10 border-t px-6 py-4 text-center text-xs backdrop-blur-sm"
+      className="relative z-10 border-t px-6 py-8 text-center text-xs backdrop-blur-sm"
       style={{
         borderColor: 'var(--color-border)',
         color: 'var(--color-text-subtle)',
       }}
     >
-      NoticeSaathi — Homingo Hack Days 2026. Not legal advice. Synthetic data only.
+      <div className="mx-auto max-w-3xl space-y-2">
+        <p className="font-semibold text-gray-400">
+          NoticeSaathi — Automated GST Notice Triage &amp; Legal Reply Drafting
+        </p>
+        <p className="text-[11px] text-gray-500 leading-relaxed">
+          Statutory Disclaimer: NoticeSaathi is an assistive computational and educational tool designed to help Indian taxpayers understand official communications. It does not constitute formal legal or financial advice. For complex notices involving fraud (§74), cancellation (§29), or substantial demands, always consult a qualified Chartered Accountant.
+        </p>
+        <div className="pt-2 text-[10px] text-gray-600">
+          Built for Homingo Hack Days 2026. Certified synthetic benchmarks and open CBIC gazette data only.
+        </div>
+      </div>
     </footer>
   )
 }
 
-/**
- * Phase 1 hello page.
- * Proves: Tailwind CSS pipeline compiles, atmospheric lighting and grain render,
- * fonts load, logo renders in both themes, health endpoint is reachable.
- */
 export default function HomePage() {
   return (
     <div
-      data-testid="hello-page"
+      data-testid="home-page"
       style={{ backgroundColor: 'var(--color-bg)', color: 'var(--color-text)' }}
       className="relative flex min-h-dvh flex-col overflow-hidden"
     >
-      {/* Tactile film grain and ambient light leak overlays */}
+      {/* Tactile film grain, ambient drifting light, and bottom black vignette */}
       <div className="grain-overlay" aria-hidden="true" />
       <div className="ambient-glow" aria-hidden="true" />
       <div className="ambient-vignette" aria-hidden="true" />
 
       <Header />
-      <main id="main-content" className="relative z-10 flex flex-1 flex-col items-center justify-center gap-8 px-6 py-16">
-        <h1
-          className="text-center text-3xl font-bold tracking-tight md:text-4xl"
-          style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-text)' }}
-          data-testid="heading"
-        >
-          Phase 1 — Foundation
-        </h1>
-        <p className="max-w-md text-center text-base" style={{ color: 'var(--color-text-muted)' }}>
-          Scaffold complete. Atmospheric indigo/violet glow, fine tactile grain,
-          Tailwind CSS v4, TypeScript strict, and security headers are active.
-        </p>
-        <ProofSection />
-        <a
-          href="/api/health"
-          className="text-sm underline-offset-4 hover:underline"
-          style={{ color: 'var(--color-primary)' }}
-          data-testid="health-link"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          /api/health →
-        </a>
+
+      <main
+        id="main-content"
+        className="relative z-10 flex flex-1 flex-col items-center justify-start gap-8 px-4 py-12 md:px-8"
+      >
+        <div className="max-w-2xl text-center space-y-3">
+          <h1
+            className="text-3xl font-extrabold tracking-tight md:text-5xl"
+            style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-text)' }}
+            data-testid="heading"
+          >
+            Understand Your GST Notice in Minutes
+          </h1>
+          <p className="text-sm md:text-base text-gray-400 leading-relaxed">
+            Instant itemized demand breakdown in ₹, verified CBIC statutory citations,
+            deterministic response deadlines, and grounded legal replies for Indian traders.
+          </p>
+        </div>
+
+        <NoticeAnalyzer />
       </main>
+
       <Footer />
     </div>
   )
