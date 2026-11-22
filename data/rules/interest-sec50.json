@@ -1,0 +1,18 @@
+{
+  "id": "rule-cgst-sec50-interest-v1",
+  "name": "Interest on delayed payment of tax",
+  "sectionOrRule": "Section 50(1) & 50(3) of CGST Act, 2017",
+  "description": "Interest payable on net cash liability for tax paid after due date at 18% p.a., or 24% p.a. for undue/excess claim of ITC or reduction in output tax liability.",
+  "sourceUrl": "https://www.indiacode.nic.in/handle/123456789/2188",
+  "effectiveFrom": "2017-07-01",
+  "effectiveTo": null,
+  "status": "draft",
+  "verifiedBy": null,
+  "verifiedOn": null,
+  "parameters": {
+    "ratePerAnnumPercent": 18,
+    "undueItcRatePercent": 24,
+    "calculationBasis": "NET_CASH_LIABILITY",
+    "sourceNote": "Proviso to Section 50(1) inserted by Finance (No. 2) Act 2019 w.r.e.f. 01-07-2017 provides for interest only on net tax liability paid through electronic cash ledger."
+  }
+}

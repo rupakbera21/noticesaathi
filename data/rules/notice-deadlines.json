@@ -1,0 +1,39 @@
+{
+  "id": "rule-cgst-notice-deadlines-v1",
+  "name": "Statutory reply deadlines for standard GST notices",
+  "sectionOrRule": "Sections 61, 73, 74, 46, 29 of CGST Act read with CGST Rules",
+  "description": "Statutory response windows and periods allowed to taxpayers for responding to official GST notices.",
+  "sourceUrl": "https://www.indiacode.nic.in/handle/123456789/2188",
+  "effectiveFrom": "2017-07-01",
+  "effectiveTo": null,
+  "status": "draft",
+  "verifiedBy": null,
+  "verifiedOn": null,
+  "parameters": {
+    "ASMT_10_SCRUTINY": {
+      "standardDays": 30,
+      "maxExtensionDays": 15,
+      "ruleReference": "Rule 99(2) of CGST Rules, 2017"
+    },
+    "DRC_01_DEMAND_NON_FRAUD": {
+      "standardDays": 30,
+      "ruleReference": "Section 73(8) of CGST Act, 2017"
+    },
+    "DRC_01_DEMAND_FRAUD": {
+      "standardDays": 30,
+      "ruleReference": "Section 74(8) of CGST Act, 2017"
+    },
+    "GSTR_3A_NON_FILER": {
+      "standardDays": 15,
+      "ruleReference": "Section 46 of CGST Act, 2017 read with Rule 68"
+    },
+    "REG_17_REGISTRATION_CANCEL": {
+      "standardDays": 7,
+      "ruleReference": "Rule 22(1) of CGST Rules, 2017"
+    },
+    "RFD_08_REFUND_SCN": {
+      "standardDays": 15,
+      "ruleReference": "Rule 92(3) of CGST Rules, 2017"
+    }
+  }
+}

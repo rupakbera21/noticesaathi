@@ -1,0 +1,21 @@
+{
+  "id": "rule-cgst-sec47-latefee-v1",
+  "name": "Late fee for delayed filing of returns",
+  "sectionOrRule": "Section 47 of CGST Act, 2017 read with Notification No. 19/2021-Central Tax",
+  "description": "Late fee payable for delay in furnishing returns under Section 39 (e.g. GSTR-3B). Rationalized under Amnesty / Notification 19/2021 with turnover-based caps.",
+  "sourceUrl": "https://taxinformation.cbic.gov.in",
+  "effectiveFrom": "2021-06-01",
+  "effectiveTo": null,
+  "status": "draft",
+  "verifiedBy": null,
+  "verifiedOn": null,
+  "parameters": {
+    "feePerDayCgst": 25,
+    "feePerDaySgst": 25,
+    "feePerDayTotal": 50,
+    "nilReturnFeePerDayTotal": 20,
+    "maximumCapPerReturn": 5000,
+    "nilReturnMaximumCap": 500,
+    "sourceNote": "Subject to turnover-based rationalization under Notification No. 19/2021-CT dated 01.06.2021."
+  }
+}

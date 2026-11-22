@@ -1,0 +1,26 @@
+[
+  {
+    "id": "src-india-code-cgst",
+    "title": "Central Goods and Services Tax Act, 2017",
+    "shortName": "CGST Act 2017",
+    "authority": "Legislative Department, Ministry of Law and Justice, Government of India",
+    "url": "https://www.indiacode.nic.in/handle/123456789/2188",
+    "licenseOrAttribution": "Government Open Data / Public Domain Indian Statute"
+  },
+  {
+    "id": "src-cbic-cgst-rules",
+    "title": "Central Goods and Services Tax Rules, 2017 (as amended)",
+    "shortName": "CGST Rules 2017",
+    "authority": "Central Board of Indirect Taxes and Customs (CBIC), Department of Revenue, Ministry of Finance",
+    "url": "https://taxinformation.cbic.gov.in",
+    "licenseOrAttribution": "Official Gazette / Government of India Publication"
+  },
+  {
+    "id": "src-gst-portal-faqs",
+    "title": "Official GST Portal Help & FAQ Guides",
+    "shortName": "GST Portal FAQs",
+    "authority": "Goods and Services Tax Network (GSTN)",
+    "url": "https://www.gst.gov.in/help/faq",
+    "licenseOrAttribution": "Official GST Portal Documentation"
+  }
+]

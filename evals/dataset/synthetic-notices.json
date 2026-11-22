@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "1.0.0",
+  "instructions": "All data in this dataset MUST be synthetic. Use fictional trade names and GSTINs that deliberately fail standard checksum validation (e.g., using test codes like 00AAAAA0000A1Z5). Never use real taxpayer data.",
+  "notices": [
+    {
+      "id": "syn-asmt10-001",
+      "title": "ASMT-10 ITC Mismatch (GSTR-2B vs GSTR-3B)",
+      "noticeType": "ASMT_10_SCRUTINY",
+      "isFictional": true,
+      "rawText": "FORM GST ASMT-10\n[See rule 99(1)]\nNotice for intimating discrepancies in the return after scrutiny\nReference No: ASMT10/DL/2024/0912\nDate: 10/08/2024\nGSTIN: 07TESTU9999R1Z9\nLegal Name: M/s Apex Synthetic Supplies\nTax Period: FY 2023-24\n\nThis is to intimate that scrutiny of your return for the tax period under Section 61 of the CGST Act, 2017 read with Rule 99 has revealed discrepancy:\nInput Tax Credit availed in Table 4(A)(5) of GSTR-3B exceeds ITC available in GSTR-2B by Rs 42,000.\n\nTax: Rs 42,000\nInterest under Sec 50: Rs 3,500\nPenalty: Rs 0\nTotal Stated Demand: Rs 45,500\n\nYou are requested to furnish an explanation within 30 days of receipt of this notice in FORM GST ASMT-11.",
+      "goldLabels": {
+        "noticeType": "ASMT_10_SCRUTINY",
+        "issuingAuthority": "Office of the Assistant Commissioner, Central GST, Delhi",
+        "sectionsCited": ["Section 61", "Section 50"],
+        "taxPeriod": "FY 2023-24",
+        "taxDemand": 42000,
+        "interestDemand": 3500,
+        "penaltyDemand": 0,
+        "totalDemand": 45500,
+        "replyDaysAllowed": 30,
+        "documentsRequested": ["GSTR-2B reconciliation statement", "Tax invoices for supplier ITC"],
+        "shouldEscalateToCA": false,
+        "escalationReasons": []
+      }
+    },
+    {
+      "id": "syn-drc01-fraud-002",
+      "title": "DRC-01 Section 74 Fraud & Wilful Suppression Notice",
+      "noticeType": "DRC_01_DEMAND_FRAUD",
+      "isFictional": true,
+      "rawText": "FORM GST DRC-01\n[See rule 142(1)]\nSummary of Show Cause Notice\nReference No: DRC01/MH/2024/7712\nDate: 04/09/2024\nGSTIN: 27FAKEX0000R1Z2\nLegal Name: M/s Fictional Metal Works\nTax Period: July 2022 to March 2023\n\nShow Cause Notice under Section 74 of the CGST Act, 2017.\nIt appears that outward tax liability has been evaded by reason of fraud and wilful misstatement of turnover with deliberate suppression of facts.\n\nTax: Rs 6,80,000\nInterest under Sec 50: Rs 1,12,000\nPenalty under Sec 74: Rs 6,80,000\nTotal Stated Demand: Rs 14,72,000\n\nYou are directed to show cause within 30 days why the demand should not be confirmed.",
+      "goldLabels": {
+        "noticeType": "DRC_01_DEMAND_FRAUD",
+        "issuingAuthority": "Deputy Commissioner, CGST Division, Mumbai",
+        "sectionsCited": ["Section 74", "Section 50"],
+        "taxPeriod": "July 2022 to March 2023",
+        "taxDemand": 680000,
+        "interestDemand": 112000,
+        "penaltyDemand": 680000,
+        "totalDemand": 1472000,
+        "replyDaysAllowed": 30,
+        "documentsRequested": ["Audited balance sheet", "E-way bills", "Bank statements"],
+        "shouldEscalateToCA": true,
+        "escalationReasons": [
+          "Allegation of fraud, wilful misstatement, or suppression of facts under Section 74.",
+          "Total demand exceeds small-business threshold."
+        ]
+      }
+    },
+    {
+      "id": "syn-gstr3a-003",
+      "title": "GSTR-3A Notice to Return Defaulter",
+      "noticeType": "GSTR_3A_NON_FILER",
+      "isFictional": true,
+      "rawText": "FORM GSTR-3A\n[See rule 68]\nNotice to return defaulter under Section 46 for not filing return\nReference No: GSTR3A/KA/2024/3391\nDate: 25/08/2024\nGSTIN: 29MOCKY1111R1Z8\nLegal Name: M/s Synthetic Retailers\n\nBeing a registered taxable person, you have not furnished return in GSTR-3B for the month of July 2024.\nYou are hereby given notice under Section 46 of the CGST Act, 2017 to furnish the said return within 15 days, failing which the tax liability will be assessed under Section 62.",
+      "goldLabels": {
+        "noticeType": "GSTR_3A_NON_FILER",
+        "issuingAuthority": "Superintendent of Central Tax, Range-I, Bengaluru",
+        "sectionsCited": ["Section 46", "Section 62"],
+        "taxPeriod": "July 2024",
+        "taxDemand": 0,
+        "interestDemand": 0,
+        "penaltyDemand": 0,
+        "totalDemand": 0,
+        "replyDaysAllowed": 15,
+        "documentsRequested": ["Filed GSTR-3B acknowledgment", "Challan receipt if tax paid"],
+        "shouldEscalateToCA": false,
+        "escalationReasons": []
+      }
+    }
+  ]
+}

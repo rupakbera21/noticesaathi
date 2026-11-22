@@ -11,5 +11,6 @@ One-off, maintenance, and verification scripts. Each script is documented below.
 | `check-docs.mjs` | `node scripts/check-docs.mjs` | Validates that all backticked repository paths exist and all `package.json` dependencies are documented in `README.md`. |
 | `smoke.mjs` | `node scripts/smoke.mjs` | Live connectivity smoke test for Gemini, Groq, and Upstash with redacted output. |
 | `ingest.mjs` | `node scripts/ingest.mjs` | Knowledge base ingestion via Olostep API (implemented in Phase 2). |
-| `kb-check.mjs` | `node scripts/kb-check.mjs` | Knowledge base chunk integrity and manifest checker (implemented in Phase 2). |
+| `kb-check.mjs` | `node scripts/kb-check.mjs` | Knowledge base chunk integrity and manifest checker. |
+| `validate-dataset.mjs` | `node scripts/validate-dataset.mjs` | Validates synthetic evaluation datasets against Zod schema and fictional data policy. |
 | `eval.mjs` | `node scripts/eval.mjs` | Full evaluation harness runner on synthetic GST notices (implemented in Phase 3/5). |

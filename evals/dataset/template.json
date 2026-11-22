@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "SyntheticNoticeItemTemplate",
+  "description": "Template and guidelines for domain teammates to add synthetic GST notices. Every item must have isFictional: true and invented taxpayer data.",
+  "exampleItem": {
+    "id": "syn-notice-template",
+    "title": "Brief descriptive title",
+    "noticeType": "ASMT_10_SCRUTINY | DRC_01_DEMAND_NON_FRAUD | DRC_01_DEMAND_FRAUD | GSTR_3A_NON_FILER | REG_17_REGISTRATION_CANCEL | RFD_08_REFUND_SCN",
+    "isFictional": true,
+    "rawText": "Paste the synthetic notice text here (at least 50 characters).",
+    "goldLabels": {
+      "noticeType": "ASMT_10_SCRUTINY",
+      "issuingAuthority": "Name of the proper officer or division",
+      "sectionsCited": ["Section 61", "Section 50"],
+      "taxPeriod": "e.g. FY 2023-24 or April 2024 to June 2024",
+      "taxDemand": 0,
+      "interestDemand": 0,
+      "penaltyDemand": 0,
+      "totalDemand": 0,
+      "replyDaysAllowed": 30,
+      "documentsRequested": ["Invoice copies", "Reconciliation sheet"],
+      "shouldEscalateToCA": false,
+      "escalationReasons": []
+    }
+  }
+}

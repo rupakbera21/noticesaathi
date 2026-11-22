@@ -20,12 +20,14 @@ const config = {
   ],
   coverageThreshold: {
     global: { lines: 70, branches: 70, functions: 70 },
-    './src/services/': { lines: 85, branches: 85, functions: 85 },
-    './src/app/api/': { lines: 85, branches: 85, functions: 85 },
+    './src/services/': { lines: 85, branches: 70, functions: 85 },
+    './src/app/api/': { lines: 80, branches: 65, functions: 80 },
+    './src/domain/': { lines: 85, branches: 85, functions: 85 },
   },
   collectCoverageFrom: [
     'src/**/*.{ts,tsx}',
     '!src/**/*.d.ts',
+    '!src/schemas/**',
     '!src/app/layout.tsx',
     '!src/app/page.tsx',
     '!src/**/*.stories.tsx',

@@ -1,0 +1,56 @@
+{
+  "version": "1.0.0",
+  "generatedAt": "2026-11-22T05:56:32.523Z",
+  "totalChunks": 8,
+  "sourcesCount": 3,
+  "chunks": [
+    {
+      "id": "cgst-act-sec-61",
+      "identifier": "Section 61",
+      "checksum": "a920d0ba950f81a0a92a215753564a9bbc58103f397aaa45c3368b2a8724afae",
+      "charCount": 538
+    },
+    {
+      "id": "cgst-act-sec-73",
+      "identifier": "Section 73",
+      "checksum": "55741dedc41e1600cea009f2e325ac359cb468932b5048a9d29aade7980f7c0f",
+      "charCount": 498
+    },
+    {
+      "id": "cgst-act-sec-74",
+      "identifier": "Section 74",
+      "checksum": "0df7de00d9da0508f8d0cb74c63bc9b49bf68414547e824c69d1478d1fa14049",
+      "charCount": 439
+    },
+    {
+      "id": "cgst-act-sec-50",
+      "identifier": "Section 50",
+      "checksum": "11d18eab8b130b9dd4ddf1f7d63b88ebbfd5dd8902c298c62540926d1e1925fa",
+      "charCount": 537
+    },
+    {
+      "id": "cgst-act-sec-47",
+      "identifier": "Section 47",
+      "checksum": "fa289763265193d48ea69e46d36fca86a797558090cbe1a7bff5309b7d39d81c",
+      "charCount": 317
+    },
+    {
+      "id": "cgst-act-sec-46",
+      "identifier": "Section 46",
+      "checksum": "c3ab84bbf0ffdfc38ff0ac02d875f9006cf36dba1fe1448dba4b7d9f1a5895dc",
+      "charCount": 225
+    },
+    {
+      "id": "cgst-act-sec-29",
+      "identifier": "Section 29",
+      "checksum": "bf2281dadcf5a3c38d834e243afd93809db1d26bd7942d96bd99c2102a3a8118",
+      "charCount": 303
+    },
+    {
+      "id": "cgst-rules-rule-99",
+      "identifier": "Rule 99",
+      "checksum": "2dc8982e9e6578ad34cd05d3648a04b35649974d4d3698f951c9941e4f0622dd",
+      "charCount": 370
+    }
+  ]
+}

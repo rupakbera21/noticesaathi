@@ -1,0 +1,19 @@
+{
+  "id": "rule-cgst-sec107-appeal-v1",
+  "name": "Appeals to Appellate Authority",
+  "sectionOrRule": "Section 107 of CGST Act, 2017",
+  "description": "Period for filing first statutory appeal against any decision or order passed by an adjudicating authority.",
+  "sourceUrl": "https://www.indiacode.nic.in/handle/123456789/2188",
+  "effectiveFrom": "2017-07-01",
+  "effectiveTo": null,
+  "status": "draft",
+  "verifiedBy": null,
+  "verifiedOn": null,
+  "parameters": {
+    "standardAppealPeriodMonths": 3,
+    "condonableDelayMonths": 1,
+    "mandatoryPreDepositPercent": 10,
+    "preDepositMaxCapCrores": 25,
+    "formName": "GST APL-01"
+  }
+}

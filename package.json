@@ -15,13 +15,14 @@
     "test:coverage": "jest --coverage",
     "test:layout": "playwright test --project=layout",
     "test:e2e": "playwright test --project=e2e",
-    "verify": "npm run secret-scan && npm run lint && npm run typecheck && npm run test:coverage && npm run build",
+    "verify": "npm run secret-scan && npm run lint && npm run typecheck && npm run kb:check && npm run validate:dataset && npm run test:coverage && npm run build",
     "secret-scan": "node scripts/secret-scan.mjs",
     "smoke": "node scripts/smoke.mjs",
     "ingest": "node scripts/ingest.mjs",
     "kb:check": "node scripts/kb-check.mjs",
     "check:docs": "node scripts/check-docs.mjs",
     "check:tokens": "node scripts/check-tokens.mjs",
+    "validate:dataset": "node scripts/validate-dataset.mjs",
     "eval": "node scripts/eval.mjs"
   },
   "dependencies": {
