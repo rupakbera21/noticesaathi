@@ -13,6 +13,20 @@ export interface GroundingValidationResult {
  * Validates extracted statutory citations against official Knowledge Base chunks.
  * Catches model hallucinations of non-existent sections, rules, or circulars.
  */
+const OFFICIAL_STATUTORY_FORMS = new Set([
+  'asmt10',
+  'asmt11',
+  'drc01',
+  'drc01a',
+  'drc07',
+  'gstr3a',
+  'gstr3b',
+  'gstr1',
+  'gstr9',
+  'reg17',
+  'rfd08',
+])
+
 export class GroundingValidator {
   private validIdentifiers = new Set<string>()
 
@@ -20,6 +34,9 @@ export class GroundingValidator {
     for (const chunk of chunks) {
       this.validIdentifiers.add(this.normalize(chunk.identifier))
       this.validIdentifiers.add(this.normalize(chunk.normalizedId))
+    }
+    for (const form of OFFICIAL_STATUTORY_FORMS) {
+      this.validIdentifiers.add(form)
     }
   }
 

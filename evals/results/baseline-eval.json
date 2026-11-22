@@ -1,0 +1,50 @@
+{
+  "timestamp": "2026-11-22T06:38:09.670Z",
+  "datasetVersion": "1.0.0",
+  "totalEvaluated": 3,
+  "metrics": {
+    "noticeTypeAccuracyPct": 100,
+    "totalDemandAccuracyPct": 100,
+    "escalationDecisionAccuracyPct": 100,
+    "citationRecallPct": 100,
+    "averageGroundingScorePct": 82
+  },
+  "detailedResults": [
+    {
+      "id": "syn-asmt10-001",
+      "title": "ASMT-10 ITC Mismatch (GSTR-2B vs GSTR-3B)",
+      "isTypeMatch": true,
+      "isDemandMatch": true,
+      "isEscalationMatch": true,
+      "extractedDemand": 45500,
+      "goldDemand": 45500,
+      "groundingScore": 1,
+      "foundInGold": 2,
+      "goldSectionsCount": 2
+    },
+    {
+      "id": "syn-drc01-fraud-002",
+      "title": "DRC-01 Section 74 Fraud & Wilful Suppression Notice",
+      "isTypeMatch": true,
+      "isDemandMatch": true,
+      "isEscalationMatch": true,
+      "extractedDemand": 1472000,
+      "goldDemand": 1472000,
+      "groundingScore": 0.8,
+      "foundInGold": 2,
+      "goldSectionsCount": 2
+    },
+    {
+      "id": "syn-gstr3a-003",
+      "title": "GSTR-3A Notice to Return Defaulter",
+      "isTypeMatch": true,
+      "isDemandMatch": true,
+      "isEscalationMatch": true,
+      "extractedDemand": 0,
+      "goldDemand": 0,
+      "groundingScore": 0.67,
+      "foundInGold": 2,
+      "goldSectionsCount": 2
+    }
+  ]
+}

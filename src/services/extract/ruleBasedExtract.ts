@@ -31,10 +31,10 @@ const FORM_REGEX = /\b(?:FORM\s+)?(ASMT[- ]?10|DRC[- ]?01[A-Za-z]?|GSTR[- ]?3A|R
 const DIN_REGEX = /\b(?:DIN|Document Identification Number)[\s:-]*([0-9A-Z]{10,25})\b/i
 const REPLY_DAYS_REGEX = /\b(?:within|period of)\s+(\d{1,2})\s+days\b/i
 
-const TAX_AMOUNT_REGEX = /(?:Tax\s*(?:Demand|Due|Amount|Payable)?|Demand|CGST\s*\+\s*SGST)(?!\s*period)[^0-9\n\r:]*?[:=]?\s*₹?[\s]*(?:Rs\.?[\s]*)?([\d,]+(?:\.\d{2})?)/i
-const INTEREST_AMOUNT_REGEX = /Interest[^0-9\n\r]*?₹?[\s]*(?:Rs\.?[\s]*)?([\d,]+(?:\.\d{2})?)/i
-const PENALTY_AMOUNT_REGEX = /Penalty[^0-9\n\r]*?₹?[\s]*(?:Rs\.?[\s]*)?([\d,]+(?:\.\d{2})?)/i
-const TOTAL_AMOUNT_REGEX = /(?:Total|Grand Total)[^0-9\n\r]*?₹?[\s]*(?:Rs\.?[\s]*)?([\d,]+(?:\.\d{2})?)/i
+const TAX_AMOUNT_REGEX = /(?:Tax\s*(?:Demand|Due|Amount|Payable)?|Demand|CGST\s*\+\s*SGST)(?!\s*period)\s*[:=]?\s*₹?[\s]*(?:Rs\.?[\s]*)?([\d,]+(?:\.\d{2})?)/i
+const INTEREST_AMOUNT_REGEX = /Interest(?:\s*(?:under\s+Sec(?:tion)?\s*\d{1,3}|Demand|Due|Amount))*\s*[:=]?\s*₹?[\s]*(?:Rs\.?[\s]*)?([\d,]+(?:\.\d{2})?)/i
+const PENALTY_AMOUNT_REGEX = /Penalty(?:\s*(?:under\s+Sec(?:tion)?\s*\d{1,3}|Demand|Due|Amount))*\s*[:=]?\s*₹?[\s]*(?:Rs\.?[\s]*)?([\d,]+(?:\.\d{2})?)/i
+const TOTAL_AMOUNT_REGEX = /(?:Total\s*(?:Stated\s*)?(?:Demand|Amount|Due|Payable)?|Grand\s*Total)\s*[:=]?\s*₹?[\s]*(?:Rs\.?[\s]*)?([\d,]+(?:\.\d{2})?)/i
 
 const FRAUD_KEYWORDS = [
   'fraud',

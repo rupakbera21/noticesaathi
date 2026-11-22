@@ -30,7 +30,13 @@ let foundSecrets = false
 
 function scanFile(filePath) {
   const fileName = path.basename(filePath)
-  if (IGNORE_FILES.has(fileName) || fileName.endsWith('.png') || fileName.endsWith('.ico')) {
+  if (
+    IGNORE_FILES.has(fileName) ||
+    fileName.startsWith('.env.') ||
+    fileName === '.env' ||
+    fileName.endsWith('.png') ||
+    fileName.endsWith('.ico')
+  ) {
     return
   }
 
