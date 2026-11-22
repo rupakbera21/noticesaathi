@@ -221,28 +221,53 @@ Elevation is expressed through **borders** (`--color-border`, `--color-border-st
 
 ### 8c. Summary (mobile) — the main result screen
 
+The summary is presented as a **notice receipt** — a narrow paper-bill card that sits inside the screen. This is the signature visual element of the product: the user received a frightening official paper; NoticeSaathi hands them back something equally physical and clear.
+
+**Visual treatment of the receipt card:**
+- Off-white paper background (`#FAFAF8`) in light theme, warm near-white (`#F5F5F0`) in dark theme — distinct from both the page background and a surface card
+- Fine 1px border in `--color-border`, like a printed slip
+- Subtle top perforated-edge effect: a row of tiny circles (`border-t-dashed` or an SVG border) at the top of the receipt, suggesting it was torn off a roll
+- Receipt-width cap: `max-w-[360px]` on desktop so it stays bill-proportioned, centered
+- Monospace-adjacent figures: amounts use `font-variant-numeric: tabular-nums` so columns align
+- Dashed `border-t` separator between line items and total (like a receipt subtotal rule)
+- A faint watermark-style "DRAFT" or "UNVERIFIED" label (rotated, 8% opacity) only when rule data has unverified entries
+- Print action: `window.print()` with a print stylesheet that strips everything except the receipt card — the user can hand it to a CA or file it
+
 ```
 ┌─────────────────────────────┐
 │ [Logo]                [EN ▼]│
 ├─────────────────────────────┤
-│ ┌─────────────────────────┐ │
-│ │ ⏱  Reply by 15 Dec 2024│ │  ← Deadline panel, --color-primary ring
-│ │    23 days remaining    │ │     countdown in text-4xl
-│ └─────────────────────────┘ │
 │                             │
-│ What this notice says       │  ← h2
-│ ─────────────────────────── │
+│   ○○○○○○○○○○○○○○○○○○○○○   │  ← perforated top edge (SVG dots)
+│  ┌───────────────────────┐  │
+│  │  NoticeSaathi         │  │  ← receipt header, Outfit 700, xs
+│  │  Notice Summary       │  │
+│  │  Generated 22 Nov 2026│  │  ← text-xs, text-muted
+│  │ ─────────────────────-│  │
+│  │  GSTIN   29XXXXX1234Z5│  │  ← monospaced, text-sm
+│  │  Type    Scrutiny      │  │
+│  │  Period  Apr – Jun 2024│  │
+│  │  Authority  CGST Delhi │  │
+│  │ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ │  │  ← dashed rule
+│  │  Tax demand  ₹ 48,500 │  │
+│  │  Interest    ₹  4,210 │  │  ← [i] rule version on tap
+│  │  Late fee    ₹    500 │  │
+│  │ ─────────────────────-│  │  ← solid rule before total
+│  │  TOTAL       ₹ 53,210 │  │  ← text-lg, bold
+│  │ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ │  │
+│  │  ⏱ Reply by           │  │
+│  │     15 Dec 2024       │  │  ← date large, --color-primary
+│  │     23 days left      │  │  ← countdown, text-sm
+│  │ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ │  │
+│  │  [🖨 Print]  [⬇ Save] │  │  ← ghost buttons, icon+label
+│  └───────────────────────┘  │
+│   ○○○○○○○○○○○○○○○○○○○○○   │  ← perforated bottom edge
+│                             │
+│ What this notice says       │  ← h2, back to normal layout
 │  [plain-language explanation│
 │   with numbered citations]  │  ← [1] [2] open source drawer
 │                             │
-│ What you owe                │  ← h2
-│  Tax        ₹ 48,500        │
-│  Interest   ₹  4,210  [i]  │  ← [i] shows rule version
-│  Late fee   ₹    500  [i]  │
-│  ─────────────────────────  │
-│  Total      ₹ 53,210        │
-│                             │
-│ What to do                  │  ← h2
+│ What to do                  │
 │  1. Gather documents        │
 │  2. Review the explanation  │
 │  3. Prepare your reply      │
@@ -263,30 +288,39 @@ Elevation is expressed through **borders** (`--color-border`, `--color-border-st
 
 ### 8d. Desktop layout (1280px)
 
+The receipt card lives in a sticky right panel. It stays in view as the user scrolls the left explanation column.
+
 ```
 ┌──────────────────────────────────────────────────────────────────┐
 │ [Logo]                                                   [EN ▼]  │
 ├──────────────────────────────────────────────────────────────────┤
 │                                                                  │
-│  ┌────────────────────────────┐  ┌──────────────────────────┐   │
-│  │ NOTICE EXPLANATION          │  │  ⏱ Reply by 15 Dec 2024 │   │
-│  │                             │  │     23 days remaining    │   │
-│  │  [plain language, citations]│  ├──────────────────────────┤   │
-│  │                             │  │  What you owe            │   │
-│  │                             │  │  Tax       ₹ 48,500      │   │
-│  │                             │  │  Interest  ₹  4,210  [i] │   │
-│  │                             │  │  Late fee  ₹    500  [i] │   │
-│  │                             │  │  Total     ₹ 53,210      │   │
-│  │                             │  ├──────────────────────────┤   │
-│  │                             │  │  [Draft my reply]        │   │
-│  │                             │  │  [Ask a question]        │   │
-│  │                             │  │  [Export CA summary]     │   │
-│  └────────────────────────────┘  └──────────────────────────┘   │
-│                                                                  │
-│  Response plan        Documents to gather    Escalation          │
-│  ───────────────────  ───────────────────    ─────────────────── │
-│  1. ...               · GSTR-3B Apr–Jun      [banner if needed]  │
-│  2. ...               · Tax invoices                             │
+│  ┌────────────────────────────┐  ○○○○○○○○○○○○○○○○○○○○○○○○○○   │
+│  │ NOTICE EXPLANATION          │ ┌──────────────────────────┐   │
+│  │                             │ │  NoticeSaathi            │   │
+│  │  [plain language, citations]│ │  Notice Summary          │   │
+│  │  [1] [2] linked to sources  │ │  Generated 22 Nov 2026   │   │
+│  │                             │ │ ─────────────────────────│   │
+│  │                             │ │  GSTIN   29XXXXX1234Z5   │   │
+│  │                             │ │  Type    Scrutiny        │   │
+│  │                             │ │  Period  Apr – Jun 2024  │   │
+│  │                             │ │ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ │   │
+│  │                             │ │  Tax        ₹ 48,500     │   │
+│  │                             │ │  Interest   ₹  4,210 [i] │   │
+│  │                             │ │  Late fee   ₹    500 [i] │   │
+│  │                             │ │ ─────────────────────────│   │
+│  │                             │ │  TOTAL      ₹ 53,210     │   │
+│  │                             │ │ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ │   │
+│  │                             │ │  ⏱ Reply by 15 Dec 2024  │   │
+│  │                             │ │     23 days left         │   │
+│  │                             │ │ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ │   │
+│  │                             │ │  [🖨 Print] [⬇ Save]    │   │
+│  └────────────────────────────┘ └──────────────────────────┘   │
+│                                  ○○○○○○○○○○○○○○○○○○○○○○○○○○   │
+│  Response plan     Documents to gather    [Draft reply]          │
+│  ─────────────────────────────────────    [Ask a question]       │
+│  1. ...            · GSTR-3B Apr–Jun      [Export CA summary]    │
+│  2. ...            · Tax invoices                                │
 └──────────────────────────────────────────────────────────────────┘
 ```
 
