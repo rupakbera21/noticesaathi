@@ -1,11 +1,11 @@
 import type { Metadata } from 'next'
-import { Noto_Sans, Noto_Sans_Bengali, Outfit } from 'next/font/google'
+import { Poppins, Noto_Sans_Bengali } from 'next/font/google'
 import './globals.css'
 
-const notoSans = Noto_Sans({
+const poppins = Poppins({
   subsets: ['latin', 'devanagari'],
-  weight: ['400', '500', '600'],
-  variable: '--font-noto-sans',
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-poppins',
   display: 'swap',
 })
 
@@ -13,13 +13,6 @@ const notoSansBengali = Noto_Sans_Bengali({
   subsets: ['bengali'],
   weight: ['400', '500', '600'],
   variable: '--font-noto-bengali',
-  display: 'swap',
-})
-
-const outfit = Outfit({
-  subsets: ['latin'],
-  weight: ['700'],
-  variable: '--font-outfit',
   display: 'swap',
 })
 
@@ -40,7 +33,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${notoSans.variable} ${notoSansBengali.variable} ${outfit.variable}`}
+      className={`${poppins.variable} ${notoSansBengali.variable}`}
     >
       <body>
         <a href="#main-content" className="skip-link">

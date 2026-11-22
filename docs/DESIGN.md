@@ -97,14 +97,12 @@ To avoid a sterile, plastic digital look while honoring the brand palette, the c
 
 ## 3. Typography
 
-Two typefaces chosen via `next/font`. Neither is Inter, Sora, Poppins, DM Sans, Space Grotesk or Playfair.
+Typefaces configured via `next/font`:
 
 | Role | Family | Weight | Notes |
 |---|---|---|---|
-| **Body / UI** | [Noto Sans](https://fonts.google.com/noto/specimen/Noto+Sans) | 400, 500, 600 | Excellent Devanagari (Hindi) and Bengali coverage; clean, neutral, legible at small sizes |
-| **Wordmark / Heading** | [Outfit](https://fonts.google.com/specimen/Outfit) | 700 | Geometric, confident, modern — matches the logo's wordmark character without being it |
-
-Noto Sans was chosen specifically because it renders Hindi (`नोटिस साथी`) and Bengali (`নোটিস সাথী`) natively without fallback reflow, which is critical for the multilingual output.
+| **Primary (UI & Headings)** | [Poppins](https://fonts.google.com/specimen/Poppins) | 400, 500, 600, 700 | Friendly, highly legible geometric sans with full Latin & Devanagari (Hindi: `नोटिस साथी`) support |
+| **Multilingual (Bengali)** | [Noto Sans Bengali](https://fonts.google.com/noto/specimen/Noto+Sans+Bengali) | 400, 500, 600 | Native Bengali (`নোটিস সাথী`) rendering with zero layout shift |
 
 ### Type scale (4px grid base, rem units)
 
