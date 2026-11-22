@@ -58,24 +58,6 @@ Track: LLM apps. Statement: C1 — "The $15-an-hour expert."
 
 ---
 
-## Team and how we work
-
-| Role | Responsibility |
-|---|---|
-| Developer (Rupak Bera) | All application code, architecture, build |
-| Domain and data lead | Synthetic notice dataset, gold labels, rule file verification |
-| UX and QA lead | Issue-template feedback after previews, manual test runs, Hindi and Bengali review |
-| Documents lead | README prose, pitch deck, demo script |
-
-**Rules for contributors:**
-- Only the developer changes application code.
-- Teammates contribute documents through pull requests that touch only `docs/`.
-- UI feedback is filed as GitHub issues using the UI feedback template.
-- Never commit secrets or real personal data.
-- All sample data is synthetic and labelled as such.
-- AI tools are allowed and must be disclosed; every tool used appears in the table above.
-
----
 
 ## Data policy
 
