@@ -112,11 +112,32 @@ describe('NoticeAnalyzer Component', () => {
   it('loads sample notice text when sample button is clicked', () => {
     render(<NoticeAnalyzer />)
     const asmt10Btn = screen.getByTestId('sample-asmt10-btn')
+    expect(asmt10Btn).toHaveAttribute('aria-pressed', 'false')
     fireEvent.click(asmt10Btn)
+
+    expect(asmt10Btn).toHaveAttribute('aria-pressed', 'true')
+    expect(asmt10Btn.className).toContain('border-purple-400')
 
     const textarea = screen.getByTestId('notice-input-textarea') as HTMLTextAreaElement
     expect(textarea.value).toContain('FORM GST ASMT-10')
     expect(screen.getByTestId('analyze-notice-btn')).not.toBeDisabled()
+  })
+
+  it('highlights selected sample button border and toggles selection between samples', () => {
+    render(<NoticeAnalyzer />)
+    const asmt10Btn = screen.getByTestId('sample-asmt10-btn')
+    const drc01Btn = screen.getByTestId('sample-drc01-btn')
+    const gstr3aBtn = screen.getByTestId('sample-gstr3a-btn')
+
+    fireEvent.click(drc01Btn)
+    expect(drc01Btn).toHaveAttribute('aria-pressed', 'true')
+    expect(drc01Btn.className).toContain('border-red-400')
+    expect(asmt10Btn).toHaveAttribute('aria-pressed', 'false')
+
+    fireEvent.click(gstr3aBtn)
+    expect(gstr3aBtn).toHaveAttribute('aria-pressed', 'true')
+    expect(gstr3aBtn.className).toContain('border-amber-400')
+    expect(drc01Btn).toHaveAttribute('aria-pressed', 'false')
   })
 
   it('submits notice and renders receipt summary, demand in ₹, and citations', async () => {

@@ -74,27 +74,50 @@ export interface AnalysisResponse {
   }
 }
 
-function SampleNoticeButtons({ onSelect }: { onSelect: (text: string) => void }) {
+type SampleKey = 'asmt10' | 'drc01' | 'gstr3a'
+
+function SampleNoticeButtons({
+  selectedSample,
+  onSelect,
+}: {
+  selectedSample: SampleKey | null
+  onSelect: (key: SampleKey, text: string) => void
+}) {
   return (
     <div className="flex flex-wrap items-center gap-2">
       <span className="text-xs font-semibold text-gray-400">Try sample notice:</span>
       <button
-        onClick={() => onSelect(SAMPLES.asmt10)}
-        className="rounded-md border border-purple-800 bg-purple-950/40 px-3 py-1 text-xs text-purple-300 hover:bg-purple-900/60 transition-colors"
+        onClick={() => onSelect('asmt10', SAMPLES.asmt10)}
+        className={
+          selectedSample === 'asmt10'
+            ? 'rounded-md border-2 border-purple-400 bg-purple-900/80 px-3 py-1 text-xs font-semibold text-purple-100 shadow-[0_0_12px_rgba(192,132,252,0.45)] ring-1 ring-purple-400/50 transition-all'
+            : 'rounded-md border border-purple-800 bg-purple-950/40 px-3 py-1 text-xs text-purple-300 hover:bg-purple-900/60 transition-colors'
+        }
+        aria-pressed={selectedSample === 'asmt10'}
         data-testid="sample-asmt10-btn"
       >
         ASMT-10 (Scrutiny)
       </button>
       <button
-        onClick={() => onSelect(SAMPLES.drc01Fraud)}
-        className="rounded-md border border-red-800 bg-red-950/40 px-3 py-1 text-xs text-red-300 hover:bg-red-900/60 transition-colors"
+        onClick={() => onSelect('drc01', SAMPLES.drc01Fraud)}
+        className={
+          selectedSample === 'drc01'
+            ? 'rounded-md border-2 border-red-400 bg-red-900/80 px-3 py-1 text-xs font-semibold text-red-100 shadow-[0_0_12px_rgba(248,113,113,0.45)] ring-1 ring-red-400/50 transition-all'
+            : 'rounded-md border border-red-800 bg-red-950/40 px-3 py-1 text-xs text-red-300 hover:bg-red-900/60 transition-colors'
+        }
+        aria-pressed={selectedSample === 'drc01'}
         data-testid="sample-drc01-btn"
       >
         DRC-01 (§74 Fraud)
       </button>
       <button
-        onClick={() => onSelect(SAMPLES.gstr3a)}
-        className="rounded-md border border-amber-800 bg-amber-950/40 px-3 py-1 text-xs text-amber-300 hover:bg-amber-900/60 transition-colors"
+        onClick={() => onSelect('gstr3a', SAMPLES.gstr3a)}
+        className={
+          selectedSample === 'gstr3a'
+            ? 'rounded-md border-2 border-amber-400 bg-amber-900/80 px-3 py-1 text-xs font-semibold text-amber-100 shadow-[0_0_12px_rgba(251,191,36,0.45)] ring-1 ring-amber-400/50 transition-all'
+            : 'rounded-md border border-amber-800 bg-amber-950/40 px-3 py-1 text-xs text-amber-300 hover:bg-amber-900/60 transition-colors'
+        }
+        aria-pressed={selectedSample === 'gstr3a'}
         data-testid="sample-gstr3a-btn"
       >
         GSTR-3A (Non-Filer)
@@ -205,6 +228,7 @@ function AnalysisResultsView({
 
 export function NoticeAnalyzer() {
   const [noticeText, setNoticeText] = useState('')
+  const [selectedSample, setSelectedSample] = useState<SampleKey | null>(null)
   const [language, setLanguage] = useState<'en' | 'hi' | 'bn'>('en')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -237,11 +261,21 @@ export function NoticeAnalyzer() {
 
   return (
     <div className="w-full max-w-4xl space-y-6" data-testid="notice-analyzer">
-      <SampleNoticeButtons onSelect={t => { setNoticeText(t); setAnalysis(null); }} />
+      <SampleNoticeButtons
+        selectedSample={selectedSample}
+        onSelect={(key, t) => {
+          setSelectedSample(key)
+          setNoticeText(t)
+          setAnalysis(null)
+        }}
+      />
 
       <NoticeInputCard
         noticeText={noticeText}
-        setNoticeText={setNoticeText}
+        setNoticeText={t => {
+          setNoticeText(t)
+          setSelectedSample(null)
+        }}
         language={language}
         onLanguageChange={l => { setLanguage(l); if (analysis) handleAnalyze(l); }}
         onAnalyze={() => handleAnalyze()}
