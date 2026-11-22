@@ -81,7 +81,7 @@ export function Header() {
 
       <div className="flex items-center gap-3">
         <ThemeToggle />
-        <span className="hidden sm:inline-block rounded-full border border-indigo-200 bg-indigo-50 px-3.5 py-1 text-xs font-semibold text-indigo-700 shadow-sm dark:border-indigo-500/40 dark:bg-indigo-950/60 dark:text-indigo-300">
+        <span className="hidden sm:inline-block rounded-full bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-700 px-3.5 py-1 text-xs font-bold text-white shadow-xs dark:from-indigo-500 dark:to-purple-500">
           GST AI Companion
         </span>
       </div>
@@ -91,17 +91,17 @@ export function Header() {
 
 export function TrustPills() {
   return (
-    <div className="flex flex-wrap items-center justify-center gap-2 pt-2 text-[11px] font-medium text-slate-600 dark:text-gray-400">
-      <span className="rounded-full border border-slate-200 bg-white dark:border-gray-800 dark:bg-white/5 px-3 py-1 shadow-xs">
+    <div className="flex flex-wrap items-center justify-center gap-2 pt-2 text-[11px] font-semibold">
+      <span className="rounded-full border border-indigo-200 bg-indigo-50/90 text-indigo-700 dark:border-indigo-500/30 dark:bg-indigo-950/40 dark:text-indigo-300 px-3 py-1 shadow-xs">
         🧮 100% Deterministic Math (Section 50 &amp; Section 47)
       </span>
-      <span className="rounded-full border border-slate-200 bg-white dark:border-gray-800 dark:bg-white/5 px-3 py-1 shadow-xs">
+      <span className="rounded-full border border-emerald-200 bg-emerald-50/90 text-emerald-800 dark:border-emerald-500/30 dark:bg-emerald-950/40 dark:text-emerald-300 px-3 py-1 shadow-xs">
         📜 Official CBIC Grounding
       </span>
-      <span className="rounded-full border border-slate-200 bg-white dark:border-gray-800 dark:bg-white/5 px-3 py-1 shadow-xs">
+      <span className="rounded-full border border-purple-200 bg-purple-50/90 text-purple-700 dark:border-purple-500/30 dark:bg-purple-950/40 dark:text-purple-300 px-3 py-1 shadow-xs">
         🌐 English • हिन्दी • বাংলা
       </span>
-      <span className="rounded-full border border-slate-200 bg-white dark:border-gray-800 dark:bg-white/5 px-3 py-1 shadow-xs">
+      <span className="rounded-full border border-sky-200 bg-sky-50/90 text-sky-800 dark:border-sky-500/30 dark:bg-sky-950/40 dark:text-sky-300 px-3 py-1 shadow-xs">
         🔒 100% Private (In-Browser Storage)
       </span>
     </div>

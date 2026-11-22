@@ -32,7 +32,7 @@ export default function HomePage() {
             style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-text)' }}
             data-testid="heading"
           >
-            Understand Your GST Notice in Minutes
+            Understand Your <span className="bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-700 dark:from-indigo-400 dark:via-purple-400 dark:to-indigo-300 bg-clip-text text-transparent">GST Notice</span> in Minutes
           </h1>
           <p className="text-sm md:text-base text-slate-600 dark:text-gray-400 leading-relaxed">
             Instant itemized demand breakdown in ₹, verified CBIC statutory citations,

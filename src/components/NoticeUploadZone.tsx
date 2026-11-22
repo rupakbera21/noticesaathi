@@ -49,7 +49,7 @@ export function NoticeUploadZone({
         type="button"
         disabled={uploading}
         onClick={() => fileInputRef.current?.click()}
-        className="flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 shadow-xs hover:bg-slate-50 hover:border-slate-300 dark:border-indigo-500/40 dark:bg-indigo-950/40 dark:text-indigo-300 dark:hover:bg-indigo-900/60 transition-all active:scale-95 disabled:opacity-50"
+        className="flex items-center gap-1.5 rounded-lg border border-indigo-200 bg-indigo-50/80 px-3 py-1.5 text-xs font-semibold text-indigo-700 shadow-xs hover:bg-indigo-100 hover:border-indigo-300 dark:border-indigo-500/40 dark:bg-indigo-950/40 dark:text-indigo-300 dark:hover:bg-indigo-900/60 transition-all active:scale-95 disabled:opacity-50"
         data-testid="upload-pdf-btn"
       >
         <span>{uploading ? '⏳ Reading...' : '📄 Upload PDF / TXT'}</span>

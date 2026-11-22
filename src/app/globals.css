@@ -204,11 +204,71 @@ html.dark .grain-overlay {
   pointer-events: none;
   overflow: hidden;
   z-index: 0;
-  display: none;
+  display: block;
 }
 
-html.dark .ambient-glow {
-  display: block;
+/* Light mode: Prominent, elegant moving indigo/violet/sky gradient aura */
+.ambient-glow::before {
+  content: "";
+  position: absolute;
+  top: -20%;
+  right: -10%;
+  width: 80vw;
+  height: 80vh;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(99, 102, 241, 0.20) 0%,
+    rgba(168, 85, 247, 0.15) 35%,
+    rgba(56, 189, 248, 0.08) 60%,
+    transparent 80%
+  );
+  filter: blur(95px);
+  border-radius: 9999px;
+  animation: ambientDriftTop 20s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+.ambient-glow::after {
+  content: "";
+  position: absolute;
+  bottom: -20%;
+  left: -15%;
+  width: 85vw;
+  height: 85vh;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(147, 51, 234, 0.18) 0%,
+    rgba(79, 70, 229, 0.14) 40%,
+    rgba(236, 72, 153, 0.08) 65%,
+    transparent 82%
+  );
+  filter: blur(105px);
+  border-radius: 9999px;
+  animation: ambientDriftBottom 24s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+/* Dark mode: Ultra-luminous deep violet, electric indigo & neon magenta aura */
+html.dark .ambient-glow::before {
+  background: radial-gradient(
+    ellipse at center,
+    rgba(129, 140, 248, 0.40) 0%,
+    rgba(168, 85, 247, 0.32) 35%,
+    rgba(99, 102, 241, 0.16) 60%,
+    transparent 80%
+  );
+  filter: blur(120px);
+}
+
+html.dark .ambient-glow::after {
+  background: radial-gradient(
+    ellipse at center,
+    rgba(79, 70, 229, 0.45) 0%,
+    rgba(147, 51, 234, 0.36) 40%,
+    rgba(192, 38, 211, 0.18) 65%,
+    transparent 82%
+  );
+  filter: blur(130px);
 }
 
 /* Deep grounding vignette: active in dark mode only */

@@ -33,9 +33,9 @@ export function HowItWorksSection() {
         {steps.map(step => (
           <div
             key={step.num}
-            className="rounded-2xl border p-5 backdrop-blur-md transition-all bg-white border-slate-200 shadow-sm hover:border-indigo-400 dark:bg-[#121224] dark:border-[#252542] dark:hover:border-indigo-500/40"
+            className="rounded-2xl border p-5 backdrop-blur-md transition-all bg-white border-slate-200/90 shadow-xs hover:border-indigo-400 hover:shadow-md hover:shadow-indigo-50/50 dark:bg-[#121224] dark:border-[#252542] dark:hover:border-indigo-500/40"
           >
-            <div className="text-2xl font-extrabold text-indigo-600 dark:text-indigo-400/80 pb-2">{step.num}</div>
+            <div className="text-2xl font-black bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-700 dark:from-indigo-400 dark:to-purple-400 bg-clip-text text-transparent pb-2">{step.num}</div>
             <h3 className="text-sm font-bold text-slate-900 dark:text-white pb-1">{step.title}</h3>
             <p className="text-xs text-slate-600 dark:text-gray-400 leading-relaxed">{step.desc}</p>
           </div>
