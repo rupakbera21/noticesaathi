@@ -14,7 +14,7 @@ test.describe('NoticeSaathi Main Interface Layout', () => {
   test('page loads and heading is visible', async ({ page }) => {
     await page.goto('/')
     await expect(page.getByTestId('heading')).toBeVisible()
-    await expect(page.getByTestId('heading')).toHaveText('Understand Your GST Notice in Minutes')
+    await expect(page.getByTestId('heading')).toHaveText('Understand your GST notice.')
     await page.screenshot({ path: path.join(SCREENSHOTS_DIR, 'home-desktop.png'), fullPage: true })
   })
 

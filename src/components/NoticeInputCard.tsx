@@ -49,11 +49,17 @@ function NoticeActionBar({
   return (
     <div className="mt-4 flex flex-wrap items-center justify-between gap-4">
       <div className="flex items-center gap-2">
-        <span className="text-xs font-semibold text-slate-600 dark:text-gray-400">Language:</span>
+        <label
+          htmlFor="language-select"
+          className="text-xs font-semibold text-[var(--text-secondary)]"
+        >
+          Response language:
+        </label>
         <select
+          id="language-select"
           value={language}
           onChange={e => onLanguageChange(e.target.value as 'en' | 'hi' | 'bn')}
-          className="rounded-lg border bg-white border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-800 shadow-xs dark:bg-black/60 dark:text-gray-200 dark:border-[#252542] focus:outline-none"
+          className="rounded-lg border border-[var(--border-subtle)] bg-[var(--surface-raised)] px-3 py-1.5 text-xs font-medium text-[var(--text-primary)] shadow-xs focus:outline-none focus:border-[var(--primary-action)]"
           data-testid="language-select"
         >
           <option value="en">English</option>
@@ -63,12 +69,13 @@ function NoticeActionBar({
       </div>
 
       <button
+        type="button"
         onClick={onAnalyze}
         disabled={disabled}
-        className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 text-white shadow-md shadow-indigo-200/50 dark:from-[#3521C1] dark:via-[#4338CA] dark:to-[#585EF8] dark:shadow-indigo-950/50 px-6 py-2.5 text-xs font-bold uppercase tracking-wider transition-all active:scale-95 disabled:opacity-40"
+        className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-xl bg-[var(--primary-action)] hover:bg-[var(--primary-hover)] text-white shadow-md shadow-indigo-200/50 dark:shadow-indigo-950/50 px-6 py-2.5 text-xs font-bold transition-all active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed"
         data-testid="analyze-notice-btn"
       >
-        {loading ? 'Analyzing Demand...' : 'Analyze GST Notice →'}
+        {loading ? 'Analyzing notice…' : 'Analyze GST notice →'}
       </button>
     </div>
   )
@@ -76,13 +83,14 @@ function NoticeActionBar({
 
 function PrivacyNoticeFooter() {
   return (
-    <div className="mt-3.5 flex flex-wrap items-center justify-between gap-2 border-t border-slate-100 pt-3 text-[11px] text-slate-500 dark:border-white/5 dark:text-gray-400">
+    <div className="mt-3.5 flex flex-wrap items-center justify-between gap-2 border-t border-[var(--border-subtle)] pt-3 text-[11px] text-[var(--text-secondary)]">
       <span className="flex items-center gap-1.5">
         <svg
-          className="h-3.5 w-3.5 text-slate-400 dark:text-gray-500 shrink-0"
+          className="h-3.5 w-3.5 text-[var(--text-subtle)] shrink-0"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
+          aria-hidden="true"
         >
           <path
             strokeLinecap="round"
@@ -94,7 +102,7 @@ function PrivacyNoticeFooter() {
         Notice text is sent to our server for analysis and may be processed by Google Gemini or
         Groq.
       </span>
-      <a href="/trust" className="text-indigo-600 dark:text-indigo-400 hover:underline font-medium">
+      <a href="/trust" className="text-[var(--color-primary)] hover:underline font-medium">
         Privacy Policy &amp; Architecture →
       </a>
     </div>
@@ -127,19 +135,23 @@ export function NoticeInputCard({
   onError: (err: string) => void
 }) {
   return (
-    <div className="relative overflow-hidden rounded-2xl border border-slate-200/90 bg-white p-5 backdrop-blur-md dark:bg-[#121224] dark:border-[#252542]">
-      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-600 opacity-90" />
-
+    <div
+      className="relative overflow-hidden rounded-2xl border bg-[var(--surface)] p-5 transition-all"
+      style={{
+        borderColor: 'var(--border-subtle)',
+        boxShadow: 'var(--receipt-shadow)',
+      }}
+    >
       <div className="flex flex-wrap items-center justify-between gap-2 pb-3">
         <label
           htmlFor="notice-input"
-          className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-gray-300"
+          className="text-xs font-bold uppercase tracking-wider text-[var(--text-primary)]"
         >
           Paste Notice Text or Upload File
         </label>
         <div className="flex items-center gap-3">
           <NoticeUploadZone onTextExtracted={onTextExtracted} onError={onError} />
-          <span className="text-xs font-medium text-slate-500 dark:text-gray-400">
+          <span className="text-xs font-medium tabular-nums text-[var(--text-secondary)]">
             {noticeText.length.toLocaleString('en-IN')} / 25,000 chars
           </span>
         </div>
@@ -152,7 +164,7 @@ export function NoticeInputCard({
       <textarea
         id="notice-input"
         rows={7}
-        className="w-full rounded-xl border border-slate-200 bg-slate-50/60 p-4 font-mono text-xs text-slate-900 placeholder-slate-400 focus:bg-white focus:border-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-100 dark:bg-black/50 dark:border-[#252542] dark:text-gray-200 dark:placeholder-gray-500"
+        className="w-full rounded-xl border border-[var(--border-subtle)] bg-[var(--surface-raised)] p-4 font-mono text-xs text-[var(--text-primary)] placeholder-[var(--text-subtle)] focus:bg-[var(--surface)] focus:border-[var(--primary-action)] focus:outline-none focus:ring-2 focus:ring-[var(--primary-subtle)]"
         placeholder="Paste notice text (e.g. FORM GST ASMT-10, DRC-01, GSTR-3A) or upload a PDF above..."
         value={noticeText}
         onChange={e => setNoticeText(e.target.value)}

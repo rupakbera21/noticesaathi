@@ -74,6 +74,19 @@ You are requested to pay the tax or furnish your submission in Part B within 30 
 
 export type SampleKey = 'asmt10' | 'drc01' | 'gstr3a' | 'drc01a'
 
+export function getSampleNoticeText(key: SampleKey): string {
+  switch (key) {
+    case 'asmt10':
+      return SAMPLES.asmt10
+    case 'drc01':
+      return SAMPLES.drc01Fraud
+    case 'gstr3a':
+      return SAMPLES.gstr3a
+    case 'drc01a':
+      return SAMPLES.drc01a
+  }
+}
+
 export function SampleNoticeButtons({
   selectedSample,
   onSelect,
@@ -83,56 +96,60 @@ export function SampleNoticeButtons({
 }) {
   return (
     <div className="flex flex-wrap items-center gap-2">
-      <span className="text-xs font-semibold text-slate-600 dark:text-gray-400">
-        Try sample notice:
+      <span className="text-xs font-semibold text-[var(--text-secondary)]">
+        Try synthetic sample:
       </span>
       <button
+        type="button"
         onClick={() => onSelect('asmt10', SAMPLES.asmt10)}
-        className={
+        className={`rounded-lg border px-3 py-1.5 text-xs font-semibold transition-all ${
           selectedSample === 'asmt10'
-            ? 'rounded-lg border-2 border-indigo-600 bg-indigo-100 text-indigo-950 font-bold ring-2 ring-indigo-300 px-3 py-1 text-xs shadow-xs dark:border-indigo-400 dark:bg-indigo-900/80 dark:text-white dark:ring-0 dark:shadow-[0_0_12px_rgba(129,140,248,0.5)] transition-all'
-            : 'rounded-lg border border-indigo-200 bg-indigo-50/70 text-indigo-800 hover:bg-indigo-100/80 hover:border-indigo-300 px-3 py-1 text-xs font-semibold shadow-xs dark:border-indigo-800 dark:bg-indigo-950/40 dark:text-indigo-300 dark:hover:bg-indigo-900/60 transition-colors'
-        }
+            ? 'border-indigo-600 bg-[var(--primary-subtle)] text-[var(--color-primary)] ring-1 ring-[var(--primary-action)]'
+            : 'border-[var(--border-subtle)] bg-[var(--surface-raised)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--border-strong)]'
+        }`}
         aria-pressed={selectedSample === 'asmt10'}
         data-testid="sample-asmt10-btn"
       >
-        ASMT-10 (Scrutiny)
+        Return mismatch (ASMT-10)
       </button>
       <button
+        type="button"
         onClick={() => onSelect('drc01', SAMPLES.drc01Fraud)}
-        className={
+        className={`rounded-lg border px-3 py-1.5 text-xs font-semibold transition-all ${
           selectedSample === 'drc01'
-            ? 'rounded-lg border-2 border-rose-600 bg-rose-100 text-rose-950 font-bold ring-2 ring-rose-300 px-3 py-1 text-xs shadow-xs dark:border-red-400 dark:bg-red-900/80 dark:text-red-100 dark:ring-0 dark:shadow-[0_0_12px_rgba(248,113,113,0.5)] transition-all'
-            : 'rounded-lg border border-rose-200 bg-rose-50/70 text-rose-800 hover:bg-rose-100/80 hover:border-rose-300 px-3 py-1 text-xs font-semibold shadow-xs dark:border-red-800 dark:bg-red-950/40 dark:text-red-300 dark:hover:bg-red-900/60 transition-colors'
-        }
+            ? 'border-red-400 bg-rose-50 text-rose-800 ring-1 ring-rose-500 dark:bg-rose-950/40 dark:border-rose-500 dark:text-rose-200'
+            : 'border-[var(--border-subtle)] bg-[var(--surface-raised)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--border-strong)]'
+        }`}
         aria-pressed={selectedSample === 'drc01'}
         data-testid="sample-drc01-btn"
       >
-        DRC-01 (Section 74 Fraud)
+        Fraud demand (DRC-01)
       </button>
       <button
+        type="button"
         onClick={() => onSelect('gstr3a', SAMPLES.gstr3a)}
-        className={
+        className={`rounded-lg border px-3 py-1.5 text-xs font-semibold transition-all ${
           selectedSample === 'gstr3a'
-            ? 'rounded-lg border-2 border-amber-600 bg-amber-100 text-amber-950 font-bold ring-2 ring-amber-300 px-3 py-1 text-xs shadow-xs dark:border-amber-400 dark:bg-amber-900/80 dark:text-amber-100 dark:ring-0 dark:shadow-[0_0_12px_rgba(251,191,36,0.5)] transition-all'
-            : 'rounded-lg border border-amber-200 bg-amber-50/70 text-amber-900 hover:bg-amber-100/80 hover:border-amber-300 px-3 py-1 text-xs font-semibold shadow-xs dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-300 dark:hover:bg-amber-900/60 transition-colors'
-        }
+            ? 'border-amber-400 bg-amber-50 text-amber-800 ring-1 ring-amber-500 dark:bg-amber-950/40 dark:border-amber-500 dark:text-amber-200'
+            : 'border-[var(--border-subtle)] bg-[var(--surface-raised)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--border-strong)]'
+        }`}
         aria-pressed={selectedSample === 'gstr3a'}
         data-testid="sample-gstr3a-btn"
       >
-        GSTR-3A (Non-Filer)
+        Non-filer notice (GSTR-3A)
       </button>
       <button
+        type="button"
         onClick={() => onSelect('drc01a', SAMPLES.drc01a)}
-        className={
+        className={`rounded-lg border px-3 py-1.5 text-xs font-semibold transition-all ${
           selectedSample === 'drc01a'
-            ? 'rounded-lg border-2 border-teal-600 bg-teal-100 text-teal-950 font-bold ring-2 ring-teal-300 px-3 py-1 text-xs shadow-xs dark:border-teal-400 dark:bg-teal-900/80 dark:text-teal-100 dark:ring-0 dark:shadow-[0_0_12px_rgba(45,212,191,0.5)] transition-all'
-            : 'rounded-lg border border-teal-200 bg-teal-50/70 text-teal-900 hover:bg-teal-100/80 hover:border-teal-300 px-3 py-1 text-xs font-semibold shadow-xs dark:border-teal-800 dark:bg-teal-950/40 dark:text-teal-300 dark:hover:bg-teal-900/60 transition-colors'
-        }
+            ? 'border-teal-600 bg-teal-50 text-teal-800 ring-1 ring-teal-500 dark:bg-teal-950/40 dark:border-teal-500 dark:text-teal-200'
+            : 'border-[var(--border-subtle)] bg-[var(--surface-raised)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--border-strong)]'
+        }`}
         aria-pressed={selectedSample === 'drc01a'}
         data-testid="sample-drc01a-btn"
       >
-        DRC-01A (Pre-SCN Intimation)
+        Pre-SCN intimation (DRC-01A)
       </button>
     </div>
   )

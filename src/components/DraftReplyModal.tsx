@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { ExtractedNotice, DraftReply } from '@/schemas/notice'
 
 interface DraftReplyModalProps {
@@ -56,23 +56,48 @@ function DraftReplyViewer({
   onCopy: () => void
   copied: boolean
 }) {
+  function handleDownload() {
+    const blob = new Blob([draft.fullReplyText], { type: 'text/plain;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `GST_Reply_Draft_${new Date().toISOString().slice(0, 10)}.txt`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+  }
+
   return (
     <div className="space-y-4">
+      <div className="rounded-xl border border-amber-200 bg-amber-50/80 dark:border-amber-900/60 dark:bg-amber-950/30 p-3.5 text-xs text-amber-900 dark:text-amber-200">
+        <span className="font-bold">Review guidance:</span> Check all dates, invoice numbers, and
+        facts carefully. Attach supporting reconciliation statements, and seek formal review by a
+        Chartered Accountant where flagged before submitting to the GST portal.
+      </div>
       {draft.caEscalationWarning && (
-        <div className="rounded-lg border border-red-300 bg-red-50 p-3 text-xs text-red-900 dark:border-red-500/80 dark:bg-red-950/40 dark:text-red-200">
+        <div className="rounded-xl border border-red-300 bg-red-50 p-3 text-xs text-red-900 dark:border-red-500/80 dark:bg-red-950/40 dark:text-red-200">
           ⚠️ {draft.caEscalationWarning}
         </div>
       )}
       <div
-        className="rounded-lg border bg-slate-50 border-slate-300 p-4 font-mono text-xs leading-relaxed text-slate-900 dark:bg-black/60 dark:text-gray-200 dark:border-[#252542] whitespace-pre-wrap max-h-[50vh] overflow-y-auto"
+        className="rounded-xl border border-[var(--border-subtle)] bg-[var(--surface-raised)] p-4 font-mono text-xs leading-relaxed text-[var(--text-primary)] whitespace-pre-wrap max-h-[50vh] overflow-y-auto"
         data-testid="draft-reply-text"
       >
         {draft.fullReplyText}
       </div>
-      <div className="flex justify-end">
+      <div className="flex flex-wrap items-center justify-end gap-2.5">
         <button
+          type="button"
+          onClick={handleDownload}
+          className="rounded-lg border border-[var(--border-subtle)] bg-[var(--surface-raised)] px-3.5 py-2 text-xs font-semibold text-[var(--text-primary)] hover:border-[var(--border-strong)] transition-colors"
+        >
+          Download .txt
+        </button>
+        <button
+          type="button"
           onClick={onCopy}
-          className="rounded-lg bg-emerald-600 px-4 py-2 text-xs font-bold text-white hover:bg-emerald-500"
+          className="rounded-lg bg-emerald-600 px-4 py-2 text-xs font-bold text-white hover:bg-emerald-500 transition-colors"
           data-testid="copy-reply-btn"
         >
           {copied ? '✓ Copied to Clipboard!' : 'Copy Reply to Clipboard'}
@@ -112,6 +137,15 @@ export function DraftReplyModal({ notice, isOpen, onClose }: DraftReplyModalProp
   const [loading, setLoading] = useState(false)
   const [draft, setDraft] = useState<DraftReply | null>(null)
   const [copied, setCopied] = useState(false)
+
+  useEffect(() => {
+    if (!isOpen) return
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose()
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [isOpen, onClose])
 
   if (!isOpen) return null
 

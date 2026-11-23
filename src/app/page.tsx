@@ -1,9 +1,9 @@
 import React from 'react'
 import { NoticeAnalyzer } from '@/components/NoticeAnalyzer'
-import { Header, TrustPills, Footer } from '@/components/HomeHeaderFooter'
+import { Header, Footer } from '@/components/HomeHeaderFooter'
+import { HomeHero } from '@/components/HomeHero'
 import {
   HowItWorksSection,
-  FeaturesSection,
   SupportedNoticesSection,
   MeasurementSection,
   FaqSection,
@@ -14,42 +14,21 @@ export default function HomePage() {
     <div
       data-testid="home-page"
       style={{ backgroundColor: 'var(--color-bg)', color: 'var(--color-text)' }}
-      className="relative flex min-h-dvh flex-col overflow-hidden"
+      className="relative flex min-h-dvh flex-col overflow-hidden canvas-bg"
     >
-      {/* Tactile film grain, ambient drifting light, and bottom black vignette */}
-      <div className="grain-overlay" aria-hidden="true" />
-      <div className="ambient-glow" aria-hidden="true" />
-      <div className="ambient-vignette" aria-hidden="true" />
-
       <Header />
 
       <main
         id="main-content"
-        className="relative z-10 flex flex-1 flex-col items-center justify-start gap-8 px-4 py-12 md:px-8"
+        className="relative z-10 flex flex-1 flex-col items-center justify-start gap-12 px-4 py-8 md:px-8 max-w-6xl mx-auto w-full"
       >
-        <div className="max-w-2xl text-center space-y-3">
-          <h1
-            className="text-3xl font-extrabold tracking-tight md:text-5xl"
-            style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-text)' }}
-            data-testid="heading"
-          >
-            Understand Your{' '}
-            <span className="bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-700 dark:from-indigo-400 dark:via-purple-400 dark:to-indigo-300 bg-clip-text text-transparent">
-              GST Notice
-            </span>{' '}
-            in Minutes
-          </h1>
-          <p className="text-sm md:text-base text-slate-600 dark:text-gray-400 leading-relaxed">
-            Instant itemized demand breakdown in ₹, verified statutory citations, clear response
-            deadline guidance, and grounded legal replies for Indian traders.
-          </p>
-          <TrustPills />
+        <HomeHero />
+
+        <div id="analyzer-workspace" className="w-full flex justify-center">
+          <NoticeAnalyzer />
         </div>
 
-        <NoticeAnalyzer />
-
         <HowItWorksSection />
-        <FeaturesSection />
         <SupportedNoticesSection />
         <MeasurementSection />
         <FaqSection />

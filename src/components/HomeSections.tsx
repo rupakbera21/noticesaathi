@@ -5,33 +5,33 @@ export function HowItWorksSection() {
   const steps = [
     {
       num: '01',
-      title: 'Upload or Paste Notice',
-      desc: 'Upload your GST portal PDF notice or paste the text directly. Supports ASMT-10, DRC-01, GSTR-3A, and DRC-01A.',
+      title: 'Add a notice',
+      desc: 'Upload your GST portal notice in PDF format or paste the raw notice text directly.',
     },
     {
       num: '02',
-      title: 'Statutory Verification & Math Check',
-      desc: 'Pure code logic checks stated line items against total demand. Relevant sections and rules are matched against statutory GST provisions.',
+      title: 'Review the summary',
+      desc: 'See stated line items checked via arithmetic code against statutory provisions and deadlines.',
     },
     {
       num: '03',
-      title: 'Itemized Receipt & Response Draft',
-      desc: 'Review an itemized receipt in ₹, check response deadlines in Indian Standard Time, and generate a structured Section 75(4) draft reply.',
+      title: 'Prepare your response',
+      desc: 'Generate a structured Section 75(4) formal draft reply with personal hearing prayer.',
     },
   ]
 
   return (
-    <section id="how-it-works" className="w-full max-w-4xl space-y-6 pt-12">
-      <div className="text-center space-y-2">
-        <span className="text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">
+    <section id="how-it-works" className="w-full max-w-4xl space-y-6 pt-8">
+      <div className="space-y-2">
+        <span className="text-xs font-bold uppercase tracking-widest text-[var(--color-primary)]">
           Workflow
         </span>
-        <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white md:text-3xl">
+        <h2 className="text-2xl font-bold tracking-tight text-[var(--text-primary)] md:text-3xl">
           How NoticeSaathi Works
         </h2>
-        <p className="text-xs text-slate-600 dark:text-gray-400 max-w-xl mx-auto">
-          From an intimidating government notice to an itemized summary, statutory check, and
-          response draft in minutes.
+        <p className="text-xs text-[var(--text-secondary)] max-w-xl">
+          Three clear steps from receiving an official notice to preparing a grounded legal
+          response.
         </p>
       </div>
 
@@ -39,13 +39,13 @@ export function HowItWorksSection() {
         {steps.map(step => (
           <div
             key={step.num}
-            className="rounded-2xl border p-5 backdrop-blur-md transition-all bg-white border-slate-200/90 shadow-xs hover:border-indigo-400 hover:shadow-md hover:shadow-indigo-50/50 dark:bg-[#121224] dark:border-[#252542] dark:hover:border-indigo-500/40"
+            className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface)] p-5 shadow-xs transition-all"
           >
-            <div className="text-2xl font-black bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-700 dark:from-indigo-400 dark:to-purple-400 bg-clip-text text-transparent pb-2">
-              {step.num}
+            <div className="text-xs font-bold text-[var(--color-primary)] pb-2 font-mono">
+              Step {step.num}
             </div>
-            <h3 className="text-sm font-bold text-slate-900 dark:text-white pb-1">{step.title}</h3>
-            <p className="text-xs text-slate-600 dark:text-gray-400 leading-relaxed">{step.desc}</p>
+            <h3 className="text-sm font-bold text-[var(--text-primary)] pb-1.5">{step.title}</h3>
+            <p className="text-xs text-[var(--text-secondary)] leading-relaxed">{step.desc}</p>
           </div>
         ))}
       </div>
@@ -204,26 +204,41 @@ export function FeaturesSection() {
 
 export function MeasurementSection() {
   return (
-    <section className="w-full max-w-4xl space-y-4 pt-12">
-      <div className="rounded-2xl border p-6 md:p-8 bg-gradient-to-br from-indigo-50/50 via-white to-purple-50/40 border-indigo-100 shadow-sm dark:bg-gradient-to-br dark:from-[#121224] dark:via-[#15152a] dark:to-[#121224] dark:border-[#252542]">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div className="space-y-1.5">
-            <span className="text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">
-              Evaluation Benchmark
+    <section className="w-full max-w-4xl space-y-4 pt-10">
+      <div className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface)] p-6 md:p-8 shadow-xs">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div className="space-y-2">
+            <span className="text-xs font-bold uppercase tracking-widest text-[var(--color-primary)]">
+              Verification &amp; Evidence
             </span>
-            <h2 className="text-xl font-bold text-slate-900 dark:text-white">
+            <h2 className="text-xl font-bold text-[var(--text-primary)]">
               How We Measured Accuracy
             </h2>
-            <p className="text-xs text-slate-600 dark:text-gray-400 max-w-2xl leading-relaxed">
+            <p className="text-xs text-[var(--text-secondary)] max-w-2xl leading-relaxed">
               Every build of NoticeSaathi is tested against a gold-standard dataset of synthetic
               Indian GST notices (ASMT-10, DRC-01, GSTR-3A, and DRC-01A). In automated tests, our
               extraction and triage pipeline achieves 100% classification accuracy, 100% arithmetic
               demand consistency, and 100% recall on high-risk CA escalations.
             </p>
+            <div className="flex flex-wrap gap-4 pt-1 text-[11px] font-mono text-[var(--text-secondary)]">
+              <div>
+                <span className="font-bold text-[var(--text-primary)]">4</span> Synthetic Notices
+              </div>
+              <div>•</div>
+              <div>
+                <span className="font-bold text-emerald-700 dark:text-emerald-400">100%</span>{' '}
+                Demand Accuracy
+              </div>
+              <div>•</div>
+              <div>
+                <span className="font-bold text-emerald-700 dark:text-emerald-400">100%</span> CA
+                Escalation Recall
+              </div>
+            </div>
           </div>
           <Link
             href="/trust"
-            className="inline-flex items-center gap-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs px-4 py-2.5 transition-colors self-start md:self-auto shrink-0"
+            className="inline-flex items-center gap-1.5 rounded-xl bg-[var(--primary-action)] hover:bg-[var(--primary-hover)] text-white font-bold text-xs px-4 py-2.5 transition-colors self-start md:self-auto shrink-0 shadow-xs"
           >
             Read Trust &amp; Metrics →
           </Link>
@@ -233,75 +248,5 @@ export function MeasurementSection() {
   )
 }
 
-export function SupportedNoticesSection() {
-  const notices = [
-    {
-      form: 'FORM GST ASMT-10',
-      tag: 'Scrutiny of Returns',
-      section: 'Section 61 / Rule 99',
-      desc: 'Discrepancies found upon return scrutiny (e.g. Input Tax Credit availed in GSTR-3B exceeds GSTR-2B statement).',
-      deadline: '30 days standard',
-    },
-    {
-      form: 'FORM GST DRC-01',
-      tag: 'Show Cause Notice (SCN)',
-      section: 'Section 73 & Section 74',
-      desc: 'Formal demand for unpaid tax, interest, or penalty. Section 74 flags fraud, wilful suppression, and invokes human CA escalation.',
-      deadline: '30 days standard',
-    },
-    {
-      form: 'FORM GST GSTR-3A',
-      tag: 'Notice to Return Defaulter',
-      section: 'Section 46 / Rule 68',
-      desc: 'Issued to registered taxpayers who fail to file periodic returns (GSTR-3B or GSTR-1) within statutory due dates.',
-      deadline: '15 days statutory',
-    },
-    {
-      form: 'FORM GST DRC-01A',
-      tag: 'Pre-Notice Intimation',
-      section: 'Rule 142(1A)',
-      desc: 'Communication of tax ascertainment prior to issuance of a formal Show Cause Notice, providing an opportunity to pay or contest.',
-      deadline: '15 to 30 days',
-    },
-  ]
-
-  return (
-    <section id="supported-notices" className="w-full max-w-4xl space-y-6 pt-12">
-      <div className="text-center space-y-2">
-        <span className="text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">
-          Coverage
-        </span>
-        <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white md:text-3xl">
-          Supported GST Notices
-        </h2>
-        <p className="text-xs text-slate-600 dark:text-gray-400 max-w-xl mx-auto">
-          Tailored parsing and statutory cross-checking across the most common notices received by
-          Indian traders.
-        </p>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {notices.map((n, idx) => (
-          <div
-            key={idx}
-            className="rounded-2xl border p-5 backdrop-blur-md space-y-2 bg-white border-slate-200 shadow-sm dark:bg-[#121224] dark:border-[#252542]"
-          >
-            <div className="flex items-center justify-between">
-              <span className="font-mono text-xs font-bold text-indigo-600 dark:text-indigo-400">
-                {n.form}
-              </span>
-              <span className="rounded-md border border-slate-300 bg-slate-100 dark:border-gray-700 dark:bg-black/40 px-2 py-0.5 text-[10px] text-slate-700 dark:text-gray-300">
-                {n.deadline}
-              </span>
-            </div>
-            <h3 className="text-sm font-bold text-slate-900 dark:text-white">{n.tag}</h3>
-            <p className="text-[11px] font-mono text-slate-500 dark:text-gray-400">{n.section}</p>
-            <p className="text-xs text-slate-600 dark:text-gray-400 leading-relaxed">{n.desc}</p>
-          </div>
-        ))}
-      </div>
-    </section>
-  )
-}
-
+export { SupportedNoticesSection } from './SupportedNoticesSection'
 export { FaqSection } from './FaqSection'

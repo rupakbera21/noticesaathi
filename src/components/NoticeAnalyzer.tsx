@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { ExtractedNotice } from '@/schemas/notice'
 import { TotalsConsistencyResult } from '@/domain/totals'
 import { EscalationResult } from '@/domain/escalation'
@@ -9,7 +9,7 @@ import { EscalationCard } from './EscalationCard'
 import { ExplanationTabs } from './ExplanationTabs'
 import { StatutoryCitations, CitationItem } from './StatutoryCitations'
 import { DraftReplyModal } from './DraftReplyModal'
-import { SampleNoticeButtons, SampleKey } from './SampleNoticeButtons'
+import { SampleNoticeButtons, SampleKey, getSampleNoticeText } from './SampleNoticeButtons'
 import { NoticeInputCard } from './NoticeInputCard'
 
 export interface AnalysisResponse {
@@ -48,28 +48,51 @@ function NoticeModalsAndResults({
   return (
     <>
       <div className="space-y-6 animate-fade-in" data-testid="analysis-results">
-        <ReceiptSummary
-          notice={analysis.notice}
-          totals={analysis.totals}
-          deadline={analysis.deadline}
-        />
-        <EscalationCard escalation={analysis.escalation} />
-        <div className="flex justify-end">
-          <button
-            onClick={onOpenDraftModal}
-            className="flex items-center gap-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white shadow-md shadow-indigo-200/60 dark:bg-gradient-to-r dark:from-[#3521C1] dark:via-[#4338CA] dark:to-[#585EF8] dark:shadow-indigo-950/50 px-5 py-3 text-xs font-bold uppercase tracking-wider transition-all active:scale-95"
-            data-testid="open-draft-modal-btn"
-          >
-            ✍️ Draft Formal Portal Reply under Section 75(4) →
-          </button>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          {/* Main Document Column */}
+          <div className="lg:col-span-8 space-y-6">
+            <ReceiptSummary
+              notice={analysis.notice}
+              totals={analysis.totals}
+              deadline={analysis.deadline}
+            />
+            <ExplanationTabs
+              initialExplanation={analysis.explanation}
+              onLanguageChange={onLanguageChange}
+              currentLanguage={language}
+              loading={loading}
+            />
+            <StatutoryCitations citations={analysis.citations} />
+          </div>
+
+          {/* Actionable Next-Step Sidebar */}
+          <div className="lg:col-span-4 space-y-5">
+            <div
+              className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface)] p-5 shadow-xs space-y-3.5"
+              data-testid="next-steps-card"
+            >
+              <div>
+                <span className="text-[10px] font-bold uppercase tracking-wider text-[var(--color-primary)]">
+                  Next Step
+                </span>
+                <h3 className="text-sm font-bold text-[var(--text-primary)]">What to do next</h3>
+              </div>
+              <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
+                Review the itemized discrepancies and prepare your formal response before filing on
+                the GST portal.
+              </p>
+              <button
+                type="button"
+                onClick={onOpenDraftModal}
+                className="w-full rounded-xl bg-[var(--primary-action)] hover:bg-[var(--primary-hover)] text-white font-bold text-xs px-4 py-3 shadow-md shadow-indigo-200/50 dark:shadow-indigo-950/60 transition-all active:scale-98 text-center"
+                data-testid="open-draft-modal-btn"
+              >
+                Prepare a draft reply →
+              </button>
+            </div>
+            <EscalationCard escalation={analysis.escalation} />
+          </div>
         </div>
-        <ExplanationTabs
-          initialExplanation={analysis.explanation}
-          onLanguageChange={onLanguageChange}
-          currentLanguage={language}
-          loading={loading}
-        />
-        <StatutoryCitations citations={analysis.citations} />
       </div>
       <DraftReplyModal
         notice={analysis.notice}
@@ -89,6 +112,28 @@ function useNoticeState() {
   const [error, setError] = useState<string | null>(null)
   const [analysis, setAnalysis] = useState<AnalysisResponse | null>(null)
   const [isDraftModalOpen, setIsDraftModalOpen] = useState(false)
+
+  useEffect(() => {
+    const handleLoadSample = (e: Event) => {
+      const customEvent = e as CustomEvent<SampleKey>
+      const key = customEvent.detail
+      const sampleText = getSampleNoticeText(key)
+      if (sampleText) {
+        setSelectedSample(key)
+        setNoticeText(sampleText)
+        setUploadedFile(null)
+        setAnalysis(null)
+        setError(null)
+        const el = document.getElementById('notice-input')
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth' })
+          el.focus()
+        }
+      }
+    }
+    window.addEventListener('noticesaathi:load-sample', handleLoadSample)
+    return () => window.removeEventListener('noticesaathi:load-sample', handleLoadSample)
+  }, [])
 
   const handleAnalyze = async (selectedLang: 'en' | 'hi' | 'bn' = language) => {
     if (noticeText.trim().length < 20) {
