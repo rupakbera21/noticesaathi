@@ -77,6 +77,32 @@ Take the notice as an opportunity to clear the record; once you submit the missi
     expect(listItems.length).toBe(3)
   })
 
+  it('renders live Bengali API explanation cleanly without raw asterisks', () => {
+    const liveBn = `**১. নোটিশের মূল বিষয় ও কারণ**  
+এই নোটিশটি আপনার জমা দেওয়া GST রিটার্নে কিছু ভুল‑বিভ্রান্তি (ডিসক্রেপেন্সি) পাওয়া গিয়েছে বলে Central Board of Indirect Taxes and Customs (CBIC) আপনাকে জানাচ্ছে।
+
+**২. মোট দাবী ও উত্তর‑দানের শেষ তারিখ**  
+- মোট দাবী: **₹45,500**  
+  - GST ট্যাক্স: **₹42,000**  
+  - বকেয়া পেনাল্টি/ইন্টারেস্ট (যদি থাকে): **₹3,500**  
+
+**৩. পরবর্তী করণীয় (ডকুমেন্ট ও পরামর্শ)**  
+- **প্রস্তুত করতে হবে:** আপনার GST রিটার্নের কপি।
+- **CA (চার্টার্ড অ্যাকাউন্ট্যান্ট) এর সাহায্য:** দ্রুতই একজন CA‑কে পরামর্শ করুন।`
+
+    const { container } = render(<FormattedExplanation text={liveBn} />)
+    const content = container.textContent || ''
+    expect(content).not.toContain('**')
+
+    expect(screen.getByText('১. নোটিশের মূল বিষয় ও কারণ')).toBeInTheDocument()
+    expect(screen.getByText('২. মোট দাবী ও উত্তর‑দানের শেষ তারিখ')).toBeInTheDocument()
+    expect(screen.getByText('৩. পরবর্তী করণীয় (ডকুমেন্ট ও পরামর্শ)')).toBeInTheDocument()
+
+    const strongs = Array.from(container.querySelectorAll('strong')).map(s => s.textContent)
+    expect(strongs).toContain('₹45,500')
+    expect(strongs).toContain('প্রস্তুত করতে হবে:')
+  })
+
   it('handles empty or blank text gracefully', () => {
     const { container } = render(<FormattedExplanation text="" />)
     expect(container.firstChild).toBeNull()
