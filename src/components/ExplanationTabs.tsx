@@ -9,6 +9,41 @@ interface ExplanationTabsProps {
   loading: boolean
 }
 
+function LanguageTabButtons({
+  activeTab,
+  onTabClick,
+}: {
+  activeTab: 'en' | 'hi' | 'bn'
+  onTabClick: (lang: 'en' | 'hi' | 'bn') => void
+}) {
+  const tabs: Array<{ id: 'en' | 'hi' | 'bn'; label: string }> = [
+    { id: 'en', label: 'English' },
+    { id: 'hi', label: 'हिन्दी (Hindi)' },
+    { id: 'bn', label: 'বাংলা (Bengali)' },
+  ]
+
+  return (
+    <div className="flex rounded-lg bg-slate-100 dark:bg-black/40 p-1" role="tablist">
+      {tabs.map(tab => (
+        <button
+          key={tab.id}
+          role="tab"
+          aria-selected={activeTab === tab.id}
+          className={`rounded-md px-3 py-1 text-xs font-semibold transition-all ${
+            activeTab === tab.id
+              ? 'bg-indigo-600 text-white shadow-xs font-bold'
+              : 'text-slate-600 hover:text-slate-900 dark:text-gray-400 dark:hover:text-white font-medium'
+          }`}
+          onClick={() => onTabClick(tab.id)}
+          data-testid={`tab-${tab.id}`}
+        >
+          {tab.label}
+        </button>
+      ))}
+    </div>
+  )
+}
+
 export function ExplanationTabs({
   initialExplanation,
   onLanguageChange,
@@ -38,47 +73,7 @@ export function ExplanationTabs({
         <h3 className="text-sm font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">
           Plain-Language Legal Explanation
         </h3>
-        <div className="flex rounded-lg bg-slate-100 dark:bg-black/40 p-1" role="tablist">
-          <button
-            role="tab"
-            aria-selected={activeTab === 'en'}
-            className={`rounded-md px-3 py-1 text-xs font-semibold transition-all ${
-              activeTab === 'en'
-                ? 'bg-indigo-600 text-white shadow-xs font-bold'
-                : 'text-slate-600 hover:text-slate-900 dark:text-gray-400 dark:hover:text-white font-medium'
-            }`}
-            onClick={() => handleTabClick('en')}
-            data-testid="tab-en"
-          >
-            English
-          </button>
-          <button
-            role="tab"
-            aria-selected={activeTab === 'hi'}
-            className={`rounded-md px-3 py-1 text-xs font-semibold transition-all ${
-              activeTab === 'hi'
-                ? 'bg-indigo-600 text-white shadow-xs font-bold'
-                : 'text-slate-600 hover:text-slate-900 dark:text-gray-400 dark:hover:text-white font-medium'
-            }`}
-            onClick={() => handleTabClick('hi')}
-            data-testid="tab-hi"
-          >
-            हिन्दी (Hindi)
-          </button>
-          <button
-            role="tab"
-            aria-selected={activeTab === 'bn'}
-            className={`rounded-md px-3 py-1 text-xs font-semibold transition-all ${
-              activeTab === 'bn'
-                ? 'bg-indigo-600 text-white shadow-xs font-bold'
-                : 'text-slate-600 hover:text-slate-900 dark:text-gray-400 dark:hover:text-white font-medium'
-            }`}
-            onClick={() => handleTabClick('bn')}
-            data-testid="tab-bn"
-          >
-            বাংলা (Bengali)
-          </button>
-        </div>
+        <LanguageTabButtons activeTab={activeTab} onTabClick={handleTabClick} />
       </div>
 
       <div

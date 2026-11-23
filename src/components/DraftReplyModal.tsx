@@ -82,6 +82,31 @@ function DraftReplyViewer({
   )
 }
 
+function DraftModalHeader({ onClose }: { onClose: () => void }) {
+  return (
+    <div
+      className="flex items-center justify-between border-b pb-4"
+      style={{ borderColor: 'var(--color-border)' }}
+    >
+      <div>
+        <h3 className="text-lg font-bold text-slate-900 dark:text-white">
+          Formal GST Portal Reply Drafter
+        </h3>
+        <p className="text-xs text-slate-600 dark:text-gray-400">
+          Grounded legal submission under Section 75(4) of the CGST Act, 2017.
+        </p>
+      </div>
+      <button
+        onClick={onClose}
+        className="rounded-lg p-2 text-slate-500 hover:bg-slate-100 hover:text-slate-800 dark:text-gray-400 dark:hover:bg-white/10 dark:hover:text-white"
+        data-testid="close-modal-btn"
+      >
+        ✕
+      </button>
+    </div>
+  )
+}
+
 export function DraftReplyModal({ notice, isOpen, onClose }: DraftReplyModalProps) {
   const [userNotes, setUserNotes] = useState('')
   const [loading, setLoading] = useState(false)
@@ -123,26 +148,7 @@ export function DraftReplyModal({ notice, isOpen, onClose }: DraftReplyModalProp
       data-testid="draft-reply-modal"
     >
       <div className="relative flex max-h-[90vh] w-full max-w-3xl flex-col rounded-2xl border p-6 shadow-2xl bg-white border-slate-200 dark:bg-[#0F0F1E] dark:border-[#252542]">
-        <div
-          className="flex items-center justify-between border-b pb-4"
-          style={{ borderColor: 'var(--color-border)' }}
-        >
-          <div>
-            <h3 className="text-lg font-bold text-slate-900 dark:text-white">
-              Formal GST Portal Reply Drafter
-            </h3>
-            <p className="text-xs text-slate-600 dark:text-gray-400">
-              Grounded legal submission under Section 75(4) of the CGST Act, 2017.
-            </p>
-          </div>
-          <button
-            onClick={onClose}
-            className="rounded-lg p-2 text-slate-500 hover:bg-slate-100 hover:text-slate-800 dark:text-gray-400 dark:hover:bg-white/10 dark:hover:text-white"
-            data-testid="close-modal-btn"
-          >
-            ✕
-          </button>
-        </div>
+        <DraftModalHeader onClose={onClose} />
         <div className="flex-1 overflow-y-auto py-4">
           {!draft ? (
             <DraftReplyEditor

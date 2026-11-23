@@ -29,7 +29,7 @@ const config = {
     '!src/**/*.d.ts',
     '!src/schemas/**',
     '!src/app/layout.tsx',
-    '!src/app/page.tsx',
+    '!src/app/**/page.tsx',
     '!src/**/*.stories.tsx',
   ],
 }
