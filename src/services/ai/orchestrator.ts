@@ -77,6 +77,7 @@ function deriveNoticeDates(r: ReturnType<typeof extractWithRules>) {
     serviceDate: r.detectedServiceDate,
     replyDeadlineDate: r.detectedExplicitDeadline,
     replyDaysAllowed: r.replyDaysAllowed,
+    isReceiptBased: r.isReceiptBased,
   })
 
   const deadlineIso = deadline.deadlineDate
@@ -89,6 +90,18 @@ function deriveNoticeDates(r: ReturnType<typeof extractWithRules>) {
     replyDays: r.replyDaysAllowed || null,
     deadlineIso,
   }
+}
+
+function buildDeadlineNote(notice: ExtractedNotice, language: 'en' | 'hi' | 'bn'): string {
+  if (!notice.isReceiptBased || notice.serviceDate) return ''
+  const days = notice.replyDaysAllowed ?? 30
+  if (language === 'hi') {
+    return `\n\nमहत्वपूर्ण समय सीमा: उत्तर देने की अवधि (${days} दिन) नोटिस प्राप्त होने (receipt) की तारीख से शुरू होती है, नोटिस जारी होने की तारीख से नहीं। कृपया अपने नोटिस की वास्तविक प्राप्ति तिथि जांचें।`
+  }
+  if (language === 'bn') {
+    return `\n\nগুরুত্বপূর্ণ সময়সীমা: জবাব দাখিলের মেয়াদ (${days} দিন) নোটিশ প্রাপ্তির (receipt) तारीख থেকে শুরু হয়, নোটিশ জারির তারিখ থেকে নয়। অনুগ্রহ করে আপনার নোটিশ প্রাপ্তির সঠিক তারিখ দেখে নিন।`
+  }
+  return `\n\nImportant Deadline Notice: The reply period (${days} days) runs from the date of receipt of this notice, not the notice issue date. Because the date of receipt is not recorded on the notice, please check your actual date of receipt.`
 }
 
 export class AiOrchestrator {
@@ -172,6 +185,7 @@ export class AiOrchestrator {
       totalStatedDemand,
       replyDeadlineDate: deadlineIso,
       replyDaysAllowed: replyDays,
+      isReceiptBased: r.isReceiptBased,
       documentsRequested: getSuggestedDocuments(r.detectedNoticeType),
       statedGrounds: ['Identified discrepancy in outward/inward supplies'],
       allegationsOfFraudOrWilfulSuppression: r.hasFraudAllegations,
@@ -237,12 +251,14 @@ export class AiOrchestrator {
       .map(s => PLAIN_SECTION_MAP[s]?.[language] || `${s}`)
       .join('\n• ')
 
+    const deadlineNote = buildDeadlineNote(notice, language)
+
     if (language === 'hi') {
-      return `यह नोटिस ${getNoticeTypeDesc(notice.noticeType, 'hi')} के संबंध में जारी किया गया है। विभाग ने कुल ${amount} की मांग की है। आधिकारिक प्रावधानों के अनुसार कृपया नियत समय सीमा में अपना विधिवत उत्तर प्रस्तुत करें।\n\nसमीक्षा एवं कानूनी प्रावधान:\n• ${plainCitations || citationsSummary}`
+      return `यह नोटिस ${getNoticeTypeDesc(notice.noticeType, 'hi')} के संबंध में जारी किया गया है। विभाग ने कुल ${amount} की मांग की है। आधिकारिक प्रावधानों के अनुसार कृपया नियत समय सीमा में अपना विधिवत उत्तर प्रस्तुत करें।${deadlineNote}\n\nसमीक्षा एवं कानूनी प्रावधान:\n• ${plainCitations || citationsSummary}`
     }
     if (language === 'bn') {
-      return `এই নোটিশটি ${getNoticeTypeDesc(notice.noticeType, 'bn')} সংক্রান্ত। মোট দাবিকৃত অর্থ ${amount}। সরকারি নিয়মাবলী মেনে নির্দিষ্ট সময়সীমার মধ্যে যথাযথ জবাব দাখিল করুন।\n\nআইনগত বিধান ও পর্যালোচনা:\n• ${plainCitations || citationsSummary}`
+      return `এই নোটিশটি ${getNoticeTypeDesc(notice.noticeType, 'bn')} সংক্রান্ত। মোট দাবিকৃত অর্থ ${amount}। সরকারি নিয়মাবলী মেনে নির্দিষ্ট সময়সীমার মধ্যে যথাযথ জবাব দাখিল করুন।${deadlineNote}\n\nআইনগত বিধান ও পর্যালোচনা:\n• ${plainCitations || citationsSummary}`
     }
-    return `This notice relates to ${notice.noticeTypeDescription}. Total demand stated is ${amount}. In accordance with statutory requirements, a formal submission should be tendered within the allowed reply window.\n\nStatutory Context & Review:\n• ${plainCitations || citationsSummary}`
+    return `This notice relates to ${notice.noticeTypeDescription}. Total demand stated is ${amount}. In accordance with statutory requirements, a formal submission should be tendered within the allowed reply window.${deadlineNote}\n\nStatutory Context & Review:\n• ${plainCitations || citationsSummary}`
   }
 }

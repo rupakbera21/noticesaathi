@@ -18,6 +18,7 @@ export interface RuleBasedExtractionResult {
   detectedServiceDate: string | null
   detectedExplicitDeadline: string | null
   replyDaysAllowed: number | null
+  isReceiptBased: boolean
   detectedTaxAmount: number | null
   detectedInterestAmount: number | null
   detectedPenaltyAmount: number | null
@@ -177,6 +178,12 @@ function detectIdentifiers(text: string) {
   const explicitDeadlineMatch = text.match(
     /(?:reply (?:on or )?before|reply deadline|due date|furnish reply by)[\s:]+(\d{1,2}[/-]\d{1,2}[/-]\d{4})/i
   )
+  const isReceiptBased =
+    /\b(?:within|period of)\s+(?:\d{1,2}|thirty|fifteen)\s+days\s+(?:of|from)(?:\s+the)?\s+(?:date\s+of\s+)?(?:receipt|service)\b/i.test(
+      text
+    ) ||
+    /\bwithin\s+\d{1,2}\s+days\s+of\s+receipt\b/i.test(text) ||
+    /\b(?:receipt|service)\s+of\s+this\s+notice\b/i.test(text)
 
   return {
     detectedGstin: gstinMatch ? gstinMatch[0].toUpperCase() : null,
@@ -186,6 +193,7 @@ function detectIdentifiers(text: string) {
     detectedServiceDate: serviceDateMatch && serviceDateMatch[1] ? serviceDateMatch[1] : null,
     detectedExplicitDeadline:
       explicitDeadlineMatch && explicitDeadlineMatch[1] ? explicitDeadlineMatch[1] : null,
+    isReceiptBased,
   }
 }
 
@@ -213,6 +221,7 @@ export function extractWithRules(rawNoticeText: string): RuleBasedExtractionResu
     detectedServiceDate: identifiers.detectedServiceDate,
     detectedExplicitDeadline: identifiers.detectedExplicitDeadline,
     replyDaysAllowed: identifiers.replyDaysAllowed,
+    isReceiptBased: identifiers.isReceiptBased,
     detectedTaxAmount: amounts.detectedTaxAmount,
     detectedInterestAmount: amounts.detectedInterestAmount,
     detectedPenaltyAmount: amounts.detectedPenaltyAmount,

@@ -145,4 +145,61 @@ describe('POST /api/analyze', () => {
     expect(body.interestCalc).toBeNull()
     expect(body.notice.interestDemand).toBe(4500)
   })
+
+  it('handles "within 30 days of receipt" with issue date but no service date: returns uncertain deadline and communicates uncertainty in explanation', async () => {
+    const receiptNoticeText = `
+      FORM GST ASMT-10
+      Reference No: ASMT10/2024/9912
+      Date: 10/08/2024
+      GSTIN: 27AABCU9603R1ZN
+      Legal Name: Bharat Traders
+      Notice for intimating discrepancies in return under Section 61 read with Rule 99.
+      Tax: Rs 50,000
+      Total: Rs 50,000
+      You are requested to furnish an explanation within 30 days of receipt of this notice in FORM GST ASMT-11.
+    `
+    const req = new NextRequest('http://localhost:3000/api/analyze', {
+      method: 'POST',
+      body: JSON.stringify({ noticeText: receiptNoticeText, language: 'en' }),
+    })
+    const res = await POST(req)
+    expect(res.status).toBe(200)
+    const body = await res.json()
+
+    // 1. Structured deadline is uncertain
+    expect(body.deadline.status).toBe('uncertain')
+    expect(body.deadline.formattedDate).toBeNull()
+    expect(body.deadline.remainingDays).toBeNull()
+    expect(body.deadline.isExpired).toBe(false)
+    expect(body.deadline.message).toBe('Check the deadline on your notice')
+
+    // 2. Explanation communicates uncertainty and does NOT convert "from receipt" into notice issue date + 30 days (09 Sep 2024)
+    expect(body.explanation).toMatch(/receipt/i)
+    expect(body.explanation).not.toContain('09 Sep 2024')
+    expect(body.explanation).not.toContain('09/09/2024')
+  })
+
+  it('correctly resolves and renders an explicitly stated reply deadline date', async () => {
+    const explicitDeadlineNotice = `
+      FORM GST ASMT-10
+      Reference No: ASMT10/2024/9915
+      Date: 10/08/2024
+      GSTIN: 27AABCU9603R1ZN
+      Discrepancies in return under Section 61.
+      Tax Demand: Rs 30,000
+      Total: Rs 30,000
+      Reply on or before 15/12/2024.
+    `
+    const req = new NextRequest('http://localhost:3000/api/analyze', {
+      method: 'POST',
+      body: JSON.stringify({ noticeText: explicitDeadlineNotice, language: 'en' }),
+    })
+    const res = await POST(req)
+    expect(res.status).toBe(200)
+    const body = await res.json()
+
+    expect(body.deadline.status).toBe('explicit')
+    expect(body.deadline.formattedDate).toBe('15 Dec 2024')
+    expect(body.deadline.message).toContain('15 Dec 2024')
+  })
 })

@@ -96,11 +96,12 @@ describe('IST Date Arithmetic Engine', () => {
       expect(res.isExpired).toBe(false)
     })
 
-    it('derives deadline from notice date when service date is not available', () => {
+    it('derives deadline from notice date when service date is not available and window is not receipt-based', () => {
       const res = resolveNoticeDeadline(
         {
           noticeDate: '2024-11-10',
           replyDaysAllowed: 15,
+          isReceiptBased: false,
         },
         fixedNow
       )
@@ -108,6 +109,25 @@ describe('IST Date Arithmetic Engine', () => {
       expect(res.formattedDate).toBe('25 Nov 2024')
       expect(res.remainingDays).toBe(5)
       expect(res.isExpired).toBe(false)
+    })
+
+    it('returns uncertain status when reply window is receipt-based and service date is missing', () => {
+      const res = resolveNoticeDeadline(
+        {
+          noticeDate: '2024-08-10',
+          replyDaysAllowed: 30,
+          isReceiptBased: true,
+          serviceDate: null,
+          replyDeadlineDate: null,
+        },
+        fixedNow
+      )
+      expect(res.status).toBe('uncertain')
+      expect(res.deadlineDate).toBeNull()
+      expect(res.formattedDate).toBeNull()
+      expect(res.remainingDays).toBeNull()
+      expect(res.isExpired).toBe(false)
+      expect(res.message).toBe('Check the deadline on your notice')
     })
 
     it('returns uncertain status when notice has no date and no deadline', () => {

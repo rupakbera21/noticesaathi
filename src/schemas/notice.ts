@@ -36,6 +36,7 @@ export const ExtractedNoticeSchema = z.object({
   // Deadline information
   replyDeadlineDate: z.string().nullable().default(null), // ISO YYYY-MM-DD
   replyDaysAllowed: z.number().int().positive().nullable().default(null),
+  isReceiptBased: z.boolean().optional(),
 
   // Requirements & Allegations
   documentsRequested: z.array(z.string()).default([]),

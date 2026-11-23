@@ -66,16 +66,18 @@ export function TrustArchitectureSection() {
                 <td className="py-2.5 pr-4 font-mono font-medium">App Server (/api/analyze)</td>
                 <td className="py-2.5 pr-4">PDF parsing, regex rules, statutory retrieval</td>
                 <td className="py-2.5 pr-4">
-                  Transient in-memory execution inside serverless functions. No database writes of
-                  notice bodies.
+                  Transient in-memory execution inside serverless functions. Notice text is sent to
+                  our server for analysis and may be processed by Google Gemini or Groq. No
+                  persistent taxpayer profiles or notice archives are written to an application
+                  database.
                 </td>
               </tr>
               <tr>
                 <td className="py-2.5 pr-4 font-mono font-medium">AI Providers (Gemini / Groq)</td>
                 <td className="py-2.5 pr-4">Fallback extraction and regional translation</td>
                 <td className="py-2.5 pr-4">
-                  Processed per standard enterprise API agreements; zero retention for foundation
-                  model retraining.
+                  Processed via HTTPS per provider API terms. Upstream cloud provider logging, data
+                  retention, and system-level retention policies are unverified.
                 </td>
               </tr>
               <tr>

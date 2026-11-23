@@ -173,7 +173,7 @@ Results recorded in `evals/results/baseline-eval.json`:
    - Allegations of fraud, wilful misstatement, or suppression of facts (§74) are detected.
    - Demands exceed ₹5,00,000.
    - Enforcement actions like search, seizure (§67), or cancellation of registration are threatened.
-4. **Data Privacy**: No taxpayer names, addresses, or notice text are logged or saved to server databases. The notice history resides entirely in the user's browser local storage.
+4. **Data Privacy & Processing**: Notice text is sent to our server for analysis and may be processed in-memory by Google Gemini or Groq. No taxpayer profiles or persistent records are written to an application database. Provider retention and upstream logging are unverified. Notice history resides in the user's client session.
 5. **Synthetic Evaluation Data**: All testing and evaluation samples use fictional taxpayer names, synthetic business entities, and deliberate test-pattern GSTINs.
 
 ---

@@ -61,7 +61,7 @@ function ReceiptHeader({
             data-testid="deadline-badge"
           >
             {deadline.isExpired
-              ? 'Response Expired'
+              ? `Response Expired (${deadline.formattedDate})`
               : `${deadline.remainingDays} Days Left (${deadline.formattedDate})`}
           </div>
         )}

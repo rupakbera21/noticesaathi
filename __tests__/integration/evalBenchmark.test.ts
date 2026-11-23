@@ -43,6 +43,7 @@ function evaluateSingleNotice(item: SyntheticEvalItem, validator: GroundingValid
     serviceDate: ruleResult.detectedServiceDate,
     replyDeadlineDate: ruleResult.detectedExplicitDeadline,
     replyDaysAllowed: ruleResult.replyDaysAllowed,
+    isReceiptBased: ruleResult.isReceiptBased,
   })
 
   const notice = {

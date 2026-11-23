@@ -90,31 +90,7 @@ function useNoticeState() {
   const [analysis, setAnalysis] = useState<AnalysisResponse | null>(null)
   const [isDraftModalOpen, setIsDraftModalOpen] = useState(false)
 
-  return {
-    noticeText, setNoticeText,
-    selectedSample, setSelectedSample,
-    uploadedFile, setUploadedFile,
-    language, setLanguage,
-    loading, setLoading,
-    error, setError,
-    analysis, setAnalysis,
-    isDraftModalOpen, setIsDraftModalOpen,
-  }
-}
-
-export function NoticeAnalyzer() {
-  const {
-    noticeText, setNoticeText,
-    selectedSample, setSelectedSample,
-    uploadedFile, setUploadedFile,
-    language, setLanguage,
-    loading, setLoading,
-    error, setError,
-    analysis, setAnalysis,
-    isDraftModalOpen, setIsDraftModalOpen,
-  } = useNoticeState()
-
-  async function handleAnalyze(selectedLang: 'en' | 'hi' | 'bn' = language) {
+  const handleAnalyze = async (selectedLang: 'en' | 'hi' | 'bn' = language) => {
     if (noticeText.trim().length < 20) {
       setError('Please enter at least 20 characters of the notice text.')
       return
@@ -136,6 +112,47 @@ export function NoticeAnalyzer() {
       setLoading(false)
     }
   }
+
+  return {
+    noticeText,
+    setNoticeText,
+    selectedSample,
+    setSelectedSample,
+    uploadedFile,
+    setUploadedFile,
+    language,
+    setLanguage,
+    loading,
+    setLoading,
+    error,
+    setError,
+    analysis,
+    setAnalysis,
+    isDraftModalOpen,
+    setIsDraftModalOpen,
+    handleAnalyze,
+  }
+}
+
+export function NoticeAnalyzer() {
+  const {
+    noticeText,
+    setNoticeText,
+    selectedSample,
+    setSelectedSample,
+    uploadedFile,
+    setUploadedFile,
+    language,
+    setLanguage,
+    loading,
+    error,
+    setError,
+    analysis,
+    setAnalysis,
+    isDraftModalOpen,
+    setIsDraftModalOpen,
+    handleAnalyze,
+  } = useNoticeState()
 
   return (
     <div className="w-full max-w-4xl space-y-6" data-testid="notice-analyzer">

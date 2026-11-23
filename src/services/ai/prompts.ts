@@ -52,18 +52,27 @@ export function buildExplanationPrompt(
     bn: 'ভারতের সাধারণ ছোট ব্যবসায়ীদের জন্য সহজ ও বোধগম্য বাংলায় ব্যাখ্যা করুন। ধারার জন্য "ধারা" বা "Section" লিখুন, কখনোই "§" চিহ্ন ব্যবহার করবেন না।',
   }
 
+  const deadlineContext = notice.replyDeadlineDate
+    ? `Explicit reply deadline: ${notice.replyDeadlineDate}`
+    : notice.serviceDate && notice.replyDaysAllowed
+      ? `Reply deadline is derived from date of service (${notice.serviceDate}) plus ${notice.replyDaysAllowed} days.`
+      : notice.isReceiptBased
+        ? `Reply period is ${notice.replyDaysAllowed ?? 30} days from the date of receipt of the notice. The date of receipt is unrecorded on the notice. DO NOT calculate or state a fixed deadline based on the notice issue date (${notice.noticeDate}). State that the deadline runs from when the taxpayer received the notice and advise checking the actual date of receipt.`
+        : `Reply deadline is uncertain. Advise taxpayer to verify the specific reply deadline directly on their notice.`
+
   return `Explain this GST notice to the taxpayer in 3 clear paragraphs:
 1. What this notice is about and why the department issued it (in plain everyday language).
-2. The exact amounts due (in ₹) and the statutory deadline to reply.
+2. The exact amounts due (in ₹) and the statutory deadline to reply (${deadlineContext}).
 3. Plain action items (documents to prepare and whether to consult a CA).
 
 Language: ${langInstructions[lang]}
 Formatting Rule: Write the word "Section" or "धारा" / "ধারা" — never use the "§" symbol. Translate all concepts into genuine plain language.
+Statutory Deadline Rule: If the reply window is from receipt, do NOT convert it into a deadline from the notice issue date. Explain the uncertainty clearly.
 
 Notice Summary:
 - Type: ${notice.noticeTypeDescription} (${notice.noticeType})
 - Total Demand: ₹${notice.totalStatedDemand.toLocaleString('en-IN')} (Tax: ₹${notice.taxDemand.toLocaleString('en-IN')})
-- Reply Days: ${notice.replyDaysAllowed ?? 'Not specified'} days
+- Reply Window: ${deadlineContext}
 - Cited Provisions: ${[...notice.sectionsCited, ...notice.rulesCited].join(', ')}
 - Official CBIC Authority References: ${citationsSummary}
 - Fraud Allegations: ${notice.allegationsOfFraudOrWilfulSuppression ? 'YES' : 'NO'}

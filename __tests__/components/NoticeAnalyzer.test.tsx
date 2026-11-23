@@ -242,6 +242,44 @@ describe('NoticeAnalyzer Component', () => {
       'Check the deadline on your notice'
     )
     expect(screen.queryByTestId('deadline-badge')).toBeNull()
+    expect(screen.queryByText(/Days Left/i)).toBeNull()
+    expect(screen.queryByText(/Response Expired/i)).toBeNull()
+
+    global.fetch = originalFetch
+  })
+
+  it('renders explicit deadline date badge correctly when deadline is explicitly stated', async () => {
+    const explicitMock = {
+      ...mockAnalysisData,
+      deadline: {
+        status: 'explicit',
+        formattedDate: '15 Dec 2024',
+        remainingDays: 25,
+        isExpired: false,
+        message: '25 Days Left (15 Dec 2024)',
+      },
+    }
+    const originalFetch = global.fetch
+    global.fetch = jest.fn().mockImplementation((url: string) => {
+      if (url.includes('/api/analyze')) {
+        return Promise.resolve({
+          ok: true,
+          json: () => Promise.resolve(explicitMock),
+        })
+      }
+      return originalFetch(url)
+    })
+
+    render(<NoticeAnalyzer />)
+    fireEvent.click(screen.getByTestId('sample-asmt10-btn'))
+    fireEvent.click(screen.getByTestId('analyze-notice-btn'))
+
+    await waitFor(() => {
+      expect(screen.getByTestId('deadline-badge')).toBeInTheDocument()
+    })
+    expect(screen.getByTestId('deadline-badge')).toHaveTextContent('15 Dec 2024')
+    expect(screen.getByTestId('deadline-badge')).toHaveTextContent('25 Days Left')
+    expect(screen.queryByTestId('deadline-badge-uncertain')).toBeNull()
 
     global.fetch = originalFetch
   })

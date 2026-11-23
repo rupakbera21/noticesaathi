@@ -112,60 +112,83 @@ export interface DeadlineResolution {
  * - 'derived': Stated reply window (e.g. 30 days) from date of service or notice date.
  * - 'uncertain': Missing dates or windows, conflicting data; prompts user to check the notice.
  */
+function resolveExplicitDeadline(rawDate: string, clock: () => Date): DeadlineResolution | null {
+  try {
+    const deadlineDate = parseDateIST(rawDate)
+    const remainingDays = getRemainingDaysIST(deadlineDate, clock)
+    const isExpired = remainingDays < 0
+    return {
+      status: 'explicit',
+      deadlineDate,
+      formattedDate: formatDateIST(deadlineDate),
+      remainingDays,
+      isExpired,
+      message: isExpired
+        ? `Response Expired (${formatDateIST(deadlineDate)})`
+        : `${remainingDays} Days Left (${formatDateIST(deadlineDate)})`,
+    }
+  } catch {
+    return null
+  }
+}
+
+function resolveDerivedDeadline(
+  startDateStr: string,
+  replyDays: number,
+  clock: () => Date
+): DeadlineResolution | null {
+  try {
+    const startDate = parseDateIST(startDateStr)
+    const deadlineDate = addDaysIST(startDate, replyDays)
+    const remainingDays = getRemainingDaysIST(deadlineDate, clock)
+    const isExpired = remainingDays < 0
+    return {
+      status: 'derived',
+      deadlineDate,
+      formattedDate: formatDateIST(deadlineDate),
+      remainingDays,
+      isExpired,
+      message: isExpired
+        ? `Response Expired (${formatDateIST(deadlineDate)})`
+        : `${remainingDays} Days Left (${formatDateIST(deadlineDate)})`,
+    }
+  } catch {
+    return null
+  }
+}
+
 export function resolveNoticeDeadline(
   notice: {
     noticeDate?: string | null
     serviceDate?: string | null
     replyDeadlineDate?: string | null
     replyDaysAllowed?: number | null
+    isReceiptBased?: boolean
   },
   clock: () => Date = () => new Date()
 ): DeadlineResolution {
-  // 1. Explicit deadline stated on notice
   if (notice.replyDeadlineDate) {
-    try {
-      const deadlineDate = parseDateIST(notice.replyDeadlineDate)
-      const remainingDays = getRemainingDaysIST(deadlineDate, clock)
-      const isExpired = remainingDays < 0
-      return {
-        status: 'explicit',
-        deadlineDate,
-        formattedDate: formatDateIST(deadlineDate),
-        remainingDays,
-        isExpired,
-        message: isExpired
-          ? `Response Expired (${formatDateIST(deadlineDate)})`
-          : `${remainingDays} Days Left (${formatDateIST(deadlineDate)})`,
-      }
-    } catch {
-      // invalid date string -> check derived or return uncertain
+    const explicit = resolveExplicitDeadline(notice.replyDeadlineDate, clock)
+    if (explicit) return explicit
+  }
+
+  if (notice.isReceiptBased && !notice.serviceDate) {
+    return {
+      status: 'uncertain',
+      deadlineDate: null,
+      formattedDate: null,
+      remainingDays: null,
+      isExpired: false,
+      message: 'Check the deadline on your notice',
     }
   }
 
-  // 2. Derived from service date (preferred under GST rules) or notice date + replyDaysAllowed
-  const startDateStr = notice.serviceDate || notice.noticeDate
+  const startDateStr = notice.serviceDate || (!notice.isReceiptBased ? notice.noticeDate : null)
   if (startDateStr && notice.replyDaysAllowed && notice.replyDaysAllowed > 0) {
-    try {
-      const startDate = parseDateIST(startDateStr)
-      const deadlineDate = addDaysIST(startDate, notice.replyDaysAllowed)
-      const remainingDays = getRemainingDaysIST(deadlineDate, clock)
-      const isExpired = remainingDays < 0
-      return {
-        status: 'derived',
-        deadlineDate,
-        formattedDate: formatDateIST(deadlineDate),
-        remainingDays,
-        isExpired,
-        message: isExpired
-          ? `Response Expired (${formatDateIST(deadlineDate)})`
-          : `${remainingDays} Days Left (${formatDateIST(deadlineDate)})`,
-      }
-    } catch {
-      // invalid date string -> return uncertain
-    }
+    const derived = resolveDerivedDeadline(startDateStr, notice.replyDaysAllowed, clock)
+    if (derived) return derived
   }
 
-  // 3. Uncertain state: missing date, missing window, or conflicting
   return {
     status: 'uncertain',
     deadlineDate: null,
