@@ -77,7 +77,7 @@ function ReceiptLayer({
 }) {
   return (
     <div
-      className={`relative rounded-2xl border bg-[var(--surface)] p-6 transition-all duration-300 hero-receipt-animated ${
+      className={`relative rounded-2xl border bg-[var(--surface)] p-6 transition-all duration-300 hero-receipt-animated overflow-hidden ${
         isVisible ? 'z-20 opacity-100 shadow-xl' : 'z-0 opacity-0 pointer-events-none scale-95'
       }`}
       style={{
@@ -85,6 +85,7 @@ function ReceiptLayer({
         boxShadow: 'var(--receipt-hero-shadow)',
       }}
     >
+      {isVisible && <div className="receipt-top-highlight" aria-hidden="true" />}
       <div className="flex items-center justify-between border-b border-dashed border-[var(--border-subtle)] pb-3 mb-4">
         <div>
           <span className="text-[10px] font-bold uppercase tracking-wider text-[var(--color-primary)]">
@@ -99,7 +100,7 @@ function ReceiptLayer({
         </span>
       </div>
 
-      <div className="rounded-xl border border-[var(--border-subtle)] bg-[var(--surface-raised)] p-4 mb-4">
+      <div className="rounded-xl border border-[var(--border-subtle)] bg-[var(--surface-raised)] p-4 mb-3">
         <div className="flex items-baseline justify-between">
           <span className="text-xs font-semibold text-[var(--text-secondary)]">
             Total Stated Due
@@ -119,6 +120,8 @@ function ReceiptLayer({
           <span>100% Deterministic Line-Item Arithmetic Match</span>
         </div>
       </div>
+
+      <div className="receipt-perforation my-3 opacity-60" aria-hidden="true" />
 
       <ReceiptRows />
 
@@ -156,16 +159,24 @@ export function HeroDocumentPreview({ onTrySample }: { onTrySample?: () => void 
         <div
           role="tablist"
           aria-label="Document preview mode"
-          className="inline-flex rounded-lg border border-[var(--border-subtle)] bg-[var(--surface-raised)] p-0.5"
+          className="relative inline-flex rounded-xl border border-[var(--border-subtle)] bg-[var(--surface-raised)]/80 backdrop-blur-xs p-1 shadow-xs"
         >
+          <div
+            className="absolute inset-y-1 rounded-lg bg-[var(--surface)] shadow-xs transition-transform duration-250 ease-out"
+            style={{
+              width: 'calc(50% - 4px)',
+              transform: viewState === 'summary' ? 'translateX(0)' : 'translateX(calc(100% + 0px))',
+            }}
+            aria-hidden="true"
+          />
           <button
             type="button"
             role="tab"
             aria-selected={viewState === 'summary'}
             onClick={() => setViewState('summary')}
-            className={`rounded-md px-3 py-1 text-xs font-semibold transition-all ${
+            className={`relative z-10 rounded-lg px-3 py-1 text-xs font-semibold transition-colors duration-200 ${
               viewState === 'summary'
-                ? 'bg-[var(--surface)] text-[var(--color-primary)] shadow-xs'
+                ? 'text-[var(--color-primary)]'
                 : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
             }`}
           >
@@ -176,9 +187,9 @@ export function HeroDocumentPreview({ onTrySample }: { onTrySample?: () => void 
             role="tab"
             aria-selected={viewState === 'notice'}
             onClick={() => setViewState('notice')}
-            className={`rounded-md px-3 py-1 text-xs font-semibold transition-all ${
+            className={`relative z-10 rounded-lg px-3 py-1 text-xs font-semibold transition-colors duration-200 ${
               viewState === 'notice'
-                ? 'bg-[var(--surface)] text-[var(--color-primary)] shadow-xs'
+                ? 'text-[var(--color-primary)]'
                 : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
             }`}
           >
@@ -188,6 +199,15 @@ export function HeroDocumentPreview({ onTrySample }: { onTrySample?: () => void 
       </div>
 
       <div className="relative min-h-[340px]">
+        {/* Violet radial glow backdrop */}
+        <div
+          className="pointer-events-none absolute -inset-6 sm:-inset-10 -z-10 rounded-3xl opacity-60 dark:opacity-40 blur-3xl hero-glow-animated"
+          style={{
+            background:
+              'radial-gradient(ellipse at 50% 50%, rgba(167, 139, 250, 0.35) 0%, rgba(99, 102, 241, 0.2) 45%, transparent 70%)',
+          }}
+          aria-hidden="true"
+        />
         <NoticeLayer isVisible={viewState === 'notice'} />
         <ReceiptLayer isVisible={viewState === 'summary'} onTrySample={onTrySample} />
       </div>

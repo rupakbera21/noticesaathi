@@ -5,19 +5,27 @@ import { HeroDocumentPreview } from './HeroDocumentPreview'
 
 export function HomeHero() {
   function handleAnalyzeClick() {
-    const el = document.getElementById('notice-input')
+    const el =
+      document.getElementById('analyzer-workspace') || document.getElementById('notice-input')
     if (el) {
-      el.scrollIntoView({ behavior: 'smooth' })
-      el.focus()
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      el.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth' })
+      const input = document.getElementById('notice-input')
+      if (input) input.focus()
     }
   }
 
   function handleTrySampleClick() {
     window.dispatchEvent(new CustomEvent('noticesaathi:load-sample', { detail: 'asmt10' }))
+    const el = document.getElementById('analyzer-workspace')
+    if (el) {
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      el.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth' })
+    }
   }
 
   return (
-    <section className="w-full max-w-6xl mx-auto py-8 md:py-14">
+    <section className="w-full max-w-6xl mx-auto py-8 md:py-14 hero-interactive-zone">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
         {/* Left Editorial Column */}
         <div className="lg:col-span-6 space-y-6 text-left">
@@ -40,9 +48,12 @@ export function HomeHero() {
             <button
               type="button"
               onClick={handleAnalyzeClick}
-              className="rounded-xl bg-[var(--primary-action)] hover:bg-[var(--primary-hover)] text-white font-bold text-sm px-6 py-3 shadow-md shadow-indigo-200/50 dark:shadow-indigo-950/60 transition-all active:scale-98"
+              className="group inline-flex items-center gap-1.5 rounded-xl bg-[var(--primary-action)] hover:bg-[var(--primary-hover)] text-white font-bold text-sm px-6 py-3 shadow-md shadow-indigo-200/50 dark:shadow-indigo-950/60 transition-all active:scale-98"
             >
-              Analyze a notice →
+              <span>Analyze a notice</span>
+              <span className="inline-block transition-transform duration-150 group-hover:translate-x-[3px]">
+                →
+              </span>
             </button>
             <button
               type="button"

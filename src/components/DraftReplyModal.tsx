@@ -99,6 +99,7 @@ function DraftReplyViewer({
           onClick={onCopy}
           className="rounded-lg bg-emerald-600 px-4 py-2 text-xs font-bold text-white hover:bg-emerald-500 transition-colors"
           data-testid="copy-reply-btn"
+          aria-live="polite"
         >
           {copied ? '✓ Copied to Clipboard!' : 'Copy Reply to Clipboard'}
         </button>

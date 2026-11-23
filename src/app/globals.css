@@ -262,9 +262,89 @@ html.dark .grain-overlay {
 
 @media (prefers-reduced-motion: reduce) {
   .hero-receipt-animated,
-  .hero-items-animated {
+  .hero-items-animated,
+  .hero-glow-animated,
+  .receipt-top-highlight {
     animation: none !important;
     opacity: 1 !important;
     transform: none !important;
   }
+}
+
+/* ─── Violet-Glass Native Cursor (Scoped to Hero on Fine-Pointer Devices) ─── */
+@media (pointer: fine) {
+  .hero-interactive-zone {
+    cursor:
+      url('/cursors/cursor-light.svg') 0 0,
+      auto;
+  }
+  html.dark .hero-interactive-zone {
+    cursor:
+      url('/cursors/cursor-dark.svg') 0 0,
+      auto;
+  }
+
+  .hero-interactive-zone button,
+  .hero-interactive-zone a,
+  .hero-interactive-zone input,
+  .hero-interactive-zone textarea,
+  .hero-interactive-zone [role='tab'],
+  .hero-interactive-zone [role='button'] {
+    cursor: pointer;
+  }
+}
+
+/* ─── Hero Violet Lighting & Reflections ─────────────────────────── */
+@keyframes heroGlowShift {
+  0% {
+    transform: scale(0.92) translate(-6px, -4px);
+    opacity: 0.3;
+  }
+  50% {
+    transform: scale(1.03) translate(3px, 2px);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1) translate(0, 0);
+    opacity: 0.6;
+  }
+}
+
+.hero-glow-animated {
+  animation: heroGlowShift 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ─── Receipt Top Edge Shimmer Highlight ──────────────────────────── */
+@keyframes topEdgeSweep {
+  0% {
+    background-position: -200% 0;
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    background-position: 200% 0;
+    opacity: 0;
+  }
+}
+
+.receipt-top-highlight {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, #8b5cf6 50%, transparent 100%);
+  background-size: 200% 100%;
+  animation: topEdgeSweep 700ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  pointer-events: none;
+}
+
+/* ─── Receipt Perforated Divider ─────────────────────────────────── */
+.receipt-perforation {
+  background-image: radial-gradient(circle, var(--border-strong) 1.5px, transparent 1.5px);
+  background-size: 8px 3px;
+  background-repeat: repeat-x;
+  height: 3px;
 }

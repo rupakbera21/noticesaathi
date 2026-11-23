@@ -6,29 +6,45 @@ import { NoticeUploadZone } from './NoticeUploadZone'
 function UploadSuccessBanner({
   uploadedFile,
   onClearUpload,
+  onReplaceUpload,
 }: {
   uploadedFile: { name: string; chars: number }
   onClearUpload: () => void
+  onReplaceUpload?: () => void
 }) {
   return (
     <div
-      className="mb-3 flex items-center justify-between rounded-lg border border-emerald-300 bg-emerald-50 dark:border-emerald-500/30 dark:bg-emerald-950/30 px-3 py-1.5 text-xs text-emerald-800 dark:text-emerald-300"
+      className="mb-3 flex items-center justify-between rounded-xl border border-indigo-200 bg-indigo-50/70 dark:border-indigo-800/60 dark:bg-indigo-950/40 px-3.5 py-2 text-xs text-indigo-900 dark:text-indigo-200 shadow-xs transition-all duration-200"
       data-testid="upload-success-pill"
     >
-      <span className="flex items-center gap-1.5 font-medium">
-        <span>✓</span>
-        <span>
-          Extracted from <strong>{uploadedFile.name}</strong> (
+      <div className="flex items-center gap-2 font-medium truncate">
+        <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-emerald-500 text-white text-[10px] font-bold">
+          ✓
+        </span>
+        <span className="truncate">
+          Extracted from <strong className="font-semibold">{uploadedFile.name}</strong> (
           {uploadedFile.chars.toLocaleString('en-IN')} chars)
         </span>
-      </span>
-      <button
-        type="button"
-        onClick={onClearUpload}
-        className="text-emerald-700 dark:text-emerald-400 hover:underline text-[10px]"
-      >
-        Clear
-      </button>
+      </div>
+      <div className="flex items-center gap-3 shrink-0 ml-2">
+        {onReplaceUpload && (
+          <button
+            type="button"
+            onClick={onReplaceUpload}
+            className="text-indigo-700 dark:text-indigo-300 hover:underline font-semibold text-xs cursor-pointer"
+            data-testid="replace-file-btn"
+          >
+            Replace
+          </button>
+        )}
+        <button
+          type="button"
+          onClick={onClearUpload}
+          className="text-slate-500 hover:text-rose-600 dark:text-slate-400 dark:hover:text-rose-300 text-xs cursor-pointer"
+        >
+          Clear
+        </button>
+      </div>
     </div>
   )
 }
@@ -72,10 +88,13 @@ function NoticeActionBar({
         type="button"
         onClick={onAnalyze}
         disabled={disabled}
-        className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-xl bg-[var(--primary-action)] hover:bg-[var(--primary-hover)] text-white shadow-md shadow-indigo-200/50 dark:shadow-indigo-950/50 px-6 py-2.5 text-xs font-bold transition-all active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed"
+        className="group w-full sm:w-auto flex items-center justify-center gap-1.5 rounded-xl bg-[var(--primary-action)] hover:bg-[var(--primary-hover)] text-white shadow-md shadow-indigo-200/50 dark:shadow-indigo-950/50 px-6 py-2.5 text-xs font-bold transition-all active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed"
         data-testid="analyze-notice-btn"
       >
-        {loading ? 'Analyzing notice…' : 'Analyze GST notice →'}
+        <span>{loading ? 'Analyzing notice…' : 'Analyze GST notice'}</span>
+        <span className="inline-block transition-transform duration-150 group-hover:translate-x-[3px]">
+          →
+        </span>
       </button>
     </div>
   )
@@ -109,6 +128,73 @@ function PrivacyNoticeFooter() {
   )
 }
 
+function useNoticeDragDrop(
+  onTextExtracted: (text: string, filename: string, charCount: number) => void,
+  onError: (err: string) => void
+) {
+  const [isDragging, setIsDragging] = React.useState(false)
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault()
+    setIsDragging(true)
+  }
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault()
+    setIsDragging(false)
+  }
+
+  const handleDrop = async (e: React.DragEvent) => {
+    e.preventDefault()
+    setIsDragging(false)
+    const file = e.dataTransfer.files?.[0]
+    if (!file) return
+    if (!file.name.match(/\.(pdf|txt)$/i)) {
+      onError('Unsupported file type. Please upload a .pdf or .txt notice file.')
+      return
+    }
+    const formData = new FormData()
+    formData.append('file', file)
+    try {
+      const res = await fetch('/api/parse-pdf', { method: 'POST', body: formData })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || 'Failed to parse file')
+      onTextExtracted(data.text, file.name, data.charCount)
+    } catch (err: unknown) {
+      onError(err instanceof Error ? err.message : 'Upload failed')
+    }
+  }
+
+  return { isDragging, handleDragOver, handleDragLeave, handleDrop }
+}
+
+function NoticeCardHeader({
+  noticeLength,
+  onTextExtracted,
+  onError,
+}: {
+  noticeLength: number
+  onTextExtracted: (text: string, filename: string, charCount: number) => void
+  onError: (err: string) => void
+}) {
+  return (
+    <div className="flex flex-wrap items-center justify-between gap-2 pb-3">
+      <label
+        htmlFor="notice-input"
+        className="text-xs font-bold uppercase tracking-wider text-[var(--text-primary)]"
+      >
+        Paste Notice Text or Upload File
+      </label>
+      <div className="flex items-center gap-3">
+        <NoticeUploadZone onTextExtracted={onTextExtracted} onError={onError} />
+        <span className="text-xs font-medium tabular-nums text-[var(--text-secondary)]">
+          {noticeLength.toLocaleString('en-IN')} / 25,000 chars
+        </span>
+      </div>
+    </div>
+  )
+}
+
 export function NoticeInputCard({
   noticeText,
   setNoticeText,
@@ -134,28 +220,31 @@ export function NoticeInputCard({
   error: string | null
   onError: (err: string) => void
 }) {
+  const { isDragging, handleDragOver, handleDragLeave, handleDrop } = useNoticeDragDrop(
+    onTextExtracted,
+    onError
+  )
+
   return (
     <div
-      className="relative overflow-hidden rounded-2xl border bg-[var(--surface)] p-5 transition-all"
+      onDragOver={handleDragOver}
+      onDragLeave={handleDragLeave}
+      onDrop={handleDrop}
+      className={`relative overflow-hidden rounded-2xl border bg-[var(--surface)] p-5 transition-all ${
+        isDragging
+          ? 'ring-2 ring-violet-500/80 bg-violet-50/20 dark:bg-violet-950/20 border-violet-400'
+          : ''
+      }`}
       style={{
-        borderColor: 'var(--border-subtle)',
+        borderColor: isDragging ? '#8b5cf6' : 'var(--border-subtle)',
         boxShadow: 'var(--receipt-shadow)',
       }}
     >
-      <div className="flex flex-wrap items-center justify-between gap-2 pb-3">
-        <label
-          htmlFor="notice-input"
-          className="text-xs font-bold uppercase tracking-wider text-[var(--text-primary)]"
-        >
-          Paste Notice Text or Upload File
-        </label>
-        <div className="flex items-center gap-3">
-          <NoticeUploadZone onTextExtracted={onTextExtracted} onError={onError} />
-          <span className="text-xs font-medium tabular-nums text-[var(--text-secondary)]">
-            {noticeText.length.toLocaleString('en-IN')} / 25,000 chars
-          </span>
-        </div>
-      </div>
+      <NoticeCardHeader
+        noticeLength={noticeText.length}
+        onTextExtracted={onTextExtracted}
+        onError={onError}
+      />
 
       {uploadedFile && (
         <UploadSuccessBanner uploadedFile={uploadedFile} onClearUpload={onClearUpload} />

@@ -57,7 +57,7 @@ export function Header() {
   }
 
   return (
-    <header className="relative z-20 flex items-center justify-between border-b px-6 py-3.5 backdrop-blur-md bg-[var(--surface)]/95 border-[var(--border-subtle)] shadow-xs">
+    <header className="sticky top-0 z-30 flex items-center justify-between border-b px-6 py-3.5 backdrop-blur-md bg-[var(--surface)]/85 border-indigo-100/70 dark:border-indigo-950/70 shadow-xs transition-colors">
       <div className="flex items-center gap-3">
         <Image
           src="/logo/logo-light.png"

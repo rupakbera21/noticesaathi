@@ -1,106 +1,33 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { ExtractedNotice } from '@/schemas/notice'
-import { TotalsConsistencyResult } from '@/domain/totals'
-import { EscalationResult } from '@/domain/escalation'
-import { ReceiptSummary } from './ReceiptSummary'
-import { EscalationCard } from './EscalationCard'
-import { ExplanationTabs } from './ExplanationTabs'
-import { StatutoryCitations, CitationItem } from './StatutoryCitations'
-import { DraftReplyModal } from './DraftReplyModal'
 import { SampleNoticeButtons, SampleKey, getSampleNoticeText } from './SampleNoticeButtons'
 import { NoticeInputCard } from './NoticeInputCard'
+import { NoticeModalsAndResults, AnalysisResponse } from './NoticeModalsAndResults'
 
-export interface AnalysisResponse {
-  notice: ExtractedNotice
-  totals: TotalsConsistencyResult
-  escalation: EscalationResult
-  citations: CitationItem[]
-  explanation: string
-  deadline: {
-    status?: 'explicit' | 'derived' | 'uncertain'
-    formattedDate: string | null
-    remainingDays: number | null
-    isExpired: boolean
-    message?: string
+export type { AnalysisResponse }
+
+function getNoticeContextLabel(
+  uploadedFile: { name: string; chars: number } | null,
+  selectedSample: SampleKey | null,
+  noticeTextLength: number
+) {
+  if (uploadedFile) {
+    return `Uploaded File: ${uploadedFile.name} (${uploadedFile.chars.toLocaleString('en-IN')} chars)`
   }
+  if (selectedSample) {
+    return `Synthetic Sample: ${selectedSample.toUpperCase()} (${noticeTextLength.toLocaleString('en-IN')} chars)`
+  }
+  return `Notice Input (${noticeTextLength.toLocaleString('en-IN')} chars)`
 }
 
-function NoticeModalsAndResults({
-  analysis,
-  language,
-  loading,
-  isDraftModalOpen,
-  onLanguageChange,
-  onOpenDraftModal,
-  onCloseDraftModal,
-}: {
-  analysis: AnalysisResponse | null
-  language: 'en' | 'hi' | 'bn'
-  loading: boolean
-  isDraftModalOpen: boolean
-  onLanguageChange: (l: 'en' | 'hi' | 'bn') => void
-  onOpenDraftModal: () => void
-  onCloseDraftModal: () => void
-}) {
-  if (!analysis) return null
-  return (
-    <>
-      <div className="space-y-6 animate-fade-in" data-testid="analysis-results">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-          {/* Main Document Column */}
-          <div className="lg:col-span-8 space-y-6">
-            <ReceiptSummary
-              notice={analysis.notice}
-              totals={analysis.totals}
-              deadline={analysis.deadline}
-            />
-            <ExplanationTabs
-              initialExplanation={analysis.explanation}
-              onLanguageChange={onLanguageChange}
-              currentLanguage={language}
-              loading={loading}
-            />
-            <StatutoryCitations citations={analysis.citations} />
-          </div>
-
-          {/* Actionable Next-Step Sidebar */}
-          <div className="lg:col-span-4 space-y-5">
-            <div
-              className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface)] p-5 shadow-xs space-y-3.5"
-              data-testid="next-steps-card"
-            >
-              <div>
-                <span className="text-[10px] font-bold uppercase tracking-wider text-[var(--color-primary)]">
-                  Next Step
-                </span>
-                <h3 className="text-sm font-bold text-[var(--text-primary)]">What to do next</h3>
-              </div>
-              <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
-                Review the itemized discrepancies and prepare your formal response before filing on
-                the GST portal.
-              </p>
-              <button
-                type="button"
-                onClick={onOpenDraftModal}
-                className="w-full rounded-xl bg-[var(--primary-action)] hover:bg-[var(--primary-hover)] text-white font-bold text-xs px-4 py-3 shadow-md shadow-indigo-200/50 dark:shadow-indigo-950/60 transition-all active:scale-98 text-center"
-                data-testid="open-draft-modal-btn"
-              >
-                Prepare a draft reply →
-              </button>
-            </div>
-            <EscalationCard escalation={analysis.escalation} />
-          </div>
-        </div>
-      </div>
-      <DraftReplyModal
-        notice={analysis.notice}
-        isOpen={isDraftModalOpen}
-        onClose={onCloseDraftModal}
-      />
-    </>
-  )
+function scrollToNoticeInput() {
+  const el = document.getElementById('notice-input')
+  if (el) {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    el.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth' })
+    el.focus()
+  }
 }
 
 function useNoticeState() {
@@ -124,11 +51,7 @@ function useNoticeState() {
         setUploadedFile(null)
         setAnalysis(null)
         setError(null)
-        const el = document.getElementById('notice-input')
-        if (el) {
-          el.scrollIntoView({ behavior: 'smooth' })
-          el.focus()
-        }
+        scrollToNoticeInput()
       }
     }
     window.addEventListener('noticesaathi:load-sample', handleLoadSample)
@@ -168,7 +91,6 @@ function useNoticeState() {
     language,
     setLanguage,
     loading,
-    setLoading,
     error,
     setError,
     analysis,
@@ -180,75 +102,64 @@ function useNoticeState() {
 }
 
 export function NoticeAnalyzer() {
-  const {
-    noticeText,
-    setNoticeText,
-    selectedSample,
-    setSelectedSample,
-    uploadedFile,
-    setUploadedFile,
-    language,
-    setLanguage,
-    loading,
-    error,
-    setError,
-    analysis,
-    setAnalysis,
-    isDraftModalOpen,
-    setIsDraftModalOpen,
-    handleAnalyze,
-  } = useNoticeState()
+  const state = useNoticeState()
 
   return (
     <div className="w-full max-w-4xl space-y-6" data-testid="notice-analyzer">
       <SampleNoticeButtons
-        selectedSample={selectedSample}
+        selectedSample={state.selectedSample}
         onSelect={(key, t) => {
-          setSelectedSample(key)
-          setNoticeText(t)
-          setUploadedFile(null)
-          setAnalysis(null)
+          state.setSelectedSample(key)
+          state.setNoticeText(t)
+          state.setUploadedFile(null)
+          state.setAnalysis(null)
         }}
       />
       <NoticeInputCard
-        noticeText={noticeText}
+        noticeText={state.noticeText}
         setNoticeText={t => {
-          setNoticeText(t)
-          setSelectedSample(null)
+          state.setNoticeText(t)
+          state.setSelectedSample(null)
         }}
-        uploadedFile={uploadedFile}
+        uploadedFile={state.uploadedFile}
         onClearUpload={() => {
-          setUploadedFile(null)
-          setNoticeText('')
+          state.setUploadedFile(null)
+          state.setNoticeText('')
         }}
         onTextExtracted={(txt, fn, count) => {
-          setNoticeText(txt)
-          setUploadedFile({ name: fn, chars: count })
-          setSelectedSample(null)
-          setAnalysis(null)
-          setError(null)
+          state.setNoticeText(txt)
+          state.setUploadedFile({ name: fn, chars: count })
+          state.setSelectedSample(null)
+          state.setAnalysis(null)
+          state.setError(null)
         }}
-        language={language}
+        language={state.language}
         onLanguageChange={l => {
-          setLanguage(l)
-          if (analysis) handleAnalyze(l)
+          state.setLanguage(l)
+          if (state.analysis) state.handleAnalyze(l)
         }}
-        onAnalyze={() => handleAnalyze()}
-        loading={loading}
-        error={error}
-        onError={msg => setError(msg)}
+        onAnalyze={() => state.handleAnalyze()}
+        loading={state.loading}
+        error={state.error}
+        onError={msg => state.setError(msg)}
       />
       <NoticeModalsAndResults
-        analysis={analysis}
-        language={language}
-        loading={loading}
-        isDraftModalOpen={isDraftModalOpen}
+        analysis={state.analysis}
+        noticeContextLabel={getNoticeContextLabel(
+          state.uploadedFile,
+          state.selectedSample,
+          state.noticeText.length
+        )}
+        onEditNotice={scrollToNoticeInput}
+        language={state.language}
+        loading={state.loading}
+        isDraftModalOpen={state.isDraftModalOpen}
         onLanguageChange={l => {
-          setLanguage(l)
-          handleAnalyze(l)
+          state.setLanguage(l)
+          state.handleAnalyze(l)
         }}
-        onOpenDraftModal={() => setIsDraftModalOpen(true)}
-        onCloseDraftModal={() => setIsDraftModalOpen(false)}
+        onOpenDraftModal={() => state.setIsDraftModalOpen(true)}
+        onCloseDraftModal={() => state.setIsDraftModalOpen(false)}
       />
     </div>
   )

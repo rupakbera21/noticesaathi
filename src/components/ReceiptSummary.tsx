@@ -1,8 +1,9 @@
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
 import { ExtractedNotice } from '@/schemas/notice'
 import { TotalsConsistencyResult } from '@/domain/totals'
+import { getNoticeExcerpt, SourceExcerptView } from './SourceExcerpt'
 
 interface ReceiptSummaryProps {
   notice: ExtractedNotice
@@ -109,27 +110,85 @@ function NoticeMetaGrid({ notice }: { notice: ExtractedNotice }) {
   )
 }
 
+function DemandRowWithExcerpt({
+  label,
+  amount,
+  testId,
+  btnTestId,
+  panelId,
+  excerpt,
+  isOpen,
+  onToggle,
+}: {
+  label: string
+  amount: number
+  testId: string
+  btnTestId: string
+  panelId: string
+  excerpt: ReturnType<typeof getNoticeExcerpt>
+  isOpen: boolean
+  onToggle: () => void
+}) {
+  return (
+    <div className="py-1.5 border-b border-[var(--border-subtle)]">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <span>{label}</span>
+          {excerpt && (
+            <button
+              type="button"
+              onClick={onToggle}
+              aria-expanded={isOpen}
+              aria-controls={panelId}
+              className="inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-[10px] font-semibold text-indigo-700 bg-indigo-50 hover:bg-indigo-100 dark:bg-indigo-950/60 dark:text-indigo-300 dark:hover:bg-indigo-900/60 border border-indigo-200 dark:border-indigo-800 transition-colors cursor-pointer"
+              data-testid={btnTestId}
+            >
+              <span aria-hidden="true">{isOpen ? '▴' : '▾'}</span>
+              <span>Show in notice</span>
+            </button>
+          )}
+        </div>
+        <span
+          className="font-semibold tabular-nums text-[var(--text-primary)]"
+          data-testid={testId}
+        >
+          ₹{amount.toLocaleString('en-IN')}
+        </span>
+      </div>
+      {isOpen && excerpt && <SourceExcerptView excerpt={excerpt} id={panelId} />}
+    </div>
+  )
+}
+
 function FinancialBreakdown({ notice }: { notice: ExtractedNotice }) {
+  const [openExcerpt, setOpenExcerpt] = useState<'tax' | 'interest' | null>(null)
+  const taxExcerpt = getNoticeExcerpt(notice, 'tax')
+  const interestExcerpt = getNoticeExcerpt(notice, 'interest')
+
   return (
     <div className="mb-6 rounded-xl p-4 font-mono text-xs bg-[var(--surface-raised)] border border-[var(--border-subtle)]">
-      <div className="flex justify-between py-1.5 text-[var(--text-secondary)] border-b border-[var(--border-subtle)]">
-        <span>Tax Demand</span>
-        <span
-          className="font-semibold tabular-nums text-[var(--text-primary)]"
-          data-testid="amount-tax"
-        >
-          ₹{notice.taxDemand.toLocaleString('en-IN')}
-        </span>
-      </div>
-      <div className="flex justify-between py-1.5 text-[var(--text-secondary)] border-b border-[var(--border-subtle)]">
-        <span>Interest (Section 50 CGST)</span>
-        <span
-          className="font-semibold tabular-nums text-[var(--text-primary)]"
-          data-testid="amount-interest"
-        >
-          ₹{notice.interestDemand.toLocaleString('en-IN')}
-        </span>
-      </div>
+      <DemandRowWithExcerpt
+        label="Tax Demand"
+        amount={notice.taxDemand}
+        testId="amount-tax"
+        btnTestId="show-tax-excerpt-btn"
+        panelId="tax-excerpt-panel"
+        excerpt={taxExcerpt}
+        isOpen={openExcerpt === 'tax'}
+        onToggle={() => setOpenExcerpt(openExcerpt === 'tax' ? null : 'tax')}
+      />
+
+      <DemandRowWithExcerpt
+        label="Interest (Section 50 CGST)"
+        amount={notice.interestDemand}
+        testId="amount-interest"
+        btnTestId="show-interest-excerpt-btn"
+        panelId="interest-excerpt-panel"
+        excerpt={interestExcerpt}
+        isOpen={openExcerpt === 'interest'}
+        onToggle={() => setOpenExcerpt(openExcerpt === 'interest' ? null : 'interest')}
+      />
+
       <div className="flex justify-between py-1.5 text-[var(--text-secondary)] border-b border-[var(--border-subtle)]">
         <span>Penalty (Section 73 / Section 74)</span>
         <span
@@ -147,7 +206,8 @@ function FinancialBreakdown({ notice }: { notice: ExtractedNotice }) {
           </span>
         </div>
       )}
-      <div className="mt-3 flex justify-between border-t border-dashed border-[var(--border-strong)] pt-3 text-sm font-bold text-[var(--text-primary)]">
+      <div className="receipt-perforation my-2.5 opacity-60" aria-hidden="true" />
+      <div className="flex justify-between pt-1 text-sm font-bold text-[var(--text-primary)]">
         <span>TOTAL STATED DUE</span>
         <span
           className="text-base text-[var(--color-primary)] font-black tabular-nums"
