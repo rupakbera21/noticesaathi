@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
+import { FormattedExplanation } from './FormattedExplanation'
 
 interface ExplanationTabsProps {
   initialExplanation: string
@@ -85,7 +86,7 @@ export function ExplanationTabs({
             Generating explanation in selected language...
           </div>
         ) : (
-          <div className="whitespace-pre-line">{initialExplanation}</div>
+          <FormattedExplanation text={initialExplanation} />
         )}
       </div>
     </div>
