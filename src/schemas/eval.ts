@@ -2,10 +2,10 @@ import { z } from 'zod'
 import { NoticeTypeSchema } from './notice'
 
 export const SyntheticNoticeItemSchema = z.object({
-  id: z.string(),                        // e.g. "syn-asmt10-001"
+  id: z.string(), // e.g. "syn-asmt10-001"
   title: z.string(),
   noticeType: NoticeTypeSchema,
-  isFictional: z.literal(true),          // MUST be true
+  isFictional: z.literal(true), // MUST be true
   rawText: z.string().min(50),
   goldLabels: z.object({
     noticeType: NoticeTypeSchema,

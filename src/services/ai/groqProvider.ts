@@ -1,7 +1,12 @@
 import 'groq-sdk/shims/node'
 import Groq from 'groq-sdk'
 import { AiProvider, ModelProviderName, ProviderCallOptions } from './types'
-import { ExtractedNotice, ExtractedNoticeSchema, DraftReply, DraftReplySchema } from '@/schemas/notice'
+import {
+  ExtractedNotice,
+  ExtractedNoticeSchema,
+  DraftReply,
+  DraftReplySchema,
+} from '@/schemas/notice'
 import { EXTRACTION_SYSTEM_PROMPT, buildExplanationPrompt, buildReplyDraftPrompt } from './prompts'
 import { cleanAndParseJson } from './responseCleaner'
 
@@ -15,7 +20,10 @@ export class GroqProvider implements AiProvider {
     this.client = new Groq({ apiKey })
   }
 
-  public async extractNotice(noticeText: string, options?: ProviderCallOptions): Promise<ExtractedNotice> {
+  public async extractNotice(
+    noticeText: string,
+    options?: ProviderCallOptions
+  ): Promise<ExtractedNotice> {
     const completion = await this.client.chat.completions.create({
       model: this.modelId,
       messages: [

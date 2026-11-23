@@ -49,16 +49,12 @@ describe('IST Date Arithmetic Engine', () => {
   // Property-based test with fast-check: Monotonicity
   it('property: addDaysIST(d, a + b) === addDaysIST(addDaysIST(d, a), b)', () => {
     fc.assert(
-      fc.property(
-        fc.integer({ min: 0, max: 100 }),
-        fc.integer({ min: 0, max: 100 }),
-        (a, b) => {
-          const base = new Date('2024-01-01T00:00:00Z')
-          const singleStep = addDaysIST(base, a + b)
-          const twoSteps = addDaysIST(addDaysIST(base, a), b)
-          expect(singleStep.getTime()).toBe(twoSteps.getTime())
-        }
-      )
+      fc.property(fc.integer({ min: 0, max: 100 }), fc.integer({ min: 0, max: 100 }), (a, b) => {
+        const base = new Date('2024-01-01T00:00:00Z')
+        const singleStep = addDaysIST(base, a + b)
+        const twoSteps = addDaysIST(addDaysIST(base, a), b)
+        expect(singleStep.getTime()).toBe(twoSteps.getTime())
+      })
     )
   })
 
@@ -78,10 +74,7 @@ describe('IST Date Arithmetic Engine', () => {
     const fixedNow = () => new Date('2024-11-20T00:00:00Z')
 
     it('resolves explicit deadline date directly when provided', () => {
-      const res = resolveNoticeDeadline(
-        { replyDeadlineDate: '2024-12-15' },
-        fixedNow
-      )
+      const res = resolveNoticeDeadline({ replyDeadlineDate: '2024-12-15' }, fixedNow)
       expect(res.status).toBe('explicit')
       expect(res.formattedDate).toBe('15 Dec 2024')
       expect(res.remainingDays).toBe(25)
@@ -138,10 +131,7 @@ describe('IST Date Arithmetic Engine', () => {
     })
 
     it('marks past deadline as expired', () => {
-      const res = resolveNoticeDeadline(
-        { replyDeadlineDate: '2024-11-10' },
-        fixedNow
-      )
+      const res = resolveNoticeDeadline({ replyDeadlineDate: '2024-11-10' }, fixedNow)
       expect(res.isExpired).toBe(true)
       expect(res.remainingDays).toBe(-10)
       expect(res.message).toContain('Expired')

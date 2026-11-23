@@ -5,7 +5,11 @@ import { GeminiProvider } from './geminiProvider'
 import { GroqProvider } from './groqProvider'
 import { CircuitBreaker } from './circuitBreaker'
 import { GroundingValidator, GroundingValidationResult } from './groundingValidator'
-import { extractWithRules, crossCheckExtractions, DiscrepancyFlag } from '@/services/extract/ruleBasedExtract'
+import {
+  extractWithRules,
+  crossCheckExtractions,
+  DiscrepancyFlag,
+} from '@/services/extract/ruleBasedExtract'
 import { formatDateIST, parseDateIST, resolveNoticeDeadline } from '@/domain/dates'
 import { getNoticeTypeDesc, getSuggestedDocuments } from '@/domain/noticeMetadata'
 
@@ -75,7 +79,9 @@ function deriveNoticeDates(r: ReturnType<typeof extractWithRules>) {
     replyDaysAllowed: r.replyDaysAllowed,
   })
 
-  const deadlineIso = deadline.deadlineDate ? deadline.deadlineDate.toISOString().split('T')[0] ?? null : null
+  const deadlineIso = deadline.deadlineDate
+    ? (deadline.deadlineDate.toISOString().split('T')[0] ?? null)
+    : null
 
   return {
     noticeDateFormatted,
@@ -92,11 +98,7 @@ export class AiOrchestrator {
   private groqBreaker = new CircuitBreaker()
   private groundingValidator: GroundingValidator
 
-  constructor(options: {
-    geminiApiKey?: string
-    groqApiKey?: string
-    kbChunks: KbChunk[]
-  }) {
+  constructor(options: { geminiApiKey?: string; groqApiKey?: string; kbChunks: KbChunk[] }) {
     if (options.geminiApiKey) {
       this.gemini = new GeminiProvider(options.geminiApiKey)
     }
@@ -134,7 +136,13 @@ export class AiOrchestrator {
 
     // 3. Deterministic rule-based fallback
     const fallbackNotice = this.convertRuleToExtractedNotice(ruleExtracted)
-    return this.buildResult(fallbackNotice, 'RULE_BASED_FALLBACK', 'deterministic-v1', startTime, ruleExtracted)
+    return this.buildResult(
+      fallbackNotice,
+      'RULE_BASED_FALLBACK',
+      'deterministic-v1',
+      startTime,
+      ruleExtracted
+    )
   }
 
   private convertRuleToExtractedNotice(r: ReturnType<typeof extractWithRules>): ExtractedNotice {
@@ -142,7 +150,7 @@ export class AiOrchestrator {
     const taxDemand = r.detectedTaxAmount || 0
     const interestDemand = r.detectedInterestAmount || 0
     const penaltyDemand = r.detectedPenaltyAmount || 0
-    const totalStatedDemand = r.detectedTotalAmount || (taxDemand + interestDemand + penaltyDemand)
+    const totalStatedDemand = r.detectedTotalAmount || taxDemand + interestDemand + penaltyDemand
 
     return {
       noticeType: r.detectedNoticeType,

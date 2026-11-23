@@ -49,11 +49,15 @@ describe('Rule-Based Notice Extractor', () => {
   })
 
   it('detects GSTR-3A non-filer and REG-17 cancellation notices', () => {
-    const gstr3a = extractWithRules('FORM GST GSTR-3A under Section 46 for failure to furnish return within 15 days.')
+    const gstr3a = extractWithRules(
+      'FORM GST GSTR-3A under Section 46 for failure to furnish return within 15 days.'
+    )
     expect(gstr3a.detectedNoticeType).toBe('GSTR_3A_NON_FILER')
     expect(gstr3a.replyDaysAllowed).toBe(15)
 
-    const reg17 = extractWithRules('FORM GST REG-17 Show Cause Notice for cancellation of registration under Section 29.')
+    const reg17 = extractWithRules(
+      'FORM GST REG-17 Show Cause Notice for cancellation of registration under Section 29.'
+    )
     expect(reg17.detectedNoticeType).toBe('REG_17_REGISTRATION_CANCEL')
 
     const rfd08 = extractWithRules('FORM GST RFD-08 Notice for rejection of refund application.')

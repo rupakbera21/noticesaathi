@@ -38,22 +38,31 @@ export class ReplyDrafter {
     const grounds = [
       {
         provision: notice.sectionsCited[0] ?? 'Section 16(2) of CGST Act, 2017',
-        explanation: 'The registered person has satisfied all primary statutory conditions: possession of valid tax invoice, receipt of goods/services, and timely reporting in returns.',
+        explanation:
+          'The registered person has satisfied all primary statutory conditions: possession of valid tax invoice, receipt of goods/services, and timely reporting in returns.',
       },
       {
         provision: 'Circular No. 183/15/2022-GST',
-        explanation: 'Clarification regarding treatment of discrepancies in GSTR-2A vs GSTR-3B for bona fide tax payments.',
+        explanation:
+          'Clarification regarding treatment of discrepancies in GSTR-2A vs GSTR-3B for bona fide tax payments.',
       },
     ]
 
-    const docs = notice.documentsRequested.length > 0
-      ? notice.documentsRequested
-      : ['Tax invoices & delivery challans', 'GSTR-2B reconciliation report', 'Bank payment vouchers reflecting tax paid']
+    const docs =
+      notice.documentsRequested.length > 0
+        ? notice.documentsRequested
+        : [
+            'Tax invoices & delivery challans',
+            'GSTR-2B reconciliation report',
+            'Bank payment vouchers reflecting tax paid',
+          ]
 
     const submissions = [
       `That the taxpayer has consistently complied with the provisions of the CGST/SGST Act, 2017 for the relevant tax period (${notice.taxPeriod ?? 'specified period'}).`,
       `That the apparent discrepancy highlighted in notice reference ${ref} arises out of outward supplier reporting delays rather than non-payment of tax.`,
-      userNotes ? `Additional taxpayer facts: ${userNotes}` : 'All underlying tax liabilities have been discharged through cash or valid input tax credit.',
+      userNotes
+        ? `Additional taxpayer facts: ${userNotes}`
+        : 'All underlying tax liabilities have been discharged through cash or valid input tax credit.',
     ]
 
     const escalation = evaluateEscalation(notice)
@@ -85,7 +94,8 @@ export class ReplyDrafter {
       factualSubmissions: submissions,
       statutoryGrounds: grounds,
       enclosedDocuments: docs,
-      prayerOrReliefSought: 'Request to verify submitted records and drop proposed demand, with personal hearing requested if any adverse decision is contemplated.',
+      prayerOrReliefSought:
+        'Request to verify submitted records and drop proposed demand, with personal hearing requested if any adverse decision is contemplated.',
       caEscalationWarning: caWarning,
       fullReplyText: fullText,
     }

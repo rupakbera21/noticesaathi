@@ -45,11 +45,7 @@ export class GroundingValidator {
   }
 
   public validateNoticeGrounding(notice: ExtractedNotice): GroundingValidationResult {
-    const allCitations = [
-      ...notice.sectionsCited,
-      ...notice.rulesCited,
-      ...notice.formsCited,
-    ]
+    const allCitations = [...notice.sectionsCited, ...notice.rulesCited, ...notice.formsCited]
 
     if (allCitations.length === 0) {
       return {
@@ -66,7 +62,9 @@ export class GroundingValidator {
 
     for (const cite of allCitations) {
       const norm = this.normalize(cite)
-      const hasMatch = Array.from(this.validIdentifiers).some(valid => valid.includes(norm) || norm.includes(valid))
+      const hasMatch = Array.from(this.validIdentifiers).some(
+        valid => valid.includes(norm) || norm.includes(valid)
+      )
       if (hasMatch) {
         groundedCitations.push(cite)
       } else {

@@ -13,51 +13,56 @@ jest.mock('@google/generative-ai', () => {
           if (typeof prompt === 'string' && prompt.includes('Analyze this Indian GST Notice')) {
             return Promise.resolve({
               response: {
-                text: () => JSON.stringify({
-                  noticeType: 'ASMT_10_SCRUTINY',
-                  noticeTypeDescription: 'Scrutiny of Returns (ASMT-10)',
-                  issuingAuthority: 'Proper Officer',
-                  taxpayerGstin: '27AABCU9603R1ZN',
-                  taxpayerTradeName: 'Bharat Traders',
-                  noticeReferenceNumber: 'ASMT10/2024/01',
-                  noticeDate: '2024-11-20',
-                  taxPeriod: '2023-24',
-                  sectionsCited: ['Section 61'],
-                  rulesCited: ['Rule 99'],
-                  formsCited: ['ASMT-10'],
-                  taxDemand: 50000,
-                  interestDemand: 4500,
-                  penaltyDemand: 0,
-                  otherDemand: 0,
-                  totalStatedDemand: 54500,
-                  replyDeadlineDate: '2024-12-20',
-                  replyDaysAllowed: 30,
-                  documentsRequested: ['Invoices'],
-                  statedGrounds: ['ITC mismatch'],
-                  allegationsOfFraudOrWilfulSuppression: false,
-                  extractionConfidence: 0.95,
-                }),
+                text: () =>
+                  JSON.stringify({
+                    noticeType: 'ASMT_10_SCRUTINY',
+                    noticeTypeDescription: 'Scrutiny of Returns (ASMT-10)',
+                    issuingAuthority: 'Proper Officer',
+                    taxpayerGstin: '27AABCU9603R1ZN',
+                    taxpayerTradeName: 'Bharat Traders',
+                    noticeReferenceNumber: 'ASMT10/2024/01',
+                    noticeDate: '2024-11-20',
+                    taxPeriod: '2023-24',
+                    sectionsCited: ['Section 61'],
+                    rulesCited: ['Rule 99'],
+                    formsCited: ['ASMT-10'],
+                    taxDemand: 50000,
+                    interestDemand: 4500,
+                    penaltyDemand: 0,
+                    otherDemand: 0,
+                    totalStatedDemand: 54500,
+                    replyDeadlineDate: '2024-12-20',
+                    replyDaysAllowed: 30,
+                    documentsRequested: ['Invoices'],
+                    statedGrounds: ['ITC mismatch'],
+                    allegationsOfFraudOrWilfulSuppression: false,
+                    extractionConfidence: 0.95,
+                  }),
               },
             })
           }
-          if (typeof prompt === 'string' && prompt.includes('Draft a formal, polite, legally sound reply')) {
+          if (
+            typeof prompt === 'string' &&
+            prompt.includes('Draft a formal, polite, legally sound reply')
+          ) {
             return Promise.resolve({
               response: {
-                text: () => JSON.stringify({
-                  noticeReference: 'ASMT10/2024/01',
-                  taxpayerGstin: '27AABCU9603R1ZN',
-                  taxpayerName: 'Bharat Traders',
-                  issuingAuthority: 'Proper Officer',
-                  dateOfReply: '2024-11-21',
-                  subject: 'Reply to ASMT-10',
-                  openingStatement: 'With reference to the notice...',
-                  factualSubmissions: ['Submission 1'],
-                  statutoryGrounds: [{ provision: 'Section 16', explanation: 'Complied' }],
-                  enclosedDocuments: ['Invoices'],
-                  prayerOrReliefSought: 'Drop demand',
-                  caEscalationWarning: null,
-                  fullReplyText: 'To Proper Officer...',
-                }),
+                text: () =>
+                  JSON.stringify({
+                    noticeReference: 'ASMT10/2024/01',
+                    taxpayerGstin: '27AABCU9603R1ZN',
+                    taxpayerName: 'Bharat Traders',
+                    issuingAuthority: 'Proper Officer',
+                    dateOfReply: '2024-11-21',
+                    subject: 'Reply to ASMT-10',
+                    openingStatement: 'With reference to the notice...',
+                    factualSubmissions: ['Submission 1'],
+                    statutoryGrounds: [{ provision: 'Section 16', explanation: 'Complied' }],
+                    enclosedDocuments: ['Invoices'],
+                    prayerOrReliefSought: 'Drop demand',
+                    caEscalationWarning: null,
+                    fullReplyText: 'To Proper Officer...',
+                  }),
               },
             })
           }
@@ -127,7 +132,9 @@ jest.mock('groq-sdk', () => {
                       subject: 'Reply to DRC-01',
                       openingStatement: 'With reference to the notice...',
                       factualSubmissions: ['Tax paid in cash'],
-                      statutoryGrounds: [{ provision: 'Section 73(5)', explanation: 'Voluntary tax paid' }],
+                      statutoryGrounds: [
+                        { provision: 'Section 73(5)', explanation: 'Voluntary tax paid' },
+                      ],
                       enclosedDocuments: ['Challan copy'],
                       prayerOrReliefSought: 'Drop demand and penalty',
                       caEscalationWarning: null,
@@ -197,14 +204,20 @@ describe('AI Providers: Gemini & Groq implementations', () => {
 
   it('GeminiProvider extracts notice, generates explanations, and drafts replies', async () => {
     const provider = new GeminiProvider('fake-gemini-key')
-    const extracted = await provider.extractNotice('Sample notice text for scrutiny under Section 61')
+    const extracted = await provider.extractNotice(
+      'Sample notice text for scrutiny under Section 61'
+    )
     expect(extracted.noticeType).toBe('ASMT_10_SCRUTINY')
     expect(extracted.totalStatedDemand).toBe(54500)
 
     const exp = await provider.generateExplanation(dummyNotice, 'Section 61 summary', 'en')
     expect(exp).toContain('Gemini')
 
-    const draft = await provider.draftReply(dummyNotice, 'Section 61 summary', 'Supplier invoice proof')
+    const draft = await provider.draftReply(
+      dummyNotice,
+      'Section 61 summary',
+      'Supplier invoice proof'
+    )
     expect(draft.subject).toBe('Reply to ASMT-10')
   })
 
@@ -243,7 +256,8 @@ describe('AI Providers: Gemini & Groq implementations', () => {
     })
 
     // Force gemini failure
-    const gemini = (orchestrator as unknown as { gemini: { extractNotice: () => Promise<never> } }).gemini
+    const gemini = (orchestrator as unknown as { gemini: { extractNotice: () => Promise<never> } })
+      .gemini
     gemini.extractNotice = jest.fn().mockRejectedValue(new Error('Gemini Quota Exceeded'))
 
     const res = await orchestrator.extractNoticeFacts('Sample notice text')

@@ -1,43 +1,43 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @custom-variant dark (&:where(.dark, .dark *));
 
 /* ─── Design tokens from docs/DESIGN.md ─────────────────────────── */
 @theme {
   /* Indigo — primary brand color (sampled from logo) */
-  --color-primary-50: #EEEEFF;
-  --color-primary-100: #D4D4FF;
-  --color-primary-200: #A8A8F5;
-  --color-primary-300: #7777EE;
-  --color-primary-400: #5555E0;
-  --color-primary-500: #3733C8;
-  --color-primary-600: #2B28A8;
-  --color-primary-700: #201E88;
+  --color-primary-50: #eeeeff;
+  --color-primary-100: #d4d4ff;
+  --color-primary-200: #a8a8f5;
+  --color-primary-300: #7777ee;
+  --color-primary-400: #5555e0;
+  --color-primary-500: #3733c8;
+  --color-primary-600: #2b28a8;
+  --color-primary-700: #201e88;
   --color-primary-800: #161468;
-  --color-primary-900: #0D0C48;
+  --color-primary-900: #0d0c48;
 
   /* Neutral — slate-blue-grey, harmonizes with indigo */
-  --color-neutral-0: #FFFFFF;
-  --color-neutral-50: #F7F7FB;
-  --color-neutral-100: #EDEDF5;
-  --color-neutral-200: #D8D8E8;
-  --color-neutral-300: #B8B8CC;
-  --color-neutral-400: #8888A0;
+  --color-neutral-0: #ffffff;
+  --color-neutral-50: #f7f7fb;
+  --color-neutral-100: #ededf5;
+  --color-neutral-200: #d8d8e8;
+  --color-neutral-300: #b8b8cc;
+  --color-neutral-400: #8888a0;
   --color-neutral-500: #606080;
   --color-neutral-600: #484868;
   --color-neutral-700: #303050;
-  --color-neutral-800: #1A1A38;
-  --color-neutral-900: #0D0D20;
+  --color-neutral-800: #1a1a38;
+  --color-neutral-900: #0d0d20;
 
   /* Semantic */
   --color-success: #166534;
-  --color-success-bg: #F0FDF4;
-  --color-warning: #854D0E;
-  --color-warning-bg: #FFFBEB;
-  --color-danger: #991B1B;
-  --color-danger-bg: #FEF2F2;
-  --color-escalation: #7C2D12;
-  --color-escalation-bg: #FFF7ED;
+  --color-success-bg: #f0fdf4;
+  --color-warning: #854d0e;
+  --color-warning-bg: #fffbeb;
+  --color-danger: #991b1b;
+  --color-danger-bg: #fef2f2;
+  --color-escalation: #7c2d12;
+  --color-escalation-bg: #fff7ed;
 
   /* Typography — Poppins */
   --font-sans: var(--font-poppins), var(--font-noto-bengali), ui-sans-serif, system-ui, sans-serif;
@@ -57,26 +57,26 @@
   --duration-slow: 320ms;
   --duration-receipt: 400ms;
 
-  --ease-spring: cubic-bezier(0.34, 1.20, 0.64, 1);
-  --ease-out: cubic-bezier(0.0, 0.0, 0.2, 1);
-  --ease-in: cubic-bezier(0.4, 0.0, 1.0, 1);
-  --ease-smooth: cubic-bezier(0.4, 0.0, 0.2, 1);
+  --ease-spring: cubic-bezier(0.34, 1.2, 0.64, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* ─── Base styles ────────────────────────────────────────────────── */
 :root {
-  --color-bg: #F8FAFC;
-  --color-surface: #FFFFFF;
-  --color-surface-raised: #FFFFFF;
-  --color-border: #E2E8F0;
-  --color-border-strong: #CBD5E1;
-  --color-text: #0F172A;
+  --color-bg: #f8fafc;
+  --color-surface: #ffffff;
+  --color-surface-raised: #ffffff;
+  --color-border: #e2e8f0;
+  --color-border-strong: #cbd5e1;
+  --color-text: #0f172a;
   --color-text-muted: #475569;
-  --color-text-subtle: #64748B;
-  --color-primary: #3733C8;
-  --color-primary-hover: #2B28A8;
-  --color-primary-subtle: #EEF2FF;
-  --color-primary-text: #1E1B4B;
+  --color-text-subtle: #64748b;
+  --color-primary: #3733c8;
+  --color-primary-hover: #2b28a8;
+  --color-primary-subtle: #eef2ff;
+  --color-primary-text: #1e1b4b;
 
   /* Executive Light theme: subtle high-contrast crisp shadows */
   --receipt-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.06), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
@@ -85,18 +85,18 @@
 }
 
 html.dark {
-  --color-bg: #0A0A16;
+  --color-bg: #0a0a16;
   --color-surface: #121224;
-  --color-surface-raised: #1A1A32;
+  --color-surface-raised: #1a1a32;
   --color-border: #252542;
-  --color-border-strong: #38385E;
-  --color-text: #F3F3FA;
-  --color-text-muted: #8E8EA8;
+  --color-border-strong: #38385e;
+  --color-text: #f3f3fa;
+  --color-text-muted: #8e8ea8;
   --color-text-subtle: #686884;
-  --color-primary: #585EF8;
-  --color-primary-hover: #7777EE;
+  --color-primary: #585ef8;
+  --color-primary-hover: #7777ee;
   --color-primary-subtle: #161468;
-  --color-primary-text: #D4D4FF;
+  --color-primary-text: #d4d4ff;
 
   /* Dark theme: rich purple & luminous indigo glow */
   --receipt-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6);
@@ -113,31 +113,33 @@ html.dark {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #CBD5E1;
+  background: #cbd5e1;
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #94A3B8;
+  background: #94a3b8;
 }
 
 html.dark ::-webkit-scrollbar-thumb {
-  background: #2D2D4A;
+  background: #2d2d4a;
 }
 html.dark ::-webkit-scrollbar-thumb:hover {
-  background: #4B4B75;
+  background: #4b4b75;
 }
 
 * {
   scrollbar-width: thin;
-  scrollbar-color: #CBD5E1 transparent;
+  scrollbar-color: #cbd5e1 transparent;
 }
 html.dark * {
-  scrollbar-color: #2D2D4A transparent;
+  scrollbar-color: #2d2d4a transparent;
 }
 
 /* Honor reduced-motion preference: collapse all durations & stop drift */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     animation-duration: 1ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 1ms !important;
@@ -209,7 +211,7 @@ html.dark .grain-overlay {
 
 /* Light mode: Prominent, elegant moving indigo/violet/sky gradient aura */
 .ambient-glow::before {
-  content: "";
+  content: '';
   position: absolute;
   top: -20%;
   right: -10%;
@@ -217,7 +219,7 @@ html.dark .grain-overlay {
   height: 80vh;
   background: radial-gradient(
     ellipse at center,
-    rgba(99, 102, 241, 0.20) 0%,
+    rgba(99, 102, 241, 0.2) 0%,
     rgba(168, 85, 247, 0.15) 35%,
     rgba(56, 189, 248, 0.08) 60%,
     transparent 80%
@@ -229,7 +231,7 @@ html.dark .grain-overlay {
 }
 
 .ambient-glow::after {
-  content: "";
+  content: '';
   position: absolute;
   bottom: -20%;
   left: -15%;
@@ -252,7 +254,7 @@ html.dark .grain-overlay {
 html.dark .ambient-glow::before {
   background: radial-gradient(
     ellipse at center,
-    rgba(129, 140, 248, 0.40) 0%,
+    rgba(129, 140, 248, 0.4) 0%,
     rgba(168, 85, 247, 0.32) 35%,
     rgba(99, 102, 241, 0.16) 60%,
     transparent 80%
@@ -316,7 +318,7 @@ html.dark .ambient-vignette {
 
 /* Soft, feathered, diffused edges with 140px-160px blur and gradual alpha stop */
 .ambient-glow::before {
-  content: "";
+  content: '';
   position: absolute;
   top: -25%;
   right: -15%;
@@ -336,7 +338,7 @@ html.dark .ambient-vignette {
 }
 
 .ambient-glow::after {
-  content: "";
+  content: '';
   position: absolute;
   bottom: -25%;
   left: -20%;

@@ -42,7 +42,8 @@ function UploadSuccessBanner({
       <span className="flex items-center gap-1.5 font-medium">
         <span>✓</span>
         <span>
-          Extracted from <strong>{uploadedFile.name}</strong> ({uploadedFile.chars.toLocaleString('en-IN')} chars)
+          Extracted from <strong>{uploadedFile.name}</strong> (
+          {uploadedFile.chars.toLocaleString('en-IN')} chars)
         </span>
       </span>
       <button
@@ -128,16 +129,23 @@ function NoticeInputCard({
       <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-600 opacity-90" />
 
       <div className="flex flex-wrap items-center justify-between gap-2 pb-3">
-        <label htmlFor="notice-input" className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-gray-300">
+        <label
+          htmlFor="notice-input"
+          className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-gray-300"
+        >
           Paste Notice Text or Upload File
         </label>
         <div className="flex items-center gap-3">
           <NoticeUploadZone onTextExtracted={onTextExtracted} onError={onError} />
-          <span className="text-xs font-medium text-slate-500 dark:text-gray-400">{noticeText.length.toLocaleString('en-IN')} / 25,000 chars</span>
+          <span className="text-xs font-medium text-slate-500 dark:text-gray-400">
+            {noticeText.length.toLocaleString('en-IN')} / 25,000 chars
+          </span>
         </div>
       </div>
 
-      {uploadedFile && <UploadSuccessBanner uploadedFile={uploadedFile} onClearUpload={onClearUpload} />}
+      {uploadedFile && (
+        <UploadSuccessBanner uploadedFile={uploadedFile} onClearUpload={onClearUpload} />
+      )}
 
       <textarea
         id="notice-input"
@@ -149,7 +157,14 @@ function NoticeInputCard({
         data-testid="notice-input-textarea"
       />
 
-      {error && <div className="mt-3 rounded-lg border border-red-300 bg-red-50 p-3 text-xs text-red-800 dark:border-red-800 dark:bg-red-950/50 dark:text-red-300" data-testid="error-banner">{error}</div>}
+      {error && (
+        <div
+          className="mt-3 rounded-lg border border-red-300 bg-red-50 p-3 text-xs text-red-800 dark:border-red-800 dark:bg-red-950/50 dark:text-red-300"
+          data-testid="error-banner"
+        >
+          {error}
+        </div>
+      )}
 
       <NoticeActionBar
         language={language}
@@ -161,12 +176,26 @@ function NoticeInputCard({
 
       <div className="mt-3.5 flex flex-wrap items-center justify-between gap-2 border-t border-slate-100 pt-3 text-[11px] text-slate-500 dark:border-white/5 dark:text-gray-400">
         <span className="flex items-center gap-1.5">
-          <svg className="h-3.5 w-3.5 text-slate-400 dark:text-gray-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          <svg
+            className="h-3.5 w-3.5 text-slate-400 dark:text-gray-500 shrink-0"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
           </svg>
-          Notice text is sent to our server for analysis and may be processed by Google Gemini or Groq.
+          Notice text is sent to our server for analysis and may be processed by Google Gemini or
+          Groq.
         </span>
-        <a href="/trust" className="text-indigo-600 dark:text-indigo-400 hover:underline font-medium">
+        <a
+          href="/trust"
+          className="text-indigo-600 dark:text-indigo-400 hover:underline font-medium"
+        >
           Privacy Policy &amp; Architecture →
         </a>
       </div>
@@ -195,7 +224,11 @@ function NoticeModalsAndResults({
   return (
     <>
       <div className="space-y-6 animate-fade-in" data-testid="analysis-results">
-        <ReceiptSummary notice={analysis.notice} totals={analysis.totals} deadline={analysis.deadline} />
+        <ReceiptSummary
+          notice={analysis.notice}
+          totals={analysis.totals}
+          deadline={analysis.deadline}
+        />
         <EscalationCard escalation={analysis.escalation} />
         <div className="flex justify-end">
           <button
@@ -206,10 +239,19 @@ function NoticeModalsAndResults({
             ✍️ Draft Formal Portal Reply under Section 75(4) →
           </button>
         </div>
-        <ExplanationTabs initialExplanation={analysis.explanation} onLanguageChange={onLanguageChange} currentLanguage={language} loading={loading} />
+        <ExplanationTabs
+          initialExplanation={analysis.explanation}
+          onLanguageChange={onLanguageChange}
+          currentLanguage={language}
+          loading={loading}
+        />
         <StatutoryCitations citations={analysis.citations} />
       </div>
-      <DraftReplyModal notice={analysis.notice} isOpen={isDraftModalOpen} onClose={onCloseDraftModal} />
+      <DraftReplyModal
+        notice={analysis.notice}
+        isOpen={isDraftModalOpen}
+        onClose={onCloseDraftModal}
+      />
     </>
   )
 }
@@ -260,9 +302,15 @@ export function NoticeAnalyzer() {
       />
       <NoticeInputCard
         noticeText={noticeText}
-        setNoticeText={t => { setNoticeText(t); setSelectedSample(null); }}
+        setNoticeText={t => {
+          setNoticeText(t)
+          setSelectedSample(null)
+        }}
         uploadedFile={uploadedFile}
-        onClearUpload={() => { setUploadedFile(null); setNoticeText(''); }}
+        onClearUpload={() => {
+          setUploadedFile(null)
+          setNoticeText('')
+        }}
         onTextExtracted={(txt, fn, count) => {
           setNoticeText(txt)
           setUploadedFile({ name: fn, chars: count })
@@ -271,7 +319,10 @@ export function NoticeAnalyzer() {
           setError(null)
         }}
         language={language}
-        onLanguageChange={l => { setLanguage(l); if (analysis) handleAnalyze(l); }}
+        onLanguageChange={l => {
+          setLanguage(l)
+          if (analysis) handleAnalyze(l)
+        }}
         onAnalyze={() => handleAnalyze()}
         loading={loading}
         error={error}
@@ -282,7 +333,10 @@ export function NoticeAnalyzer() {
         language={language}
         loading={loading}
         isDraftModalOpen={isDraftModalOpen}
-        onLanguageChange={l => { setLanguage(l); handleAnalyze(l); }}
+        onLanguageChange={l => {
+          setLanguage(l)
+          handleAnalyze(l)
+        }}
         onOpenDraftModal={() => setIsDraftModalOpen(true)}
         onCloseDraftModal={() => setIsDraftModalOpen(false)}
       />

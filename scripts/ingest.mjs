@@ -16,7 +16,9 @@ const apiKey = process.env.OLOSTEP_API_KEY
 const isDryRun = process.argv.includes('--dry-run')
 
 if (!apiKey) {
-  console.log('[NOTE] OLOSTEP_API_KEY is not set. Operating in offline mode using verified seed chunks in data/kb/chunks.json.')
+  console.log(
+    '[NOTE] OLOSTEP_API_KEY is not set. Operating in offline mode using verified seed chunks in data/kb/chunks.json.'
+  )
   console.log('To ingest live sources with Olostep, set OLOSTEP_API_KEY in .env.local.')
   process.exit(0)
 }

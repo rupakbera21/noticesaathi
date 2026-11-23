@@ -57,7 +57,7 @@ test.describe('NoticeSaathi Main Interface Layout', () => {
 test('health endpoint returns 200 with expected shape', async ({ request }) => {
   const res = await request.get('/api/health')
   expect(res.status()).toBe(200)
-  const body = await res.json() as unknown
+  const body = (await res.json()) as unknown
   expect(body).toMatchObject({
     ok: true,
     timestamp: expect.any(String),

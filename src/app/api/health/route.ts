@@ -26,8 +26,7 @@ export async function GET(): Promise<NextResponse<HealthResponse>> {
       gemini: Boolean(process.env['GEMINI_API_KEY']),
       groq: Boolean(process.env['GROQ_API_KEY']),
       upstash: Boolean(
-        process.env['UPSTASH_REDIS_REST_URL'] &&
-        process.env['UPSTASH_REDIS_REST_TOKEN']
+        process.env['UPSTASH_REDIS_REST_URL'] && process.env['UPSTASH_REDIS_REST_TOKEN']
       ),
     },
   }

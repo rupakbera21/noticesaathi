@@ -9,7 +9,8 @@ describe('RetrievalEngine', () => {
       identifier: 'Section 61',
       normalizedId: 'sec-61',
       title: 'Scrutiny of Returns',
-      content: 'The proper officer may scrutinize the return and related particulars to verify the correctness of the return.',
+      content:
+        'The proper officer may scrutinize the return and related particulars to verify the correctness of the return.',
       effectiveDate: '2017-07-01',
       sourceUrl: 'https://taxinformation.cbic.gov.in',
       authority: 'CBIC',
@@ -22,7 +23,8 @@ describe('RetrievalEngine', () => {
       identifier: 'Section 50',
       normalizedId: 'sec-50',
       title: 'Interest on delayed payment of tax',
-      content: 'Every person who is liable to pay tax fails to pay shall pay interest at eighteen percent per annum.',
+      content:
+        'Every person who is liable to pay tax fails to pay shall pay interest at eighteen percent per annum.',
       effectiveDate: '2017-07-01',
       sourceUrl: 'https://taxinformation.cbic.gov.in',
       authority: 'CBIC',
@@ -35,7 +37,8 @@ describe('RetrievalEngine', () => {
       identifier: 'Section 73',
       normalizedId: 'sec-73',
       title: 'Determination of tax not paid for reasons other than fraud',
-      content: 'Where it appears that tax has not been paid for reasons other than fraud, a notice shall be served.',
+      content:
+        'Where it appears that tax has not been paid for reasons other than fraud, a notice shall be served.',
       effectiveDate: '2017-07-01',
       sourceUrl: 'https://taxinformation.cbic.gov.in',
       authority: 'CBIC',
@@ -60,7 +63,10 @@ describe('RetrievalEngine', () => {
   })
 
   it('prioritizes exact section identifier matches in search queries', () => {
-    const results = engine.search('Notice intimating discrepancy under Section 61 with tax demand', 3)
+    const results = engine.search(
+      'Notice intimating discrepancy under Section 61 with tax demand',
+      3
+    )
     expect(results.length).toBeGreaterThan(0)
     expect(results[0]?.chunk.identifier).toBe('Section 61')
     expect(results[0]?.matchType).toBe('EXACT_IDENTIFIER')

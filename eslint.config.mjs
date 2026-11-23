@@ -12,14 +12,17 @@ const eslintConfig = tseslint.config(
       // File and function size limits
       'max-lines': ['error', { max: 300, skipBlankLines: true, skipComments: true }],
       'max-lines-per-function': ['error', { max: 80, skipBlankLines: true, skipComments: true }],
-      'complexity': ['error', { max: 12 }],
+      complexity: ['error', { max: 12 }],
       'max-depth': ['error', { max: 4 }],
       // Code quality
       'no-console': 'error',
       '@typescript-eslint/no-explicit-any': 'error',
       '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
       // No TODO comments in code — trade-offs go in README
-      'no-warning-comments': ['error', { terms: ['TODO', 'FIXME', 'HACK', 'XXX'], location: 'start' }],
+      'no-warning-comments': [
+        'error',
+        { terms: ['TODO', 'FIXME', 'HACK', 'XXX'], location: 'start' },
+      ],
     },
   },
   {

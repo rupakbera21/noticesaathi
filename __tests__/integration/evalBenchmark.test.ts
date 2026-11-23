@@ -35,7 +35,8 @@ function evaluateSingleNotice(item: SyntheticEvalItem, validator: GroundingValid
   const taxDemand = ruleResult.detectedTaxAmount || 0
   const interestDemand = ruleResult.detectedInterestAmount || 0
   const penaltyDemand = ruleResult.detectedPenaltyAmount || 0
-  const totalStatedDemand = ruleResult.detectedTotalAmount || (taxDemand + interestDemand + penaltyDemand)
+  const totalStatedDemand =
+    ruleResult.detectedTotalAmount || taxDemand + interestDemand + penaltyDemand
 
   const deadline = resolveNoticeDeadline({
     noticeDate: rawDate,
@@ -66,7 +67,7 @@ function evaluateSingleNotice(item: SyntheticEvalItem, validator: GroundingValid
     documentsRequested: getSuggestedDocuments(ruleResult.detectedNoticeType),
     statedGrounds: ['Reconciliation difference'],
     allegationsOfFraudOrWilfulSuppression: ruleResult.hasFraudAllegations,
-    extractionConfidence: 0.90,
+    extractionConfidence: 0.9,
   }
 
   const escalation = evaluateEscalation(notice)
@@ -75,7 +76,9 @@ function evaluateSingleNotice(item: SyntheticEvalItem, validator: GroundingValid
   const isTypeMatch = notice.noticeType === item.goldLabels.noticeType
   const isDemandMatch = Math.abs(notice.totalStatedDemand - item.goldLabels.totalDemand) <= 10
   const isEscalationMatch = escalation.shouldEscalate === item.goldLabels.shouldEscalateToCA
-  const foundInGold = item.goldLabels.sectionsCited.filter((s: string) => notice.sectionsCited.includes(s)).length
+  const foundInGold = item.goldLabels.sectionsCited.filter((s: string) =>
+    notice.sectionsCited.includes(s)
+  ).length
 
   return {
     id: item.id,
@@ -128,7 +131,8 @@ describe('Automated Benchmark Evaluation Suite', () => {
     const typeAccuracy = Math.round((typeCorrect / n) * 100)
     const demandAccuracy = Math.round((totalDemandCorrect / n) * 100)
     const escalationAccuracy = Math.round((escalationCorrect / n) * 100)
-    const citationRecall = totalSectionsGold > 0 ? Math.round((totalSectionsFound / totalSectionsGold) * 100) : 100
+    const citationRecall =
+      totalSectionsGold > 0 ? Math.round((totalSectionsFound / totalSectionsGold) * 100) : 100
     const avgGrounding = Math.round((totalGroundingScore / n) * 100)
 
     const summary = {

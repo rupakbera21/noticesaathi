@@ -24,7 +24,10 @@ const CACHE_TTL_SECONDS = 86400 * 7 // 7 days
 /**
  * Gets cached analysis response by deterministic notice text hash.
  */
-export async function getCachedAnalysis<T>(rawNoticeText: string, language: string = 'en'): Promise<T | null> {
+export async function getCachedAnalysis<T>(
+  rawNoticeText: string,
+  language: string = 'en'
+): Promise<T | null> {
   const redis = getRedis()
   if (!redis) return null
 
@@ -40,7 +43,11 @@ export async function getCachedAnalysis<T>(rawNoticeText: string, language: stri
 /**
  * Stores analysis response in Redis cache.
  */
-export async function setCachedAnalysis<T>(rawNoticeText: string, data: T, language: string = 'en'): Promise<void> {
+export async function setCachedAnalysis<T>(
+  rawNoticeText: string,
+  data: T,
+  language: string = 'en'
+): Promise<void> {
   const redis = getRedis()
   if (!redis) return
 

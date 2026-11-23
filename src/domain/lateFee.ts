@@ -28,8 +28,12 @@ export function calculateLateFee(params: LateFeeCalculationParams): LateFeeCalcu
     return {
       daysDelayed: 0,
       isNilReturn,
-      feePerDayTotal: isNilReturn ? rule.parameters.nilReturnFeePerDayTotal : rule.parameters.feePerDayTotal,
-      maximumCap: isNilReturn ? rule.parameters.nilReturnMaximumCap : rule.parameters.maximumCapPerReturn,
+      feePerDayTotal: isNilReturn
+        ? rule.parameters.nilReturnFeePerDayTotal
+        : rule.parameters.feePerDayTotal,
+      maximumCap: isNilReturn
+        ? rule.parameters.nilReturnMaximumCap
+        : rule.parameters.maximumCapPerReturn,
       lateFeeComputed: 0,
       ruleId: rule.id,
       ruleStatus: rule.status,

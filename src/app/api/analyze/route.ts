@@ -12,7 +12,10 @@ import chunksData from '../../../../data/kb/chunks.json'
 import interestRuleData from '../../../../data/rules/interest-sec50.json'
 
 const requestSchema = z.object({
-  noticeText: z.string().min(20, 'Notice text is too short').max(25000, 'Notice text exceeds 25,000 characters'),
+  noticeText: z
+    .string()
+    .min(20, 'Notice text is too short')
+    .max(25000, 'Notice text exceeds 25,000 characters'),
   language: z.enum(['en', 'hi', 'bn']).default('en'),
 })
 
@@ -31,7 +34,10 @@ export async function POST(req: NextRequest) {
     const body = await req.json()
     const parsed = requestSchema.safeParse(body)
     if (!parsed.success) {
-      return NextResponse.json({ error: 'Invalid request', issues: parsed.error.issues }, { status: 400 })
+      return NextResponse.json(
+        { error: 'Invalid request', issues: parsed.error.issues },
+        { status: 400 }
+      )
     }
 
     const { noticeText, language } = parsed.data
@@ -47,13 +53,22 @@ export async function POST(req: NextRequest) {
     })
 
     // Calculate an independent interest estimate only if the delay period is established from notice facts; otherwise unavailable
-    const delayDays = (orchResult.notice as { delayDaysEstablished?: number }).delayDaysEstablished ?? null
+    const delayDays =
+      (orchResult.notice as { delayDaysEstablished?: number }).delayDaysEstablished ?? null
     const interestCalc =
       orchResult.notice.taxDemand > 0 && delayDays !== null && delayDays > 0
-        ? calculateInterest({ taxAmount: orchResult.notice.taxDemand, daysDelayed: delayDays, rule: interestRule })
+        ? calculateInterest({
+            taxAmount: orchResult.notice.taxDemand,
+            daysDelayed: delayDays,
+            rule: interestRule,
+          })
         : null
 
-    const query = [...orchResult.notice.sectionsCited, ...orchResult.notice.formsCited, orchResult.notice.noticeTypeDescription].join(' ')
+    const query = [
+      ...orchResult.notice.sectionsCited,
+      ...orchResult.notice.formsCited,
+      orchResult.notice.noticeTypeDescription,
+    ].join(' ')
     const citations = retrievalEngine.search(query, 3).map(r => ({
       id: r.chunk.id,
       identifier: r.chunk.identifier,
@@ -64,7 +79,11 @@ export async function POST(req: NextRequest) {
     }))
 
     const citationsSummary = citations.map(c => `[${c.identifier}] ${c.title}`).join('; ')
-    const explanation = await orchestrator.generateExplanation(orchResult.notice, citationsSummary, language)
+    const explanation = await orchestrator.generateExplanation(
+      orchResult.notice,
+      citationsSummary,
+      language
+    )
 
     return NextResponse.json({
       success: true,

@@ -43,10 +43,17 @@ export function getNoticeTypeDesc(type: NoticeType, lang: string = 'en'): string
 
 export function getSuggestedDocuments(type: NoticeType): string[] {
   if (type === 'ASMT_10_SCRUTINY') {
-    return ['GSTR-2B ITC reconciliation sheet', 'Original supplier tax invoices', 'Bank payment proof of tax paid']
+    return [
+      'GSTR-2B ITC reconciliation sheet',
+      'Original supplier tax invoices',
+      'Bank payment proof of tax paid',
+    ]
   }
   if (type === 'GSTR_3A_NON_FILER') {
-    return ['Filed GSTR-3B return copy and ARN receipt', 'Challan payment receipt for tax liability']
+    return [
+      'Filed GSTR-3B return copy and ARN receipt',
+      'Challan payment receipt for tax liability',
+    ]
   }
   return ['Copies of filed GST returns', 'Purchase and sales registers for the period']
 }

@@ -66,16 +66,18 @@ describe('Late Fee Calculation Engine (Section 47)', () => {
   // Property-based test: Never exceeds maximum cap
   it('property: late fee never exceeds configured cap', () => {
     fc.assert(
-      fc.property(
-        fc.integer({ min: 0, max: 2000 }),
-        fc.boolean(),
-        (days, isNil) => {
-          const res = calculateLateFee({ daysDelayed: days, isNilReturn: isNil, rule: mockLateFeeRule })
-          const expectedCap = isNil ? mockLateFeeRule.parameters.nilReturnMaximumCap : mockLateFeeRule.parameters.maximumCapPerReturn
-          expect(res.lateFeeComputed).toBeLessThanOrEqual(expectedCap)
-          expect(res.lateFeeComputed).toBeGreaterThanOrEqual(0)
-        }
-      )
+      fc.property(fc.integer({ min: 0, max: 2000 }), fc.boolean(), (days, isNil) => {
+        const res = calculateLateFee({
+          daysDelayed: days,
+          isNilReturn: isNil,
+          rule: mockLateFeeRule,
+        })
+        const expectedCap = isNil
+          ? mockLateFeeRule.parameters.nilReturnMaximumCap
+          : mockLateFeeRule.parameters.maximumCapPerReturn
+        expect(res.lateFeeComputed).toBeLessThanOrEqual(expectedCap)
+        expect(res.lateFeeComputed).toBeGreaterThanOrEqual(0)
+      })
     )
   })
 })

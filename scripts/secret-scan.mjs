@@ -5,26 +5,14 @@ import path from 'path'
 const SECRET_PATTERNS = [
   /(?:api[_-]?key|access[_-]?token|secret[_-]?key|auth[_-]?token)[\s]*[=:][\s]*["']([a-zA-Z0-9_\-]{20,})["']/i,
   /AIza[0-9A-Za-z\-_]{35}/, // Google API key
-  /gsk_[a-zA-Z0-9]{30,}/,   // Groq API key
-  /ghp_[a-zA-Z0-9]{36}/,   // GitHub Personal Access Token
-  /gho_[a-zA-Z0-9]{36}/,   // GitHub OAuth Token
+  /gsk_[a-zA-Z0-9]{30,}/, // Groq API key
+  /ghp_[a-zA-Z0-9]{36}/, // GitHub Personal Access Token
+  /gho_[a-zA-Z0-9]{36}/, // GitHub OAuth Token
 ]
 
-const IGNORE_DIRS = new Set([
-  '.git',
-  '.next',
-  'node_modules',
-  'coverage',
-  'dist',
-  'build',
-  'out',
-])
+const IGNORE_DIRS = new Set(['.git', '.next', 'node_modules', 'coverage', 'dist', 'build', 'out'])
 
-const IGNORE_FILES = new Set([
-  'package-lock.json',
-  '.env.example',
-  'secret-scan.mjs',
-])
+const IGNORE_FILES = new Set(['package-lock.json', '.env.example', 'secret-scan.mjs'])
 
 let foundSecrets = false
 

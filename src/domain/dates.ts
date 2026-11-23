@@ -77,7 +77,20 @@ export function getRemainingDaysIST(deadline: Date, clock: () => Date = () => ne
  * Formats a date in standard Indian format (DD MMM YYYY, e.g. "15 Dec 2024").
  */
 export function formatDateIST(date: Date): string {
-  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+  const months = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
+  ]
   const day = String(date.getUTCDate()).padStart(2, '0')
   const month = months[date.getUTCMonth()] ?? ''
   const year = date.getUTCFullYear()
@@ -162,4 +175,3 @@ export function resolveNoticeDeadline(
     message: 'Check the deadline on your notice',
   }
 }
-

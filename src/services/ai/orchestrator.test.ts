@@ -24,7 +24,8 @@ describe('AI Orchestrator and Reply Drafter', () => {
       identifier: 'Rule 99',
       normalizedId: 'asmt-10',
       title: 'Scrutiny of returns in FORM GST ASMT-10',
-      content: 'Where any return furnished by a registered person is selected for scrutiny in ASMT-10...',
+      content:
+        'Where any return furnished by a registered person is selected for scrutiny in ASMT-10...',
       effectiveDate: '2017-07-01',
       sourceUrl: 'https://cbic-gst.gov.in/rules.html',
       authority: 'CBIC',
@@ -63,7 +64,11 @@ describe('AI Orchestrator and Reply Drafter', () => {
 
   it('generates fallback explanations in all supported languages', async () => {
     const extractRes = await orchestrator.extractNoticeFacts(sampleNoticeText)
-    const en = await orchestrator.generateExplanation(extractRes.notice, 'Section 61 CBIC rule', 'en')
+    const en = await orchestrator.generateExplanation(
+      extractRes.notice,
+      'Section 61 CBIC rule',
+      'en'
+    )
     const hi = await orchestrator.generateExplanation(extractRes.notice, 'धारा 61 नियम', 'hi')
     const bn = await orchestrator.generateExplanation(extractRes.notice, 'ধারা ৬১ নিয়ম', 'bn')
 
@@ -99,7 +104,11 @@ describe('AI Orchestrator and Reply Drafter', () => {
       extractionConfidence: 0.95,
     }
 
-    const draft = await drafter.generateReply(notice, 'Section 16(2) compliance notes', 'All taxes paid via net banking.')
+    const draft = await drafter.generateReply(
+      notice,
+      'Section 16(2) compliance notes',
+      'All taxes paid via net banking.'
+    )
     expect(draft.noticeReference).toBe('ASMT10/2024/77')
     expect(draft.factualSubmissions.length).toBeGreaterThan(0)
     expect(draft.statutoryGrounds.length).toBeGreaterThan(0)

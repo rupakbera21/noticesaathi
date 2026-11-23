@@ -28,7 +28,8 @@ export function checkTotalsConsistency(breakdown: TotalsBreakdown): TotalsConsis
     statedTotal = 0,
   } = breakdown
 
-  const computedTotal = Math.round((taxDemand + interestDemand + penaltyDemand + otherDemand) * 100) / 100
+  const computedTotal =
+    Math.round((taxDemand + interestDemand + penaltyDemand + otherDemand) * 100) / 100
   const normalizedStated = Math.round(statedTotal * 100) / 100
   const difference = Math.round(Math.abs(computedTotal - normalizedStated) * 100) / 100
 

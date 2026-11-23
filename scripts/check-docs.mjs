@@ -22,8 +22,13 @@ console.log('Checking README dependencies table against package.json...')
 for (const dep of depsToCheck) {
   // Normalize dependency name check in README
   const simpleName = dep.replace(/^@[^/]+\//, '')
-  if (!readme.toLowerCase().includes(dep.toLowerCase()) && !readme.toLowerCase().includes(simpleName.toLowerCase())) {
-    console.error(`[ERROR] Dependency '${dep}' is present in package.json but not documented in README.md`)
+  if (
+    !readme.toLowerCase().includes(dep.toLowerCase()) &&
+    !readme.toLowerCase().includes(simpleName.toLowerCase())
+  ) {
+    console.error(
+      `[ERROR] Dependency '${dep}' is present in package.json but not documented in README.md`
+    )
     errors++
   }
 }
@@ -82,5 +87,7 @@ if (errors > 0) {
   console.error(`check-docs failed with ${errors} errors.`)
   process.exit(1)
 } else {
-  console.log('check-docs passed: All file references and dependencies are documented and verified.')
+  console.log(
+    'check-docs passed: All file references and dependencies are documented and verified.'
+  )
 }

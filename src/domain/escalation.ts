@@ -36,7 +36,8 @@ function checkSectionTriggers(notice: ExtractedNotice): { reason: string; risk: 
     notice.sectionsCited.some(s => s.includes('29'))
   if (isCancel) {
     return {
-      reason: 'Threat of GST registration cancellation under Section 29. Can halt all business operations.',
+      reason:
+        'Threat of GST registration cancellation under Section 29. Can halt all business operations.',
       risk: 'HIGH',
     }
   }
@@ -87,7 +88,11 @@ export function evaluateEscalation(
     if (riskLevel !== 'CRITICAL') riskLevel = sectionRes.risk
   }
 
-  const extraReasons = checkFinancialAndConfidenceTriggers(notice, demandThresholdInr, minExtractionConfidence)
+  const extraReasons = checkFinancialAndConfidenceTriggers(
+    notice,
+    demandThresholdInr,
+    minExtractionConfidence
+  )
   for (const r of extraReasons) {
     reasons.push(r)
     if (riskLevel === 'LOW') riskLevel = 'MEDIUM'

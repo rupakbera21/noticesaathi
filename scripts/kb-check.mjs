@@ -27,7 +27,9 @@ let hasErrors = false
 const manifestEntries = chunks.map(chunk => {
   const contentHash = crypto.createHash('sha256').update(chunk.content).digest('hex')
   if (chunk.checksum && chunk.checksum !== contentHash) {
-    console.warn(`[WARN] Checksum mismatch in chunk ${chunk.id}. Stored: ${chunk.checksum}, calculated: ${contentHash}`)
+    console.warn(
+      `[WARN] Checksum mismatch in chunk ${chunk.id}. Stored: ${chunk.checksum}, calculated: ${contentHash}`
+    )
   }
 
   if (!chunk.id || !chunk.identifier || !chunk.title || !chunk.content) {
@@ -60,7 +62,9 @@ if (shouldUpdate) {
   if (fs.existsSync(manifestPath)) {
     const existing = JSON.parse(fs.readFileSync(manifestPath, 'utf-8'))
     if (existing.totalChunks !== chunks.length) {
-      console.warn(`[WARN] Manifest chunk count mismatch: manifest has ${existing.totalChunks}, chunks.json has ${chunks.length}. Pass --update to sync.`)
+      console.warn(
+        `[WARN] Manifest chunk count mismatch: manifest has ${existing.totalChunks}, chunks.json has ${chunks.length}. Pass --update to sync.`
+      )
     }
   }
   console.log(`Verified ${manifestEntries.length} knowledge base chunks (manifest preserved).`)

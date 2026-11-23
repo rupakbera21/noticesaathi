@@ -5,7 +5,9 @@ const mockStorage = new Map<string, unknown>()
 
 jest.mock('@upstash/redis', () => ({
   Redis: jest.fn().mockImplementation(() => ({
-    get: jest.fn().mockImplementation((key: string) => Promise.resolve(mockStorage.get(key) || null)),
+    get: jest
+      .fn()
+      .mockImplementation((key: string) => Promise.resolve(mockStorage.get(key) || null)),
     set: jest.fn().mockImplementation((key: string, val: unknown) => {
       mockStorage.set(key, val)
       return Promise.resolve('OK')

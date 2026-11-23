@@ -36,9 +36,17 @@ describe('Interest Calculation Engine (Section 50)', () => {
   })
 
   it('returns 0 interest for 0 or negative days and amounts', () => {
-    expect(calculateInterest({ taxAmount: 50000, daysDelayed: 0, rule: mockInterestRule }).interestComputed).toBe(0)
-    expect(calculateInterest({ taxAmount: 50000, daysDelayed: -10, rule: mockInterestRule }).interestComputed).toBe(0)
-    expect(calculateInterest({ taxAmount: 0, daysDelayed: 30, rule: mockInterestRule }).interestComputed).toBe(0)
+    expect(
+      calculateInterest({ taxAmount: 50000, daysDelayed: 0, rule: mockInterestRule })
+        .interestComputed
+    ).toBe(0)
+    expect(
+      calculateInterest({ taxAmount: 50000, daysDelayed: -10, rule: mockInterestRule })
+        .interestComputed
+    ).toBe(0)
+    expect(
+      calculateInterest({ taxAmount: 0, daysDelayed: 30, rule: mockInterestRule }).interestComputed
+    ).toBe(0)
   })
 
   it('uses 24% rate for undue ITC claims when specified', () => {
@@ -61,8 +69,16 @@ describe('Interest Calculation Engine (Section 50)', () => {
         fc.integer({ min: 1, max: 365 }),
         fc.integer({ min: 1, max: 100 }),
         (tax, days, extraDays) => {
-          const res1 = calculateInterest({ taxAmount: tax, daysDelayed: days, rule: mockInterestRule })
-          const res2 = calculateInterest({ taxAmount: tax, daysDelayed: days + extraDays, rule: mockInterestRule })
+          const res1 = calculateInterest({
+            taxAmount: tax,
+            daysDelayed: days,
+            rule: mockInterestRule,
+          })
+          const res2 = calculateInterest({
+            taxAmount: tax,
+            daysDelayed: days + extraDays,
+            rule: mockInterestRule,
+          })
           expect(res2.interestComputed).toBeGreaterThanOrEqual(res1.interestComputed)
         }
       )

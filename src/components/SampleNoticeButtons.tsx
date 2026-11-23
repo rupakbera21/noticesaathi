@@ -83,7 +83,9 @@ export function SampleNoticeButtons({
 }) {
   return (
     <div className="flex flex-wrap items-center gap-2">
-      <span className="text-xs font-semibold text-slate-600 dark:text-gray-400">Try sample notice:</span>
+      <span className="text-xs font-semibold text-slate-600 dark:text-gray-400">
+        Try sample notice:
+      </span>
       <button
         onClick={() => onSelect('asmt10', SAMPLES.asmt10)}
         className={

@@ -3,6 +3,7 @@
 > Maintained for the team, pitch deck, and submission notes. Every number and feature listed here has been verified by automated unit/integration tests, evaluation benchmarks, or Playwright browser tests.
 
 ## Current Build Status (Phase 6 Final)
+
 - **Repo URL**: https://github.com/rupakbera21/noticesaathi
 - **Tech Stack**: Next.js 16 (App Router), React 19, TypeScript (strict, `noUncheckedIndexedAccess`), Tailwind CSS v4, PostCSS
 - **Languages Supported**: English (EN), Hindi (HI, `Noto Sans`), Bengali (BN, `Noto Sans Bengali`)

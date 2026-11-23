@@ -1,6 +1,11 @@
 import { GoogleGenerativeAI } from '@google/generative-ai'
 import { AiProvider, ModelProviderName, ProviderCallOptions } from './types'
-import { ExtractedNotice, ExtractedNoticeSchema, DraftReply, DraftReplySchema } from '@/schemas/notice'
+import {
+  ExtractedNotice,
+  ExtractedNoticeSchema,
+  DraftReply,
+  DraftReplySchema,
+} from '@/schemas/notice'
 import { EXTRACTION_SYSTEM_PROMPT, buildExplanationPrompt, buildReplyDraftPrompt } from './prompts'
 import { cleanAndParseJson } from './responseCleaner'
 
@@ -14,7 +19,10 @@ export class GeminiProvider implements AiProvider {
     this.client = new GoogleGenerativeAI(apiKey)
   }
 
-  public async extractNotice(noticeText: string, options?: ProviderCallOptions): Promise<ExtractedNotice> {
+  public async extractNotice(
+    noticeText: string,
+    options?: ProviderCallOptions
+  ): Promise<ExtractedNotice> {
     const model = this.client.getGenerativeModel({
       model: this.modelId,
       generationConfig: {

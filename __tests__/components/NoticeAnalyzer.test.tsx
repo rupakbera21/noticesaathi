@@ -72,35 +72,37 @@ describe('NoticeAnalyzer Component', () => {
       if (url.includes('/api/parse-pdf')) {
         return Promise.resolve({
           ok: true,
-          json: () => Promise.resolve({
-            success: true,
-            text: 'FORM GST ASMT-10 Discrepancy Notice extracted from file',
-            filename: 'test_notice.pdf',
-            charCount: 56,
-          }),
+          json: () =>
+            Promise.resolve({
+              success: true,
+              text: 'FORM GST ASMT-10 Discrepancy Notice extracted from file',
+              filename: 'test_notice.pdf',
+              charCount: 56,
+            }),
         })
       }
       if (url.includes('/api/draft-reply')) {
         return Promise.resolve({
           ok: true,
-          json: () => Promise.resolve({
-            success: true,
-            draft: {
-              noticeReference: 'ASMT10/DL/2024/0912',
-              taxpayerGstin: '07TESTU9999R1Z9',
-              taxpayerName: 'Apex Synthetic Supplies',
-              issuingAuthority: 'Office of the Assistant Commissioner',
-              dateOfReply: '2024-11-20',
-              subject: 'Reply to Notice ASMT10/DL/2024/0912',
-              openingStatement: 'Acknowledgement of notice',
-              factualSubmissions: ['Fact 1'],
-              statutoryGrounds: [{ provision: 'Section 16', explanation: 'Complied' }],
-              enclosedDocuments: ['Invoices'],
-              prayerOrReliefSought: 'Drop demand',
-              caEscalationWarning: null,
-              fullReplyText: 'To the Proper Officer...',
-            },
-          }),
+          json: () =>
+            Promise.resolve({
+              success: true,
+              draft: {
+                noticeReference: 'ASMT10/DL/2024/0912',
+                taxpayerGstin: '07TESTU9999R1Z9',
+                taxpayerName: 'Apex Synthetic Supplies',
+                issuingAuthority: 'Office of the Assistant Commissioner',
+                dateOfReply: '2024-11-20',
+                subject: 'Reply to Notice ASMT10/DL/2024/0912',
+                openingStatement: 'Acknowledgement of notice',
+                factualSubmissions: ['Fact 1'],
+                statutoryGrounds: [{ provision: 'Section 16', explanation: 'Complied' }],
+                enclosedDocuments: ['Invoices'],
+                prayerOrReliefSought: 'Drop demand',
+                caEscalationWarning: null,
+                fullReplyText: 'To the Proper Officer...',
+              },
+            }),
         })
       }
       return Promise.reject(new Error('Unknown URL'))
@@ -236,7 +238,9 @@ describe('NoticeAnalyzer Component', () => {
     await waitFor(() => {
       expect(screen.getByTestId('deadline-badge-uncertain')).toBeInTheDocument()
     })
-    expect(screen.getByTestId('deadline-badge-uncertain')).toHaveTextContent('Check the deadline on your notice')
+    expect(screen.getByTestId('deadline-badge-uncertain')).toHaveTextContent(
+      'Check the deadline on your notice'
+    )
     expect(screen.queryByTestId('deadline-badge')).toBeNull()
 
     global.fetch = originalFetch

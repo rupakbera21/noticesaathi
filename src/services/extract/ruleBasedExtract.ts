@@ -29,14 +29,19 @@ export interface RuleBasedExtractionResult {
 const GSTIN_REGEX = /\b\d{2}[A-Z]{5}\d{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}\b/i
 const SECTION_REGEX = /\b(?:Section|Sec\.?)\s*(\d{1,3}(?:\([0-9a-zA-Z]+\))*)/gi
 const RULE_REGEX = /\bRule\s*(\d{1,3}(?:\([0-9a-zA-Z]+\))*)/gi
-const FORM_REGEX = /\b(?:FORM\s+)?(ASMT[- ]?10|DRC[- ]?01[A-Za-z]?|GSTR[- ]?3A|REG[- ]?17|RFD[- ]?08|GSTR[- ]?3B|GSTR[- ]?1|GSTR[- ]?9)\b/gi
+const FORM_REGEX =
+  /\b(?:FORM\s+)?(ASMT[- ]?10|DRC[- ]?01[A-Za-z]?|GSTR[- ]?3A|REG[- ]?17|RFD[- ]?08|GSTR[- ]?3B|GSTR[- ]?1|GSTR[- ]?9)\b/gi
 const DIN_REGEX = /\b(?:DIN|Document Identification Number)[\s:-]*([0-9A-Z]{10,25})\b/i
 const REPLY_DAYS_REGEX = /\b(?:within|period of)\s+(\d{1,2})\s+days\b/i
 
-const TAX_AMOUNT_REGEX = /(?:Tax\s*(?:Demand|Due|Amount|Payable)?|Demand|CGST\s*\+\s*SGST)(?!\s*period)\s*[:=]?\s*₹?[\s]*(?:Rs\.?[\s]*)?([\d,]+(?:\.\d{2})?)/i
-const INTEREST_AMOUNT_REGEX = /Interest(?:\s*(?:under\s+Sec(?:tion)?\s*\d{1,3}|Demand|Due|Amount))*\s*[:=]?\s*₹?[\s]*(?:Rs\.?[\s]*)?([\d,]+(?:\.\d{2})?)/i
-const PENALTY_AMOUNT_REGEX = /Penalty(?:\s*(?:under\s+Sec(?:tion)?\s*\d{1,3}|Demand|Due|Amount))*\s*[:=]?\s*₹?[\s]*(?:Rs\.?[\s]*)?([\d,]+(?:\.\d{2})?)/i
-const TOTAL_AMOUNT_REGEX = /(?:Total\s*(?:Stated\s*)?(?:Demand|Amount|Due|Payable)?|Grand\s*Total)\s*[:=]?\s*₹?[\s]*(?:Rs\.?[\s]*)?([\d,]+(?:\.\d{2})?)/i
+const TAX_AMOUNT_REGEX =
+  /(?:Tax\s*(?:Demand|Due|Amount|Payable)?|Demand|CGST\s*\+\s*SGST)(?!\s*period)\s*[:=]?\s*₹?[\s]*(?:Rs\.?[\s]*)?([\d,]+(?:\.\d{2})?)/i
+const INTEREST_AMOUNT_REGEX =
+  /Interest(?:\s*(?:under\s+Sec(?:tion)?\s*\d{1,3}|Demand|Due|Amount))*\s*[:=]?\s*₹?[\s]*(?:Rs\.?[\s]*)?([\d,]+(?:\.\d{2})?)/i
+const PENALTY_AMOUNT_REGEX =
+  /Penalty(?:\s*(?:under\s+Sec(?:tion)?\s*\d{1,3}|Demand|Due|Amount))*\s*[:=]?\s*₹?[\s]*(?:Rs\.?[\s]*)?([\d,]+(?:\.\d{2})?)/i
+const TOTAL_AMOUNT_REGEX =
+  /(?:Total\s*(?:Stated\s*)?(?:Demand|Amount|Due|Payable)?|Grand\s*Total)\s*[:=]?\s*₹?[\s]*(?:Rs\.?[\s]*)?([\d,]+(?:\.\d{2})?)/i
 
 const FRAUD_KEYWORDS = [
   'fraud',
@@ -97,11 +102,21 @@ interface NoticePatternMatcher {
 const NOTICE_PATTERNS: NoticePatternMatcher[] = [
   { type: 'ASMT_10_SCRUTINY', form: 'ASMT-10', keyword: 'scrutiny of return', section: '61' },
   { type: 'GSTR_3A_NON_FILER', form: 'GSTR-3A', keyword: 'non-filer', section: '46' },
-  { type: 'REG_17_REGISTRATION_CANCEL', form: 'REG-17', keyword: 'cancellation of registration', section: '29' },
+  {
+    type: 'REG_17_REGISTRATION_CANCEL',
+    form: 'REG-17',
+    keyword: 'cancellation of registration',
+    section: '29',
+  },
   { type: 'RFD_08_REFUND_SCN', form: 'RFD-08', keyword: 'rejection of refund' },
 ]
 
-function matchesPattern(p: NoticePatternMatcher, lower: string, forms: string[], sections: string[]): boolean {
+function matchesPattern(
+  p: NoticePatternMatcher,
+  lower: string,
+  forms: string[],
+  sections: string[]
+): boolean {
   if (p.form && forms.includes(p.form)) return true
   if (p.keyword && lower.includes(p.keyword)) return true
   if (p.section) {
@@ -116,7 +131,8 @@ function detectNoticeType(
   forms: string[],
   sections: string[]
 ): { noticeType: NoticeType; hasFraud: boolean } {
-  const hasFraud = FRAUD_KEYWORDS.some(kw => lower.includes(kw)) || sections.some(s => s.includes('74'))
+  const hasFraud =
+    FRAUD_KEYWORDS.some(kw => lower.includes(kw)) || sections.some(s => s.includes('74'))
 
   for (const pattern of NOTICE_PATTERNS) {
     if (matchesPattern(pattern, lower, forms, sections)) {
@@ -124,7 +140,12 @@ function detectNoticeType(
     }
   }
 
-  if (forms.includes('DRC-01') || lower.includes('drc-01') || lower.includes('show cause notice') || lower.includes('demand')) {
+  if (
+    forms.includes('DRC-01') ||
+    lower.includes('drc-01') ||
+    lower.includes('show cause notice') ||
+    lower.includes('demand')
+  ) {
     return { noticeType: hasFraud ? 'DRC_01_DEMAND_FRAUD' : 'DRC_01_DEMAND_NON_FRAUD', hasFraud }
   }
 
@@ -150,8 +171,12 @@ function detectIdentifiers(text: string) {
   const dinMatch = text.match(DIN_REGEX)
   const daysMatch = text.match(REPLY_DAYS_REGEX)
   const detectedDates = Array.from(text.matchAll(/\b\d{1,2}[/-]\d{1,2}[/-]\d{4}\b/g)).map(m => m[0])
-  const serviceDateMatch = text.match(/(?:served on|date of service|service date)[\s:]+(\d{1,2}[/-]\d{1,2}[/-]\d{4})/i)
-  const explicitDeadlineMatch = text.match(/(?:reply (?:on or )?before|reply deadline|due date|furnish reply by)[\s:]+(\d{1,2}[/-]\d{1,2}[/-]\d{4})/i)
+  const serviceDateMatch = text.match(
+    /(?:served on|date of service|service date)[\s:]+(\d{1,2}[/-]\d{1,2}[/-]\d{4})/i
+  )
+  const explicitDeadlineMatch = text.match(
+    /(?:reply (?:on or )?before|reply deadline|due date|furnish reply by)[\s:]+(\d{1,2}[/-]\d{1,2}[/-]\d{4})/i
+  )
 
   return {
     detectedGstin: gstinMatch ? gstinMatch[0].toUpperCase() : null,
@@ -159,7 +184,8 @@ function detectIdentifiers(text: string) {
     replyDaysAllowed: daysMatch && daysMatch[1] ? parseInt(daysMatch[1], 10) : null,
     detectedDates,
     detectedServiceDate: serviceDateMatch && serviceDateMatch[1] ? serviceDateMatch[1] : null,
-    detectedExplicitDeadline: explicitDeadlineMatch && explicitDeadlineMatch[1] ? explicitDeadlineMatch[1] : null,
+    detectedExplicitDeadline:
+      explicitDeadlineMatch && explicitDeadlineMatch[1] ? explicitDeadlineMatch[1] : null,
   }
 }
 
@@ -205,7 +231,10 @@ export function crossCheckExtractions(
 ): DiscrepancyFlag[] {
   const flags: DiscrepancyFlag[] = []
 
-  if (rules.detectedNoticeType !== 'OTHER_GST_NOTICE' && model.noticeType !== rules.detectedNoticeType) {
+  if (
+    rules.detectedNoticeType !== 'OTHER_GST_NOTICE' &&
+    model.noticeType !== rules.detectedNoticeType
+  ) {
     flags.push({
       field: 'noticeType',
       ruleValue: rules.detectedNoticeType,
@@ -214,7 +243,11 @@ export function crossCheckExtractions(
     })
   }
 
-  if (rules.detectedGstin && model.taxpayerGstin && rules.detectedGstin !== model.taxpayerGstin.toUpperCase()) {
+  if (
+    rules.detectedGstin &&
+    model.taxpayerGstin &&
+    rules.detectedGstin !== model.taxpayerGstin.toUpperCase()
+  ) {
     flags.push({
       field: 'taxpayerGstin',
       ruleValue: rules.detectedGstin,
@@ -223,7 +256,11 @@ export function crossCheckExtractions(
     })
   }
 
-  if (rules.replyDaysAllowed !== null && model.replyDaysAllowed !== null && rules.replyDaysAllowed !== model.replyDaysAllowed) {
+  if (
+    rules.replyDaysAllowed !== null &&
+    model.replyDaysAllowed !== null &&
+    rules.replyDaysAllowed !== model.replyDaysAllowed
+  ) {
     flags.push({
       field: 'replyDaysAllowed',
       ruleValue: rules.replyDaysAllowed,
@@ -232,7 +269,11 @@ export function crossCheckExtractions(
     })
   }
 
-  if (rules.detectedTaxAmount !== null && model.taxDemand > 0 && Math.abs(rules.detectedTaxAmount - model.taxDemand) > 10) {
+  if (
+    rules.detectedTaxAmount !== null &&
+    model.taxDemand > 0 &&
+    Math.abs(rules.detectedTaxAmount - model.taxDemand) > 10
+  ) {
     flags.push({
       field: 'taxDemand',
       ruleValue: rules.detectedTaxAmount,

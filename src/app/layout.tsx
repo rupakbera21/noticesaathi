@@ -20,25 +20,17 @@ export const metadata: Metadata = {
   title: { default: 'NoticeSaathi — GST Notice Copilot', template: '%s — NoticeSaathi' },
   description:
     'NoticeSaathi helps small Indian traders understand a GST notice, see what is due and by when, and prepare a sourced draft reply.',
-  metadataBase: new URL(
-    process.env['NEXT_PUBLIC_BASE_URL'] ?? 'http://localhost:3000'
-  ),
+  metadataBase: new URL(process.env['NEXT_PUBLIC_BASE_URL'] ?? 'http://localhost:3000'),
   icons: {
     icon: [
       { url: '/icon.png', sizes: '512x512', type: 'image/png' },
       { url: '/logo/tab-icon.png', sizes: 'any', type: 'image/png' },
     ],
-    apple: [
-      { url: '/apple-icon.png', sizes: '180x180', type: 'image/png' },
-    ],
+    apple: [{ url: '/apple-icon.png', sizes: '180x180', type: 'image/png' }],
   },
 }
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
       lang="en"

@@ -39,9 +39,10 @@ export function calculateInterest(params: InterestCalculationParams): InterestCa
     }
   }
 
-  const rate = isUndueItc && rule.parameters.undueItcRatePercent
-    ? rule.parameters.undueItcRatePercent
-    : rule.parameters.ratePerAnnumPercent
+  const rate =
+    isUndueItc && rule.parameters.undueItcRatePercent
+      ? rule.parameters.undueItcRatePercent
+      : rule.parameters.ratePerAnnumPercent
 
   // Daily rate based on standard 365-day year
   const dailyRate = rate / 100 / 365

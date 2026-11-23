@@ -31,20 +31,29 @@ function checkFile(filePath) {
       const hexMatches = line.match(HEX_COLOR_REGEX)
       if (hexMatches && !filePath.includes('scripts')) {
         // Exclude allowed test files or token files
-        console.warn(`[WARN] Possible raw hex color in ${path.relative(process.cwd(), filePath)}:${index + 1}: ${hexMatches.join(', ')}`)
+        console.warn(
+          `[WARN] Possible raw hex color in ${path.relative(process.cwd(), filePath)}:${index + 1}: ${hexMatches.join(', ')}`
+        )
       }
 
       // Arbitrary Tailwind values
       const arbitraryMatches = line.match(ARBITRARY_TAILWIND_REGEX)
       if (arbitraryMatches) {
-        console.error(`[ERROR] Arbitrary Tailwind bracket value in ${path.relative(process.cwd(), filePath)}:${index + 1}: ${arbitraryMatches.join(', ')}`)
+        console.error(
+          `[ERROR] Arbitrary Tailwind bracket value in ${path.relative(process.cwd(), filePath)}:${index + 1}: ${arbitraryMatches.join(', ')}`
+        )
         violations++
       }
 
       // Raw emoji in components
-      if (filePath.includes(path.join('src', 'components')) || filePath.includes(path.join('src', 'app'))) {
+      if (
+        filePath.includes(path.join('src', 'components')) ||
+        filePath.includes(path.join('src', 'app'))
+      ) {
         if (EMOJI_REGEX.test(line) && !line.includes('//') && !line.includes('test')) {
-          console.error(`[ERROR] Raw emoji found in UI file ${path.relative(process.cwd(), filePath)}:${index + 1}`)
+          console.error(
+            `[ERROR] Raw emoji found in UI file ${path.relative(process.cwd(), filePath)}:${index + 1}`
+          )
           violations++
         }
       }
@@ -61,7 +70,10 @@ function walk(dir) {
       if (entry.name !== 'node_modules' && entry.name !== '.next') {
         walk(fullPath)
       }
-    } else if (entry.isFile() && (entry.name.endsWith('.tsx') || entry.name.endsWith('.ts') || entry.name.endsWith('.jsx'))) {
+    } else if (
+      entry.isFile() &&
+      (entry.name.endsWith('.tsx') || entry.name.endsWith('.ts') || entry.name.endsWith('.jsx'))
+    ) {
       checkFile(fullPath)
     }
   }

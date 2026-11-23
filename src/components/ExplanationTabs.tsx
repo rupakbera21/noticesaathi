@@ -31,7 +31,10 @@ export function ExplanationTabs({
       }}
       data-testid="explanation-tabs"
     >
-      <div className="flex flex-wrap items-center justify-between border-b pb-3" style={{ borderColor: 'var(--color-border)' }}>
+      <div
+        className="flex flex-wrap items-center justify-between border-b pb-3"
+        style={{ borderColor: 'var(--color-border)' }}
+      >
         <h3 className="text-sm font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">
           Plain-Language Legal Explanation
         </h3>
@@ -78,7 +81,10 @@ export function ExplanationTabs({
         </div>
       </div>
 
-      <div className="mt-4 min-h-[120px] text-sm leading-relaxed text-slate-800 dark:text-gray-200" data-testid="explanation-content">
+      <div
+        className="mt-4 min-h-[120px] text-sm leading-relaxed text-slate-800 dark:text-gray-200"
+        data-testid="explanation-content"
+      >
         {loading ? (
           <div className="flex h-24 items-center justify-center text-xs text-gray-400 animate-pulse">
             Generating explanation in selected language...

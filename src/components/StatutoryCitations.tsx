@@ -40,10 +40,14 @@ export function StatutoryCitations({ citations }: StatutoryCitationsProps) {
           >
             <div className="flex items-center justify-between gap-2">
               <span className="font-bold text-slate-900 dark:text-white">{c.identifier}</span>
-              <span className="text-[10px] font-medium text-slate-500 dark:text-gray-400">{c.authority}</span>
+              <span className="text-[10px] font-medium text-slate-500 dark:text-gray-400">
+                {c.authority}
+              </span>
             </div>
             <p className="mt-1 font-semibold text-slate-800 dark:text-gray-200">{c.title}</p>
-            <p className="mt-1 text-slate-600 dark:text-gray-400 leading-relaxed">{c.contentSnippet}</p>
+            <p className="mt-1 text-slate-600 dark:text-gray-400 leading-relaxed">
+              {c.contentSnippet}
+            </p>
             <a
               href={c.sourceUrl}
               target="_blank"

@@ -11,11 +11,11 @@ import type { NextRequest } from 'next/server'
  */
 const CSP = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline'",    // Next.js inline scripts; no eval
-  "style-src 'self' 'unsafe-inline'",     // Next.js critical CSS
+  "script-src 'self' 'unsafe-inline'", // Next.js inline scripts; no eval
+  "style-src 'self' 'unsafe-inline'", // Next.js critical CSS
   "img-src 'self' data: blob:",
   "font-src 'self' https://fonts.gstatic.com",
-  "connect-src 'self'",                    // expanded per-provider in Phase 3
+  "connect-src 'self'", // expanded per-provider in Phase 3
   "frame-ancestors 'none'",
   "base-uri 'self'",
   "form-action 'self'",
@@ -28,14 +28,8 @@ export function proxy(_request: NextRequest): NextResponse {
   response.headers.set('X-Frame-Options', 'DENY')
   response.headers.set('X-Content-Type-Options', 'nosniff')
   response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin')
-  response.headers.set(
-    'Permissions-Policy',
-    'camera=(), microphone=(), geolocation=()'
-  )
-  response.headers.set(
-    'Strict-Transport-Security',
-    'max-age=63072000; includeSubDomains; preload'
-  )
+  response.headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()')
+  response.headers.set('Strict-Transport-Security', 'max-age=63072000; includeSubDomains; preload')
 
   return response
 }

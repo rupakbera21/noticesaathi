@@ -1,6 +1,6 @@
 name: UI feedback
 description: Report a UI issue after a preview deploy
-title: "[UI] "
+title: '[UI] '
 labels: [ui-feedback]
 assignees: []
 body:
@@ -26,7 +26,7 @@ body:
     id: device
     attributes:
       label: Device and viewport
-      placeholder: "e.g. iPhone 15, 390px or Desktop Chrome 1280px"
+      placeholder: 'e.g. iPhone 15, 390px or Desktop Chrome 1280px'
     validations:
       required: true
 
@@ -54,6 +54,6 @@ body:
     id: preview-url
     attributes:
       label: Preview URL
-      placeholder: "https://noticesaathi-xxx.vercel.app"
+      placeholder: 'https://noticesaathi-xxx.vercel.app'
     validations:
       required: false

@@ -23,10 +23,15 @@ export function HowItWorksSection() {
   return (
     <section id="how-it-works" className="w-full max-w-4xl space-y-6 pt-12">
       <div className="text-center space-y-2">
-        <span className="text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">Workflow</span>
-        <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white md:text-3xl">How NoticeSaathi Works</h2>
+        <span className="text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">
+          Workflow
+        </span>
+        <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white md:text-3xl">
+          How NoticeSaathi Works
+        </h2>
         <p className="text-xs text-slate-600 dark:text-gray-400 max-w-xl mx-auto">
-          From an intimidating government notice to an itemized summary, statutory check, and response draft in minutes.
+          From an intimidating government notice to an itemized summary, statutory check, and
+          response draft in minutes.
         </p>
       </div>
 
@@ -36,7 +41,9 @@ export function HowItWorksSection() {
             key={step.num}
             className="rounded-2xl border p-5 backdrop-blur-md transition-all bg-white border-slate-200/90 shadow-xs hover:border-indigo-400 hover:shadow-md hover:shadow-indigo-50/50 dark:bg-[#121224] dark:border-[#252542] dark:hover:border-indigo-500/40"
           >
-            <div className="text-2xl font-black bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-700 dark:from-indigo-400 dark:to-purple-400 bg-clip-text text-transparent pb-2">{step.num}</div>
+            <div className="text-2xl font-black bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-700 dark:from-indigo-400 dark:to-purple-400 bg-clip-text text-transparent pb-2">
+              {step.num}
+            </div>
             <h3 className="text-sm font-bold text-slate-900 dark:text-white pb-1">{step.title}</h3>
             <p className="text-xs text-slate-600 dark:text-gray-400 leading-relaxed">{step.desc}</p>
           </div>
@@ -49,8 +56,18 @@ export function HowItWorksSection() {
 const FEATURES = [
   {
     icon: (
-      <svg className="h-6 w-6 text-indigo-600 dark:text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+      <svg
+        className="h-6 w-6 text-indigo-600 dark:text-indigo-400"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"
+        />
       </svg>
     ),
     title: 'Rule-Based Math Check',
@@ -58,8 +75,18 @@ const FEATURES = [
   },
   {
     icon: (
-      <svg className="h-6 w-6 text-emerald-600 dark:text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+      <svg
+        className="h-6 w-6 text-emerald-600 dark:text-emerald-400"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+        />
       </svg>
     ),
     title: 'Official Statutory Citations',
@@ -67,8 +94,18 @@ const FEATURES = [
   },
   {
     icon: (
-      <svg className="h-6 w-6 text-purple-600 dark:text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
+      <svg
+        className="h-6 w-6 text-purple-600 dark:text-purple-400"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"
+        />
       </svg>
     ),
     title: 'Plain Regional Explanations',
@@ -76,8 +113,18 @@ const FEATURES = [
   },
   {
     icon: (
-      <svg className="h-6 w-6 text-amber-600 dark:text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
+      <svg
+        className="h-6 w-6 text-amber-600 dark:text-amber-400"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"
+        />
       </svg>
     ),
     title: 'Section 75(4) Draft Reply',
@@ -85,8 +132,18 @@ const FEATURES = [
   },
   {
     icon: (
-      <svg className="h-6 w-6 text-rose-600 dark:text-rose-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+      <svg
+        className="h-6 w-6 text-rose-600 dark:text-rose-400"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+        />
       </svg>
     ),
     title: 'Chartered Accountant (CA) Triage',
@@ -94,8 +151,18 @@ const FEATURES = [
   },
   {
     icon: (
-      <svg className="h-6 w-6 text-sky-600 dark:text-sky-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+      <svg
+        className="h-6 w-6 text-sky-600 dark:text-sky-400"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+        />
       </svg>
     ),
     title: 'Response Deadline Tracking',
@@ -107,10 +174,15 @@ export function FeaturesSection() {
   return (
     <section id="features" className="w-full max-w-4xl space-y-6 pt-12">
       <div className="text-center space-y-2">
-        <span className="text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">Capabilities</span>
-        <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white md:text-3xl">Built for Indian Small Traders</h2>
+        <span className="text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">
+          Capabilities
+        </span>
+        <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white md:text-3xl">
+          Built for Indian Small Traders
+        </h2>
         <p className="text-xs text-slate-600 dark:text-gray-400 max-w-xl mx-auto">
-          Combining code-based financial verification with statutory guidance to demystify complex tax communications.
+          Combining code-based financial verification with statutory guidance to demystify complex
+          tax communications.
         </p>
       </div>
 
@@ -136,10 +208,17 @@ export function MeasurementSection() {
       <div className="rounded-2xl border p-6 md:p-8 bg-gradient-to-br from-indigo-50/50 via-white to-purple-50/40 border-indigo-100 shadow-sm dark:bg-gradient-to-br dark:from-[#121224] dark:via-[#15152a] dark:to-[#121224] dark:border-[#252542]">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="space-y-1.5">
-            <span className="text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">Evaluation Benchmark</span>
-            <h2 className="text-xl font-bold text-slate-900 dark:text-white">How We Measured Accuracy</h2>
+            <span className="text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">
+              Evaluation Benchmark
+            </span>
+            <h2 className="text-xl font-bold text-slate-900 dark:text-white">
+              How We Measured Accuracy
+            </h2>
             <p className="text-xs text-slate-600 dark:text-gray-400 max-w-2xl leading-relaxed">
-              Every build of NoticeSaathi is tested against a gold-standard dataset of synthetic Indian GST notices (ASMT-10, DRC-01, GSTR-3A, and DRC-01A). In automated tests, our extraction and triage pipeline achieves 100% classification accuracy, 100% arithmetic demand consistency, and 100% recall on high-risk CA escalations.
+              Every build of NoticeSaathi is tested against a gold-standard dataset of synthetic
+              Indian GST notices (ASMT-10, DRC-01, GSTR-3A, and DRC-01A). In automated tests, our
+              extraction and triage pipeline achieves 100% classification accuracy, 100% arithmetic
+              demand consistency, and 100% recall on high-risk CA escalations.
             </p>
           </div>
           <Link
@@ -189,10 +268,15 @@ export function SupportedNoticesSection() {
   return (
     <section id="supported-notices" className="w-full max-w-4xl space-y-6 pt-12">
       <div className="text-center space-y-2">
-        <span className="text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">Coverage</span>
-        <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white md:text-3xl">Supported GST Notices</h2>
+        <span className="text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">
+          Coverage
+        </span>
+        <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white md:text-3xl">
+          Supported GST Notices
+        </h2>
         <p className="text-xs text-slate-600 dark:text-gray-400 max-w-xl mx-auto">
-          Tailored parsing and statutory cross-checking across the most common notices received by Indian traders.
+          Tailored parsing and statutory cross-checking across the most common notices received by
+          Indian traders.
         </p>
       </div>
 
@@ -203,7 +287,9 @@ export function SupportedNoticesSection() {
             className="rounded-2xl border p-5 backdrop-blur-md space-y-2 bg-white border-slate-200 shadow-sm dark:bg-[#121224] dark:border-[#252542]"
           >
             <div className="flex items-center justify-between">
-              <span className="font-mono text-xs font-bold text-indigo-600 dark:text-indigo-400">{n.form}</span>
+              <span className="font-mono text-xs font-bold text-indigo-600 dark:text-indigo-400">
+                {n.form}
+              </span>
               <span className="rounded-md border border-slate-300 bg-slate-100 dark:border-gray-700 dark:bg-black/40 px-2 py-0.5 text-[10px] text-slate-700 dark:text-gray-300">
                 {n.deadline}
               </span>
@@ -249,8 +335,12 @@ export function FaqSection() {
   return (
     <section id="faqs" className="w-full max-w-4xl space-y-6 pt-12 pb-8">
       <div className="text-center space-y-2">
-        <span className="text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">Questions</span>
-        <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white md:text-3xl">Frequently Asked Questions</h2>
+        <span className="text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">
+          Questions
+        </span>
+        <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white md:text-3xl">
+          Frequently Asked Questions
+        </h2>
         <p className="text-xs text-slate-600 dark:text-gray-400 max-w-xl mx-auto">
           Everything you need to know about safety, accuracy, and responding to GST notices.
         </p>
@@ -264,9 +354,13 @@ export function FaqSection() {
           >
             <summary className="flex cursor-pointer items-center justify-between text-xs font-bold text-slate-900 transition-colors group-hover:text-indigo-600 dark:text-white dark:group-hover:text-indigo-300">
               <span>{faq.q}</span>
-              <span className="ml-2 text-indigo-600 dark:text-indigo-400 transition-transform group-open:rotate-180">▾</span>
+              <span className="ml-2 text-indigo-600 dark:text-indigo-400 transition-transform group-open:rotate-180">
+                ▾
+              </span>
             </summary>
-            <p className="pt-3 text-xs leading-relaxed text-slate-600 dark:text-gray-400">{faq.a}</p>
+            <p className="pt-3 text-xs leading-relaxed text-slate-600 dark:text-gray-400">
+              {faq.a}
+            </p>
           </details>
         ))}
       </div>
