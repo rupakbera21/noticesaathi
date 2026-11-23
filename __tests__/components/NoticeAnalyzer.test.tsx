@@ -206,4 +206,39 @@ describe('NoticeAnalyzer Component', () => {
 
     expect(screen.getByTestId('draft-reply-text')).toHaveTextContent('To the Proper Officer')
   })
+
+  it('renders uncertain deadline badge when deadline info is missing or uncertain', async () => {
+    const uncertainMock = {
+      ...mockAnalysisData,
+      deadline: {
+        status: 'uncertain',
+        formattedDate: null,
+        remainingDays: null,
+        isExpired: false,
+        message: 'Check the deadline on your notice',
+      },
+    }
+    const originalFetch = global.fetch
+    global.fetch = jest.fn().mockImplementation((url: string) => {
+      if (url.includes('/api/analyze')) {
+        return Promise.resolve({
+          ok: true,
+          json: () => Promise.resolve(uncertainMock),
+        })
+      }
+      return originalFetch(url)
+    })
+
+    render(<NoticeAnalyzer />)
+    fireEvent.click(screen.getByTestId('sample-asmt10-btn'))
+    fireEvent.click(screen.getByTestId('analyze-notice-btn'))
+
+    await waitFor(() => {
+      expect(screen.getByTestId('deadline-badge-uncertain')).toBeInTheDocument()
+    })
+    expect(screen.getByTestId('deadline-badge-uncertain')).toHaveTextContent('Check the deadline on your notice')
+    expect(screen.queryByTestId('deadline-badge')).toBeNull()
+
+    global.fetch = originalFetch
+  })
 })

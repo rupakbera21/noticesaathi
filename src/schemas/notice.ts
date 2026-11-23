@@ -20,6 +20,7 @@ export const ExtractedNoticeSchema = z.object({
   taxpayerTradeName: z.string().nullable().default(null),
   noticeReferenceNumber: z.string().nullable().default(null),
   noticeDate: z.string().nullable().default(null),       // ISO YYYY-MM-DD or raw
+  serviceDate: z.string().nullable().optional(),         // Date of service if specified
   taxPeriod: z.string().nullable().default(null),        // e.g. "April 2024 to June 2024"
   sectionsCited: z.array(z.string()).default([]),        // e.g. ["Section 61", "Section 50"]
   rulesCited: z.array(z.string()).default([]),           // e.g. ["Rule 99"]

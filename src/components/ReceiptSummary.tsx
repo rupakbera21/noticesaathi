@@ -8,9 +8,11 @@ interface ReceiptSummaryProps {
   notice: ExtractedNotice
   totals: TotalsConsistencyResult
   deadline: {
-    formattedDate: string
-    remainingDays: number
+    status?: 'explicit' | 'derived' | 'uncertain'
+    formattedDate: string | null
+    remainingDays: number | null
     isExpired: boolean
+    message?: string
   }
 }
 
@@ -21,7 +23,8 @@ function ReceiptHeader({
   notice: ExtractedNotice
   deadline: ReceiptSummaryProps['deadline']
 }) {
-  const isUrgent = deadline.remainingDays <= 5 && !deadline.isExpired
+  const isUrgent = typeof deadline.remainingDays === 'number' && deadline.remainingDays <= 5 && !deadline.isExpired
+  const isUncertain = deadline.status === 'uncertain' || !deadline.formattedDate || deadline.remainingDays === null
 
   return (
     <div className="mb-6 border-b border-dashed pb-4" style={{ borderColor: 'var(--color-border-strong)' }}>
@@ -34,18 +37,27 @@ function ReceiptHeader({
             {notice.noticeTypeDescription}
           </h2>
         </div>
-        <div
-          className={`rounded-full px-3 py-1 text-xs font-bold tracking-wide uppercase ${
-            deadline.isExpired
-              ? 'bg-rose-50 text-rose-700 border border-rose-200 dark:bg-red-900/60 dark:text-red-200 dark:border-red-500'
-              : isUrgent
-              ? 'bg-amber-50 text-amber-800 border border-amber-200 dark:bg-amber-900/60 dark:text-amber-200 dark:border-amber-500'
-              : 'bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-900/40 dark:text-emerald-300 dark:border-emerald-600'
-          }`}
-          data-testid="deadline-badge"
-        >
-          {deadline.isExpired ? 'Response Expired' : `${deadline.remainingDays} Days Left (${deadline.formattedDate})`}
-        </div>
+        {isUncertain ? (
+          <div
+            className="rounded-full px-3 py-1 text-xs font-semibold tracking-wide bg-slate-100 text-slate-700 border border-slate-300 dark:bg-slate-800 dark:text-slate-200 dark:border-slate-600"
+            data-testid="deadline-badge-uncertain"
+          >
+            Check the deadline on your notice
+          </div>
+        ) : (
+          <div
+            className={`rounded-full px-3 py-1 text-xs font-bold tracking-wide uppercase ${
+              deadline.isExpired
+                ? 'bg-rose-50 text-rose-700 border border-rose-200 dark:bg-red-900/60 dark:text-red-200 dark:border-red-500'
+                : isUrgent
+                ? 'bg-amber-50 text-amber-800 border border-amber-200 dark:bg-amber-900/60 dark:text-amber-200 dark:border-amber-500'
+                : 'bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-900/40 dark:text-emerald-300 dark:border-emerald-600'
+            }`}
+            data-testid="deadline-badge"
+          >
+            {deadline.isExpired ? 'Response Expired' : `${deadline.remainingDays} Days Left (${deadline.formattedDate})`}
+          </div>
+        )}
       </div>
     </div>
   )

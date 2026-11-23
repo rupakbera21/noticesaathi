@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 
 export function ThemeToggle() {
   const [isDark, setIsDark] = useState(false)
@@ -77,6 +78,7 @@ export function Header() {
         <a href="#features" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Core Engines</a>
         <a href="#supported-notices" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Supported Forms</a>
         <a href="#faqs" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">FAQs</a>
+        <Link href="/trust" className="text-indigo-600 dark:text-indigo-400 hover:underline font-semibold">Trust &amp; Privacy</Link>
       </nav>
 
       <div className="flex items-center gap-3">
@@ -92,18 +94,33 @@ export function Header() {
 export function TrustPills() {
   return (
     <div className="flex flex-wrap items-center justify-center gap-2 pt-2 text-[11px] font-semibold">
-      <span className="rounded-full border border-indigo-200 bg-indigo-50/90 text-indigo-700 dark:border-indigo-500/30 dark:bg-indigo-950/40 dark:text-indigo-300 px-3 py-1 shadow-xs">
-        🧮 100% Deterministic Math (Section 50 &amp; Section 47)
+      <span className="inline-flex items-center gap-1.5 rounded-full border border-indigo-200 bg-indigo-50/90 text-indigo-700 dark:border-indigo-500/30 dark:bg-indigo-950/40 dark:text-indigo-300 px-3 py-1 shadow-xs">
+        <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+        </svg>
+        Rule-Based Math Check
       </span>
-      <span className="rounded-full border border-emerald-200 bg-emerald-50/90 text-emerald-800 dark:border-emerald-500/30 dark:bg-emerald-950/40 dark:text-emerald-300 px-3 py-1 shadow-xs">
-        📜 Official CBIC Grounding
+      <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50/90 text-emerald-800 dark:border-emerald-500/30 dark:bg-emerald-950/40 dark:text-emerald-300 px-3 py-1 shadow-xs">
+        <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+        </svg>
+        Statutory Law Citations
       </span>
-      <span className="rounded-full border border-purple-200 bg-purple-50/90 text-purple-700 dark:border-purple-500/30 dark:bg-purple-950/40 dark:text-purple-300 px-3 py-1 shadow-xs">
-        🌐 English • हिन्दी • বাংলা
+      <span className="inline-flex items-center gap-1.5 rounded-full border border-purple-200 bg-purple-50/90 text-purple-700 dark:border-purple-500/30 dark:bg-purple-950/40 dark:text-purple-300 px-3 py-1 shadow-xs">
+        <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+        </svg>
+        English • हिन्दी • বাংলা
       </span>
-      <span className="rounded-full border border-sky-200 bg-sky-50/90 text-sky-800 dark:border-sky-500/30 dark:bg-sky-950/40 dark:text-sky-300 px-3 py-1 shadow-xs">
-        🔒 100% Private (In-Browser Storage)
-      </span>
+      <Link
+        href="/trust"
+        className="inline-flex items-center gap-1.5 rounded-full border border-sky-200 bg-sky-50/90 text-sky-800 hover:bg-sky-100 hover:border-sky-300 dark:border-sky-500/30 dark:bg-sky-950/40 dark:text-sky-300 dark:hover:bg-sky-900/60 px-3 py-1 shadow-xs transition-colors"
+      >
+        <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+        </svg>
+        Zero Taxpayer Storage (Trust Page →)
+      </Link>
     </div>
   )
 }
@@ -115,6 +132,9 @@ export function Footer() {
     >
       <div className="mx-auto max-w-3xl space-y-3">
         <div className="flex flex-wrap items-center justify-center gap-6 text-xs text-slate-600 dark:text-gray-400">
+          <Link href="/trust" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors font-semibold">
+            Trust &amp; Verification Policy
+          </Link>
           <a href="https://cbic.gov.in" target="_blank" rel="noopener noreferrer" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
             CBIC Official Portal ↗
           </a>

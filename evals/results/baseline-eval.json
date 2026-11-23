@@ -1,13 +1,13 @@
 {
-  "timestamp": "2026-11-22T09:39:29.260Z",
+  "timestamp": "2026-11-23T15:22:41.064Z",
   "datasetVersion": "1.0.0",
-  "totalEvaluated": 3,
+  "totalEvaluated": 4,
   "metrics": {
     "noticeTypeAccuracyPct": 100,
     "totalDemandAccuracyPct": 100,
     "escalationDecisionAccuracyPct": 100,
-    "citationRecallPct": 100,
-    "averageGroundingScorePct": 82
+    "citationRecallPct": 88,
+    "averageGroundingScorePct": 83
   },
   "detailedResults": [
     {
@@ -44,6 +44,18 @@
       "goldDemand": 0,
       "groundingScore": 0.67,
       "foundInGold": 2,
+      "goldSectionsCount": 2
+    },
+    {
+      "id": "syn-drc01a-004",
+      "title": "DRC-01A Pre-SCN Consultation Intimation",
+      "isTypeMatch": true,
+      "isDemandMatch": true,
+      "isEscalationMatch": true,
+      "extractedDemand": 168000,
+      "goldDemand": 168000,
+      "groundingScore": 0.86,
+      "foundInGold": 1,
       "goldSectionsCount": 2
     }
   ]

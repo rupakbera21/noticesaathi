@@ -5,6 +5,7 @@ import {
   daysBetweenIST,
   getRemainingDaysIST,
   formatDateIST,
+  resolveNoticeDeadline,
 } from './dates'
 
 describe('IST Date Arithmetic Engine', () => {
@@ -71,5 +72,79 @@ describe('IST Date Arithmetic Engine', () => {
         expect(back === 0 ? 0 : back).toBe(days === 0 ? 0 : -days)
       })
     )
+  })
+
+  describe('resolveNoticeDeadline', () => {
+    const fixedNow = () => new Date('2024-11-20T00:00:00Z')
+
+    it('resolves explicit deadline date directly when provided', () => {
+      const res = resolveNoticeDeadline(
+        { replyDeadlineDate: '2024-12-15' },
+        fixedNow
+      )
+      expect(res.status).toBe('explicit')
+      expect(res.formattedDate).toBe('15 Dec 2024')
+      expect(res.remainingDays).toBe(25)
+      expect(res.isExpired).toBe(false)
+    })
+
+    it('derives deadline from service date over notice date when both exist', () => {
+      const res = resolveNoticeDeadline(
+        {
+          noticeDate: '2024-11-01',
+          serviceDate: '2024-11-05',
+          replyDaysAllowed: 30,
+        },
+        fixedNow
+      )
+      expect(res.status).toBe('derived')
+      expect(res.formattedDate).toBe('05 Dec 2024')
+      expect(res.remainingDays).toBe(15)
+      expect(res.isExpired).toBe(false)
+    })
+
+    it('derives deadline from notice date when service date is not available', () => {
+      const res = resolveNoticeDeadline(
+        {
+          noticeDate: '2024-11-10',
+          replyDaysAllowed: 15,
+        },
+        fixedNow
+      )
+      expect(res.status).toBe('derived')
+      expect(res.formattedDate).toBe('25 Nov 2024')
+      expect(res.remainingDays).toBe(5)
+      expect(res.isExpired).toBe(false)
+    })
+
+    it('returns uncertain status when notice has no date and no deadline', () => {
+      const res = resolveNoticeDeadline({}, fixedNow)
+      expect(res.status).toBe('uncertain')
+      expect(res.deadlineDate).toBeNull()
+      expect(res.formattedDate).toBeNull()
+      expect(res.remainingDays).toBeNull()
+      expect(res.isExpired).toBe(false)
+      expect(res.message).toBe('Check the deadline on your notice')
+    })
+
+    it('returns uncertain status when reply window is missing and no explicit deadline', () => {
+      const res = resolveNoticeDeadline(
+        { noticeDate: '2024-11-10', replyDaysAllowed: null },
+        fixedNow
+      )
+      expect(res.status).toBe('uncertain')
+      expect(res.formattedDate).toBeNull()
+      expect(res.message).toBe('Check the deadline on your notice')
+    })
+
+    it('marks past deadline as expired', () => {
+      const res = resolveNoticeDeadline(
+        { replyDeadlineDate: '2024-11-10' },
+        fixedNow
+      )
+      expect(res.isExpired).toBe(true)
+      expect(res.remainingDays).toBe(-10)
+      expect(res.message).toContain('Expired')
+    })
   })
 })

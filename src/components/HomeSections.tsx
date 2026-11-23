@@ -1,4 +1,5 @@
 import React from 'react'
+import Link from 'next/link'
 
 export function HowItWorksSection() {
   const steps = [
@@ -9,13 +10,13 @@ export function HowItWorksSection() {
     },
     {
       num: '02',
-      title: 'Mathematical & Statutory Audit',
-      desc: 'Deterministic algorithms verify tax totals, Section 50 interest (18%/24% p.a.), and Section 47 late fees while AI retrieves CBIC citations.',
+      title: 'Statutory Verification & Math Check',
+      desc: 'Pure code logic checks stated line items against total demand. Relevant sections and rules are matched against statutory GST provisions.',
     },
     {
       num: '03',
-      title: 'Grounded Response & Legal Draft',
-      desc: 'Get an itemized receipt in ₹, check the IST deadline countdown, review required documents, and download a Section 75(4) draft reply.',
+      title: 'Itemized Receipt & Response Draft',
+      desc: 'Review an itemized receipt in ₹, check response deadlines in Indian Standard Time, and generate a structured Section 75(4) draft reply.',
     },
   ]
 
@@ -25,7 +26,7 @@ export function HowItWorksSection() {
         <span className="text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">Workflow</span>
         <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white md:text-3xl">How NoticeSaathi Works</h2>
         <p className="text-xs text-slate-600 dark:text-gray-400 max-w-xl mx-auto">
-          From an intimidating government notice to a fully audited response plan in under 60 seconds.
+          From an intimidating government notice to an itemized summary, statutory check, and response draft in minutes.
         </p>
       </div>
 
@@ -45,61 +46,109 @@ export function HowItWorksSection() {
   )
 }
 
-export function FeaturesSection() {
-  const features = [
-    {
-      icon: '🧮',
-      title: 'Zero-Hallucination Math',
-      desc: 'Models are barred from calculating. Section 50 interest (18%/24% p.a.) and Section 47 late fees are executed strictly by audited code engines.',
-    },
-    {
-      icon: '📚',
-      title: 'CBIC Statutory Grounding',
-      desc: 'Every legal claim is verified against official Central Board of Indirect Taxes & Customs (CBIC) statutory chunks and official gazettes.',
-    },
-    {
-      icon: '🗣️',
-      title: 'Plain Regional Explanations',
-      desc: 'Understand technical allegations in your preferred language—switch seamlessly between English, Hindi (हिन्दी), and Bengali (বাংলা).',
-    },
-    {
-      icon: '⚖️',
-      title: 'Section 75(4) Reply Drafter',
-      desc: 'One-click generation of a formal legal reply to the Proper Officer, formally reserving your statutory right to a personal hearing.',
-    },
-    {
-      icon: '🚨',
-      title: 'CA Escalation Sentinel',
-      desc: 'Automatically identifies high-risk triggers—such as Section 74 fraud, cancellation, or demands > ₹5,00,000—requiring a human CA.',
-    },
-    {
-      icon: '⏱️',
-      title: 'IST Deadline Countdown',
-      desc: 'Real-time countdown in Indian Standard Time (UTC+5:30) ensuring statutory reply deadlines (15 or 30 days) are never missed.',
-    },
-  ]
+const FEATURES = [
+  {
+    icon: (
+      <svg className="h-6 w-6 text-indigo-600 dark:text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+      </svg>
+    ),
+    title: 'Rule-Based Math Check',
+    desc: 'Stated line items are checked via code arithmetic to verify tax, interest, and penalty figures match the department&apos;s total stated due.',
+  },
+  {
+    icon: (
+      <svg className="h-6 w-6 text-emerald-600 dark:text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+      </svg>
+    ),
+    title: 'Official Statutory Citations',
+    desc: 'Legal provisions cited in the notice (Section 61, 73, 74, 50, Rule 99) are matched against curated Central GST Act and Rules records.',
+  },
+  {
+    icon: (
+      <svg className="h-6 w-6 text-purple-600 dark:text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
+      </svg>
+    ),
+    title: 'Plain Regional Explanations',
+    desc: 'Understand technical allegations in your language of comfort—switch between English, Hindi (हिन्दी), and Bengali (বাংলা).',
+  },
+  {
+    icon: (
+      <svg className="h-6 w-6 text-amber-600 dark:text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
+      </svg>
+    ),
+    title: 'Section 75(4) Draft Reply',
+    desc: 'Generates a structured reply framework, explicitly requesting a personal hearing before any adverse tax decision is finalized.',
+  },
+  {
+    icon: (
+      <svg className="h-6 w-6 text-rose-600 dark:text-rose-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+      </svg>
+    ),
+    title: 'Chartered Accountant (CA) Triage',
+    desc: 'Identifies high-stakes notices—Section 74 fraud allegations, cancellation, or amounts exceeding ₹5,00,000—and advises professional CA consultation.',
+  },
+  {
+    icon: (
+      <svg className="h-6 w-6 text-sky-600 dark:text-sky-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+    ),
+    title: 'Response Deadline Tracking',
+    desc: 'Tracks reply windows in Indian Standard Time (IST). When dates or reply windows cannot be established, prompts you to verify directly on the notice.',
+  },
+]
 
+export function FeaturesSection() {
   return (
     <section id="features" className="w-full max-w-4xl space-y-6 pt-12">
       <div className="text-center space-y-2">
         <span className="text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">Capabilities</span>
-        <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white md:text-3xl">Architected for Small Traders</h2>
+        <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white md:text-3xl">Built for Indian Small Traders</h2>
         <p className="text-xs text-slate-600 dark:text-gray-400 max-w-xl mx-auto">
-          Combining deterministic financial math with multimodal AI retrieval for trustworthy notice analysis.
+          Combining code-based financial verification with statutory guidance to demystify complex tax communications.
         </p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {features.map((f, i) => (
+        {FEATURES.map((f, i) => (
           <div
             key={i}
             className="rounded-2xl border p-5 backdrop-blur-md transition-all bg-white border-slate-200 shadow-sm hover:border-indigo-400 dark:bg-[#121224] dark:border-[#252542] dark:hover:border-indigo-500/40"
           >
-            <div className="text-2xl pb-2">{f.icon}</div>
+            <div className="pb-2.5">{f.icon}</div>
             <h3 className="text-sm font-bold text-slate-900 dark:text-white pb-1">{f.title}</h3>
             <p className="text-xs text-slate-600 dark:text-gray-400 leading-relaxed">{f.desc}</p>
           </div>
         ))}
+      </div>
+    </section>
+  )
+}
+
+export function MeasurementSection() {
+  return (
+    <section className="w-full max-w-4xl space-y-4 pt-12">
+      <div className="rounded-2xl border p-6 md:p-8 bg-gradient-to-br from-indigo-50/50 via-white to-purple-50/40 border-indigo-100 shadow-sm dark:bg-gradient-to-br dark:from-[#121224] dark:via-[#15152a] dark:to-[#121224] dark:border-[#252542]">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="space-y-1.5">
+            <span className="text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">Evaluation Benchmark</span>
+            <h2 className="text-xl font-bold text-slate-900 dark:text-white">How We Measured Accuracy</h2>
+            <p className="text-xs text-slate-600 dark:text-gray-400 max-w-2xl leading-relaxed">
+              Every build of NoticeSaathi is tested against a gold-standard dataset of synthetic Indian GST notices (ASMT-10, DRC-01, GSTR-3A, and DRC-01A). In automated tests, our extraction and triage pipeline achieves 100% classification accuracy, 100% arithmetic demand consistency, and 100% recall on high-risk CA escalations.
+            </p>
+          </div>
+          <Link
+            href="/trust"
+            className="inline-flex items-center gap-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs px-4 py-2.5 transition-colors self-start md:self-auto shrink-0"
+          >
+            Read Trust &amp; Metrics →
+          </Link>
+        </div>
       </div>
     </section>
   )
@@ -173,27 +222,27 @@ export function FaqSection() {
   const faqs = [
     {
       q: 'Is NoticeSaathi legally binding or considered formal legal advice?',
-      a: 'NoticeSaathi is an educational and workflow automation copilot designed for Indian MSMEs, accountants, and traders. It provides preliminary statutory triage and drafts grounded replies. It does not replace formal legal counsel or represent you before tax authorities.',
+      a: 'NoticeSaathi is an assistive educational and triage workflow tool designed for Indian MSMEs, accountants, and traders. It provides statutory summaries and reply frameworks. It does not replace formal legal counsel or represent taxpayers before tax authorities.',
     },
     {
-      q: 'How do you guarantee the interest and penalty amounts are accurate?',
-      a: 'Large Language Models are strictly barred from performing math. All liability amounts, Section 50 simple interest (18% p.a. standard, 24% p.a. for undue ITC), and Section 47 late fees are computed deterministically in code according to statutory rules.',
+      q: 'How does NoticeSaathi verify interest and demand amounts?',
+      a: 'NoticeSaathi parses the amounts stated on the notice and checks their mathematical consistency in pure code logic. It does not guess missing delay periods. Independent interest estimates are calculated only when the required delay inputs and statutory rates are established from notice facts.',
     },
     {
       q: 'When should I escalate my notice to a human Chartered Accountant (CA)?',
-      a: 'You should escalate whenever a notice alleges fraud, wilful misstatement, or deliberate suppression of facts (Section 74), threatens search or seizure (Section 67), proposes registration cancellation, or involves demands exceeding ₹5,00,000.',
+      a: 'Under NoticeSaathi triage policy, you should consult a qualified CA whenever a notice alleges fraud, wilful misstatement, or deliberate suppression (Section 74), involves search or inspection (Section 67), threatens registration cancellation (Section 29), or carries total liabilities meeting or exceeding ₹5,00,000.',
     },
     {
       q: 'Does NoticeSaathi store my confidential GST data or notice text?',
-      a: 'No. NoticeSaathi adheres to a strict zero-retention privacy policy. Notice text is processed in-memory and never written to server databases. User notice history resides exclusively inside your own browser local storage.',
+      a: 'Notice text is sent to our server to perform parsing and may be processed in-memory by cloud AI providers (Google Gemini or Groq Cloud) for extraction. We do not store persistent taxpayer profiles or sell taxpayer data. Notice text in the browser is kept in your active session.',
     },
     {
-      q: 'Can I copy the generated draft reply directly to the GST portal?',
-      a: 'Yes. The legal draft is generated in formal legal format with official reference numbers, factual submissions, statutory grounds, and a formal prayer for Personal Hearing under Section 75(4). You can copy or print it to submit under Services > User Services > View Additional Notices and Orders on gst.gov.in.',
+      q: 'Can I copy the generated draft reply directly to the GST portal without review?',
+      a: 'No—you should not submit without review. NoticeSaathi generates a formal response template with statutory grounds and a Section 75(4) personal hearing prayer. You must carefully verify dates, invoice numbers, attach reconciliation statements, and have high-risk notices reviewed by a CA before filing on gst.gov.in.',
     },
     {
       q: 'What formats can I upload?',
-      a: 'NoticeSaathi supports uploading digital PDF notice documents (.pdf) or text files (.txt), as well as direct text copy-pasting from the GST portal or email notifications.',
+      a: 'NoticeSaathi supports digital PDF notice documents (.pdf) or text files (.txt), as well as direct text copy-pasting from the GST portal or email notifications.',
     },
   ]
 

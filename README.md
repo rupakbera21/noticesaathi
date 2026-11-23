@@ -124,7 +124,7 @@ For an ordinary business owner:
 
 ## Benchmark Evaluation Results
 
-Every release is evaluated against a curated gold-standard benchmark dataset (`evals/dataset/samples.json`) containing synthetic Indian GST notices across diverse scenarios (ITC discrepancies under ASMT-10, fraud/wilful suppression under DRC-01, and return defaults under GSTR-3A).
+Every release is evaluated against a curated gold-standard benchmark dataset (`evals/dataset/synthetic-notices.json`) containing synthetic Indian GST notices across diverse scenarios (ITC discrepancies under ASMT-10, fraud/wilful suppression under DRC-01, return defaults under GSTR-3A, and pre-SCN consultation under DRC-01A).
 
 Results recorded in `evals/results/baseline-eval.json`:
 

@@ -51,9 +51,28 @@ Legal Name: M/s Fictional Kirana Stores
 
 Being a registered taxable person, you have not furnished return in GSTR-3B for the month of July 2024.
 You are hereby given notice under Section 46 of the CGST Act, 2017 to furnish the said return within 15 days, failing which the tax liability will be assessed under Section 62.`,
+
+  drc01a: `FORM GST DRC-01A
+[See rule 142(1A)]
+Intimation of tax ascertained through pre-SCN consultation
+Reference No: DRC01A/GJ/2024/4410
+Date: 12/09/2024
+GSTIN: 24SYNTH0000A1Z1
+Legal Name: M/s Synthetic Gujarat Traders
+Tax Period: April 2023 to March 2024
+
+Intimation under Section 73(5) read with Rule 142(1A).
+Discrepancy observed between outward supply reported in GSTR-1 and tax discharged in GSTR-3B.
+
+Tax: Rs 1,50,000
+Interest under Sec 50: Rs 18,000
+Penalty: Rs 0
+Total Stated Demand: Rs 1,68,000
+
+You are requested to pay the tax or furnish your submission in Part B within 30 days.`,
 }
 
-export type SampleKey = 'asmt10' | 'drc01' | 'gstr3a'
+export type SampleKey = 'asmt10' | 'drc01' | 'gstr3a' | 'drc01a'
 
 export function SampleNoticeButtons({
   selectedSample,
@@ -100,6 +119,18 @@ export function SampleNoticeButtons({
         data-testid="sample-gstr3a-btn"
       >
         GSTR-3A (Non-Filer)
+      </button>
+      <button
+        onClick={() => onSelect('drc01a', SAMPLES.drc01a)}
+        className={
+          selectedSample === 'drc01a'
+            ? 'rounded-lg border-2 border-teal-600 bg-teal-100 text-teal-950 font-bold ring-2 ring-teal-300 px-3 py-1 text-xs shadow-xs dark:border-teal-400 dark:bg-teal-900/80 dark:text-teal-100 dark:ring-0 dark:shadow-[0_0_12px_rgba(45,212,191,0.5)] transition-all'
+            : 'rounded-lg border border-teal-200 bg-teal-50/70 text-teal-900 hover:bg-teal-100/80 hover:border-teal-300 px-3 py-1 text-xs font-semibold shadow-xs dark:border-teal-800 dark:bg-teal-950/40 dark:text-teal-300 dark:hover:bg-teal-900/60 transition-colors'
+        }
+        aria-pressed={selectedSample === 'drc01a'}
+        data-testid="sample-drc01a-btn"
+      >
+        DRC-01A (Pre-SCN Intimation)
       </button>
     </div>
   )

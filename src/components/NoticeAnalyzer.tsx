@@ -19,9 +19,11 @@ export interface AnalysisResponse {
   citations: CitationItem[]
   explanation: string
   deadline: {
-    formattedDate: string
-    remainingDays: number
+    status?: 'explicit' | 'derived' | 'uncertain'
+    formattedDate: string | null
+    remainingDays: number | null
     isExpired: boolean
+    message?: string
   }
 }
 
@@ -156,6 +158,18 @@ function NoticeInputCard({
         loading={loading}
         disabled={loading || noticeText.trim().length === 0}
       />
+
+      <div className="mt-3.5 flex flex-wrap items-center justify-between gap-2 border-t border-slate-100 pt-3 text-[11px] text-slate-500 dark:border-white/5 dark:text-gray-400">
+        <span className="flex items-center gap-1.5">
+          <svg className="h-3.5 w-3.5 text-slate-400 dark:text-gray-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          Notice text is sent to our server for analysis and may be processed by Google Gemini or Groq.
+        </span>
+        <a href="/trust" className="text-indigo-600 dark:text-indigo-400 hover:underline font-medium">
+          Privacy Policy &amp; Architecture →
+        </a>
+      </div>
     </div>
   )
 }

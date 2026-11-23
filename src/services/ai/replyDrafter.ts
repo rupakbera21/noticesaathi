@@ -1,4 +1,5 @@
 import { ExtractedNotice, DraftReply } from '@/schemas/notice'
+import { evaluateEscalation } from '@/domain/escalation'
 import { AiProvider } from './types'
 
 export class ReplyDrafter {
@@ -55,8 +56,9 @@ export class ReplyDrafter {
       userNotes ? `Additional taxpayer facts: ${userNotes}` : 'All underlying tax liabilities have been discharged through cash or valid input tax credit.',
     ]
 
-    const caWarning = (notice.allegationsOfFraudOrWilfulSuppression || notice.totalStatedDemand > 500000)
-      ? 'Due to the statutory provisions invoked or total demand exceeding ₹5,00,000, professional review by a Chartered Accountant is strongly advised before final submission.'
+    const escalation = evaluateEscalation(notice)
+    const caWarning = escalation.shouldEscalate
+      ? `NoticeSaathi triage policy recommends professional review by a Chartered Accountant before submission (${escalation.reasons[0] ?? 'high-risk flags'}). Taxpayers should verify draft facts and attach primary records before filing.`
       : null
 
     const fullText = [

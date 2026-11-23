@@ -11,5 +11,5 @@
    - Proposed cancellation or suspension of GST registration
    - High-value demands exceeding configurable risk thresholds
    - Inconsistencies or low confidence in notice extraction
-5. **Data Privacy**: No notice text, business identifiers, or taxpayer data is stored on server databases or written to server logs. Processing is performed in-memory, and user history lives exclusively in the user's browser local storage.
+5. **Data Privacy**: No taxpayer profiles, persistent records, or notice archives are stored on application databases. Notice text is transmitted via HTTPS and processed in-memory during analysis (with potential cloud AI inference by Google Gemini or Groq Cloud), and user history resides in client session storage.
 6. **Prompt Injection Guardrails**: Notice text is treated as strictly untrusted user input enclosed within XML delimiter blocks.

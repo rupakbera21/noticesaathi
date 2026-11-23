@@ -4,7 +4,8 @@ import { extractWithRules } from '@/services/extract/ruleBasedExtract'
 import { evaluateEscalation } from '@/domain/escalation'
 import { GroundingValidator } from '@/services/ai/groundingValidator'
 import { getNoticeTypeDesc, getSuggestedDocuments } from '@/domain/noticeMetadata'
-import { addDaysIST, parseDateIST, formatDateIST } from '@/domain/dates'
+import { parseDateIST, formatDateIST, resolveNoticeDeadline } from '@/domain/dates'
+import { checkTotalsConsistency } from '@/domain/totals'
 import { KbChunk } from '@/schemas/kb'
 
 interface SyntheticEvalItem {
@@ -21,15 +22,27 @@ interface SyntheticEvalItem {
 
 function evaluateSingleNotice(item: SyntheticEvalItem, validator: GroundingValidator) {
   const ruleResult = extractWithRules(item.rawText)
-  const rawDate = ruleResult.detectedDates[0] || '2024-11-20'
-  const noticeDateObj = parseDateIST(rawDate)
-  const replyDays = ruleResult.replyDaysAllowed || 30
-  const deadlineObj = addDaysIST(noticeDateObj, replyDays)
+  const rawDate = ruleResult.detectedDates[0] || null
+  let noticeDateFormatted: string | null = null
+  if (rawDate) {
+    try {
+      noticeDateFormatted = formatDateIST(parseDateIST(rawDate))
+    } catch {
+      noticeDateFormatted = null
+    }
+  }
 
   const taxDemand = ruleResult.detectedTaxAmount || 0
   const interestDemand = ruleResult.detectedInterestAmount || 0
   const penaltyDemand = ruleResult.detectedPenaltyAmount || 0
   const totalStatedDemand = ruleResult.detectedTotalAmount || (taxDemand + interestDemand + penaltyDemand)
+
+  const deadline = resolveNoticeDeadline({
+    noticeDate: rawDate,
+    serviceDate: ruleResult.detectedServiceDate,
+    replyDeadlineDate: ruleResult.detectedExplicitDeadline,
+    replyDaysAllowed: ruleResult.replyDaysAllowed,
+  })
 
   const notice = {
     noticeType: ruleResult.detectedNoticeType,
@@ -38,7 +51,7 @@ function evaluateSingleNotice(item: SyntheticEvalItem, validator: GroundingValid
     taxpayerGstin: ruleResult.detectedGstin,
     taxpayerTradeName: null,
     noticeReferenceNumber: ruleResult.detectedDinOrRef,
-    noticeDate: formatDateIST(noticeDateObj),
+    noticeDate: noticeDateFormatted,
     taxPeriod: 'Specified Tax Period',
     sectionsCited: ruleResult.detectedSections,
     rulesCited: ruleResult.detectedRules,
@@ -48,8 +61,8 @@ function evaluateSingleNotice(item: SyntheticEvalItem, validator: GroundingValid
     penaltyDemand,
     otherDemand: 0,
     totalStatedDemand,
-    replyDeadlineDate: deadlineObj.toISOString().split('T')[0] ?? '',
-    replyDaysAllowed: replyDays,
+    replyDeadlineDate: deadline.formattedDate,
+    replyDaysAllowed: ruleResult.replyDaysAllowed,
     documentsRequested: getSuggestedDocuments(ruleResult.detectedNoticeType),
     statedGrounds: ['Reconciliation difference'],
     allegationsOfFraudOrWilfulSuppression: ruleResult.hasFraudAllegations,
@@ -118,10 +131,6 @@ describe('Automated Benchmark Evaluation Suite', () => {
     const citationRecall = totalSectionsGold > 0 ? Math.round((totalSectionsFound / totalSectionsGold) * 100) : 100
     const avgGrounding = Math.round((totalGroundingScore / n) * 100)
 
-    if (!fs.existsSync(outputDir)) {
-      fs.mkdirSync(outputDir, { recursive: true })
-    }
-
     const summary = {
       timestamp: new Date().toISOString(),
       datasetVersion: dataset.schemaVersion,
@@ -136,11 +145,90 @@ describe('Automated Benchmark Evaluation Suite', () => {
       detailedResults: results,
     }
 
-    fs.writeFileSync(outputPath, JSON.stringify(summary, null, 2))
+    const shouldWrite = process.env.UPDATE_SNAPSHOTS === 'true' || !fs.existsSync(outputPath)
+    if (shouldWrite) {
+      if (!fs.existsSync(outputDir)) {
+        fs.mkdirSync(outputDir, { recursive: true })
+      }
+      fs.writeFileSync(outputPath, JSON.stringify(summary, null, 2))
+    }
 
     expect(typeAccuracy).toBeGreaterThanOrEqual(80)
     expect(demandAccuracy).toBeGreaterThanOrEqual(80)
     expect(escalationAccuracy).toBeGreaterThanOrEqual(80)
     expect(citationRecall).toBeGreaterThanOrEqual(80)
+  })
+
+  describe('Integration Boundary & Uncertainty Scenarios', () => {
+    it('handles notices with missing dates by preserving uncertain deadline state', () => {
+      const rawText = `
+        FORM GST ASMT-10
+        Discrepancy notice under Section 61.
+        Tax Demand: Rs 20,000
+        Total: Rs 20,000
+      `
+      const ruleResult = extractWithRules(rawText)
+      const res = resolveNoticeDeadline({
+        noticeDate: ruleResult.detectedDates[0] || null,
+        serviceDate: ruleResult.detectedServiceDate,
+        replyDeadlineDate: ruleResult.detectedExplicitDeadline,
+        replyDaysAllowed: ruleResult.replyDaysAllowed,
+      })
+      expect(res.status).toBe('uncertain')
+      expect(res.formattedDate).toBeNull()
+      expect(res.message).toBe('Check the deadline on your notice')
+    })
+
+    it('handles conflicting date strings gracefully without crashing', () => {
+      const res = resolveNoticeDeadline({
+        noticeDate: 'invalid-not-a-date',
+        replyDaysAllowed: 30,
+      })
+      expect(res.status).toBe('uncertain')
+      expect(res.deadlineDate).toBeNull()
+    })
+
+    it('identifies demand discrepancies when line items do not sum to stated total', () => {
+      const totalsCheck = checkTotalsConsistency({
+        taxDemand: 100000,
+        interestDemand: 10000,
+        penaltyDemand: 5000,
+        statedTotal: 150000, // Discrepancy of 35000
+      })
+      expect(totalsCheck.isConsistent).toBe(false)
+      expect(totalsCheck.hasDiscrepancy).toBe(true)
+      expect(totalsCheck.discrepancyMessage).toContain('Total mismatch')
+    })
+
+    it('triggers CA escalation for demands crossing the ₹5,00,000 triage threshold', () => {
+      const notice = {
+        noticeType: 'ASMT_10_SCRUTINY' as const,
+        noticeTypeDescription: 'Scrutiny of Returns',
+        issuingAuthority: null,
+        taxpayerGstin: '07TESTU9999R1Z9',
+        taxpayerTradeName: null,
+        noticeReferenceNumber: null,
+        noticeDate: '2024-11-01',
+        serviceDate: null,
+        taxPeriod: null,
+        sectionsCited: ['Section 61'],
+        rulesCited: [],
+        formsCited: ['ASMT-10'],
+        taxDemand: 520000,
+        interestDemand: 0,
+        penaltyDemand: 0,
+        otherDemand: 0,
+        totalStatedDemand: 520000,
+        replyDeadlineDate: null,
+        replyDaysAllowed: 30,
+        documentsRequested: [],
+        statedGrounds: [],
+        allegationsOfFraudOrWilfulSuppression: false,
+        extractionConfidence: 0.95,
+      }
+      const escalation = evaluateEscalation(notice)
+      expect(escalation.shouldEscalate).toBe(true)
+      expect(escalation.reasons.some(r => r.includes('5,00,000'))).toBe(true)
+    })
   })
 })

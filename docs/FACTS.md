@@ -25,7 +25,7 @@
   - Grounding Compliance Score: **82%** (validated against official CBIC knowledge chunks)
 - **Deterministic Domain Engines**:
   - `src/domain/interest.ts`: Section 50 simple interest calculation (18% p.a. standard, 24% p.a. undue ITC)
-  - `src/domain/lateFee.ts`: Section 47 late fees with statutory daily caps based on turnover/returns
+  - `src/domain/lateFee.ts`: Section 47 late fees with statutory daily caps based on turnover/returns (standalone domain helper)
   - `src/domain/dates.ts`: Strict Indian Standard Time (IST, UTC+5:30) date parsing and deadline countdowns
   - `src/domain/totals.ts`: Strict summation integrity and rounding checks
   - `src/domain/escalation.ts`: Deterministic risk flagging for fraud, inspection (§67), cancellation, or demands > ₹5,00,000

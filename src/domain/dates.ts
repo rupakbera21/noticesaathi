@@ -83,3 +83,83 @@ export function formatDateIST(date: Date): string {
   const year = date.getUTCFullYear()
   return `${day} ${month} ${year}`
 }
+
+export interface DeadlineResolution {
+  status: 'explicit' | 'derived' | 'uncertain'
+  deadlineDate: Date | null
+  formattedDate: string | null
+  remainingDays: number | null
+  isExpired: boolean
+  message: string
+}
+
+/**
+ * Resolves the statutory deadline for a GST notice without inventing fallback dates.
+ * - 'explicit': Stated explicitly on the notice.
+ * - 'derived': Stated reply window (e.g. 30 days) from date of service or notice date.
+ * - 'uncertain': Missing dates or windows, conflicting data; prompts user to check the notice.
+ */
+export function resolveNoticeDeadline(
+  notice: {
+    noticeDate?: string | null
+    serviceDate?: string | null
+    replyDeadlineDate?: string | null
+    replyDaysAllowed?: number | null
+  },
+  clock: () => Date = () => new Date()
+): DeadlineResolution {
+  // 1. Explicit deadline stated on notice
+  if (notice.replyDeadlineDate) {
+    try {
+      const deadlineDate = parseDateIST(notice.replyDeadlineDate)
+      const remainingDays = getRemainingDaysIST(deadlineDate, clock)
+      const isExpired = remainingDays < 0
+      return {
+        status: 'explicit',
+        deadlineDate,
+        formattedDate: formatDateIST(deadlineDate),
+        remainingDays,
+        isExpired,
+        message: isExpired
+          ? `Response Expired (${formatDateIST(deadlineDate)})`
+          : `${remainingDays} Days Left (${formatDateIST(deadlineDate)})`,
+      }
+    } catch {
+      // invalid date string -> check derived or return uncertain
+    }
+  }
+
+  // 2. Derived from service date (preferred under GST rules) or notice date + replyDaysAllowed
+  const startDateStr = notice.serviceDate || notice.noticeDate
+  if (startDateStr && notice.replyDaysAllowed && notice.replyDaysAllowed > 0) {
+    try {
+      const startDate = parseDateIST(startDateStr)
+      const deadlineDate = addDaysIST(startDate, notice.replyDaysAllowed)
+      const remainingDays = getRemainingDaysIST(deadlineDate, clock)
+      const isExpired = remainingDays < 0
+      return {
+        status: 'derived',
+        deadlineDate,
+        formattedDate: formatDateIST(deadlineDate),
+        remainingDays,
+        isExpired,
+        message: isExpired
+          ? `Response Expired (${formatDateIST(deadlineDate)})`
+          : `${remainingDays} Days Left (${formatDateIST(deadlineDate)})`,
+      }
+    } catch {
+      // invalid date string -> return uncertain
+    }
+  }
+
+  // 3. Uncertain state: missing date, missing window, or conflicting
+  return {
+    status: 'uncertain',
+    deadlineDate: null,
+    formattedDate: null,
+    remainingDays: null,
+    isExpired: false,
+    message: 'Check the deadline on your notice',
+  }
+}
+

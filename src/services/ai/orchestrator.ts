@@ -6,7 +6,7 @@ import { GroqProvider } from './groqProvider'
 import { CircuitBreaker } from './circuitBreaker'
 import { GroundingValidator, GroundingValidationResult } from './groundingValidator'
 import { extractWithRules, crossCheckExtractions, DiscrepancyFlag } from '@/services/extract/ruleBasedExtract'
-import { formatDateIST, parseDateIST, addDaysIST } from '@/domain/dates'
+import { formatDateIST, parseDateIST, resolveNoticeDeadline } from '@/domain/dates'
 import { getNoticeTypeDesc, getSuggestedDocuments } from '@/domain/noticeMetadata'
 
 export interface OrchestrationResult {
@@ -54,6 +54,35 @@ const PLAIN_SECTION_MAP: Record<string, { hi: string; bn: string; en: string }> 
     bn: 'ধারা 16 (আইটিসি যোগ্যতা): কেনাকাটার ওপর ইনপুট ট্যাক্স ক্রেডিট পাওয়ার আইনগত শর্তাবলী।',
     en: 'Section 16 (ITC Eligibility): Statutory criteria and invoice evidence required to claim Input Tax Credit.',
   },
+}
+
+function safeFormatDate(raw: string | null | undefined): string | null {
+  if (!raw) return null
+  try {
+    return formatDateIST(parseDateIST(raw))
+  } catch {
+    return null
+  }
+}
+
+function deriveNoticeDates(r: ReturnType<typeof extractWithRules>) {
+  const noticeDateFormatted = safeFormatDate(r.detectedDates[0])
+  const serviceDateFormatted = safeFormatDate(r.detectedServiceDate)
+  const deadline = resolveNoticeDeadline({
+    noticeDate: r.detectedDates[0] || null,
+    serviceDate: r.detectedServiceDate,
+    replyDeadlineDate: r.detectedExplicitDeadline,
+    replyDaysAllowed: r.replyDaysAllowed,
+  })
+
+  const deadlineIso = deadline.deadlineDate ? deadline.deadlineDate.toISOString().split('T')[0] ?? null : null
+
+  return {
+    noticeDateFormatted,
+    serviceDate: serviceDateFormatted,
+    replyDays: r.replyDaysAllowed || null,
+    deadlineIso,
+  }
 }
 
 export class AiOrchestrator {
@@ -109,12 +138,7 @@ export class AiOrchestrator {
   }
 
   private convertRuleToExtractedNotice(r: ReturnType<typeof extractWithRules>): ExtractedNotice {
-    const rawDate = r.detectedDates[0] || '2024-11-20'
-    const noticeDateObj = parseDateIST(rawDate)
-    const replyDays = r.replyDaysAllowed || 30
-    const deadlineObj = addDaysIST(noticeDateObj, replyDays)
-    const deadlineIso = deadlineObj.toISOString().split('T')[0] ?? ''
-
+    const { noticeDateFormatted, serviceDate, replyDays, deadlineIso } = deriveNoticeDates(r)
     const taxDemand = r.detectedTaxAmount || 0
     const interestDemand = r.detectedInterestAmount || 0
     const penaltyDemand = r.detectedPenaltyAmount || 0
@@ -127,7 +151,8 @@ export class AiOrchestrator {
       taxpayerGstin: r.detectedGstin,
       taxpayerTradeName: null,
       noticeReferenceNumber: r.detectedDinOrRef,
-      noticeDate: formatDateIST(noticeDateObj),
+      noticeDate: noticeDateFormatted,
+      serviceDate,
       taxPeriod: 'Specified Tax Period',
       sectionsCited: r.detectedSections,
       rulesCited: r.detectedRules,

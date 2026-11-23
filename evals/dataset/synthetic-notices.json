@@ -67,6 +67,27 @@
         "shouldEscalateToCA": false,
         "escalationReasons": []
       }
+    },
+    {
+      "id": "syn-drc01a-004",
+      "title": "DRC-01A Pre-SCN Consultation Intimation",
+      "noticeType": "DRC_01_DEMAND_NON_FRAUD",
+      "isFictional": true,
+      "rawText": "FORM GST DRC-01A\n[See rule 142(1A)]\nIntimation of tax ascertained through pre-SCN consultation\nReference No: DRC01A/GJ/2024/4410\nDate: 12/09/2024\nGSTIN: 24SYNTH0000A1Z1\nLegal Name: M/s Synthetic Gujarat Traders\nTax Period: April 2023 to March 2024\n\nIntimation under Section 73(5) read with Rule 142(1A).\nDiscrepancy observed between outward supply reported in GSTR-1 and tax discharged in GSTR-3B.\n\nTax: Rs 1,50,000\nInterest under Sec 50: Rs 18,000\nPenalty: Rs 0\nTotal Stated Demand: Rs 1,68,000\n\nYou are requested to pay the tax or furnish your submission in Part B within 30 days.",
+      "goldLabels": {
+        "noticeType": "DRC_01_DEMAND_NON_FRAUD",
+        "issuingAuthority": "Proper Officer, Central GST, Ahmedabad",
+        "sectionsCited": ["Section 73", "Section 50"],
+        "taxPeriod": "April 2023 to March 2024",
+        "taxDemand": 150000,
+        "interestDemand": 18000,
+        "penaltyDemand": 0,
+        "totalDemand": 168000,
+        "replyDaysAllowed": 30,
+        "documentsRequested": ["GSTR-1 invoice schedule", "Reconciliation statement of turnover"],
+        "shouldEscalateToCA": false,
+        "escalationReasons": []
+      }
     }
   ]
 }

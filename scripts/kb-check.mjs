@@ -51,8 +51,20 @@ const liveManifest = {
   chunks: manifestEntries,
 }
 
-fs.writeFileSync(manifestPath, JSON.stringify(liveManifest, null, 2), 'utf-8')
-console.log(`Manifest written to ${manifestPath} (${manifestEntries.length} items validated).`)
+const shouldUpdate = process.argv.includes('--update') || process.env.UPDATE_SNAPSHOTS === 'true'
+
+if (shouldUpdate) {
+  fs.writeFileSync(manifestPath, JSON.stringify(liveManifest, null, 2), 'utf-8')
+  console.log(`Manifest written to ${manifestPath} (${manifestEntries.length} items validated).`)
+} else {
+  if (fs.existsSync(manifestPath)) {
+    const existing = JSON.parse(fs.readFileSync(manifestPath, 'utf-8'))
+    if (existing.totalChunks !== chunks.length) {
+      console.warn(`[WARN] Manifest chunk count mismatch: manifest has ${existing.totalChunks}, chunks.json has ${chunks.length}. Pass --update to sync.`)
+    }
+  }
+  console.log(`Verified ${manifestEntries.length} knowledge base chunks (manifest preserved).`)
+}
 
 if (hasErrors) {
   console.error('KB validation failed.')

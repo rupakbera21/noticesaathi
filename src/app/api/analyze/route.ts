@@ -4,9 +4,8 @@ import { AiOrchestrator } from '@/services/ai/orchestrator'
 import { RetrievalEngine } from '@/services/retrieval/retrievalEngine'
 import { evaluateEscalation } from '@/domain/escalation'
 import { checkTotalsConsistency } from '@/domain/totals'
-import { addDaysIST, parseDateIST, formatDateIST, getRemainingDaysIST } from '@/domain/dates'
+import { resolveNoticeDeadline } from '@/domain/dates'
 import { calculateInterest } from '@/domain/interest'
-import { ExtractedNotice } from '@/schemas/notice'
 import { InterestRule } from '@/schemas/rule'
 import { KbChunk } from '@/schemas/kb'
 import chunksData from '../../../../data/kb/chunks.json'
@@ -27,16 +26,6 @@ const orchestrator = new AiOrchestrator({
   kbChunks,
 })
 
-function computeDeadlineInfo(notice: ExtractedNotice) {
-  const rawDate = notice.noticeDate || '2024-11-20'
-  const noticeDateObj = parseDateIST(rawDate)
-  const replyDays = notice.replyDaysAllowed || 30
-  const deadlineObj = addDaysIST(noticeDateObj, replyDays)
-  const remainingDays = getRemainingDaysIST(deadlineObj)
-
-  return { deadlineObj, remainingDays }
-}
-
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
@@ -47,7 +36,7 @@ export async function POST(req: NextRequest) {
 
     const { noticeText, language } = parsed.data
     const orchResult = await orchestrator.extractNoticeFacts(noticeText)
-    const { deadlineObj, remainingDays } = computeDeadlineInfo(orchResult.notice)
+    const deadline = resolveNoticeDeadline(orchResult.notice)
 
     const escalation = evaluateEscalation(orchResult.notice)
     const totals = checkTotalsConsistency({
@@ -57,9 +46,12 @@ export async function POST(req: NextRequest) {
       statedTotal: orchResult.notice.totalStatedDemand,
     })
 
-    const interestCalc = orchResult.notice.taxDemand > 0
-      ? calculateInterest({ taxAmount: orchResult.notice.taxDemand, daysDelayed: 30, rule: interestRule })
-      : null
+    // Calculate an independent interest estimate only if the delay period is established from notice facts; otherwise unavailable
+    const delayDays = (orchResult.notice as { delayDaysEstablished?: number }).delayDaysEstablished ?? null
+    const interestCalc =
+      orchResult.notice.taxDemand > 0 && delayDays !== null && delayDays > 0
+        ? calculateInterest({ taxAmount: orchResult.notice.taxDemand, daysDelayed: delayDays, rule: interestRule })
+        : null
 
     const query = [...orchResult.notice.sectionsCited, ...orchResult.notice.formsCited, orchResult.notice.noticeTypeDescription].join(' ')
     const citations = retrievalEngine.search(query, 3).map(r => ({
@@ -85,9 +77,11 @@ export async function POST(req: NextRequest) {
         grounding: orchResult.grounding,
       },
       deadline: {
-        formattedDate: formatDateIST(deadlineObj),
-        remainingDays,
-        isExpired: remainingDays < 0,
+        status: deadline.status,
+        formattedDate: deadline.formattedDate,
+        remainingDays: deadline.remainingDays,
+        isExpired: deadline.isExpired,
+        message: deadline.message,
       },
       totals,
       interestCalc,

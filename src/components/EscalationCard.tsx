@@ -27,7 +27,9 @@ export function EscalationCard({ escalation }: EscalationCardProps) {
       <div className="flex items-start gap-3.5">
         <div className="mt-0.5 flex-shrink-0">
           <span className="flex h-7 w-7 items-center justify-center rounded-full bg-rose-100 text-rose-600 border border-rose-200 dark:bg-red-500/20 dark:text-red-400 dark:border-transparent">
-            ⚠️
+            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
           </span>
         </div>
         <div className="flex-1">
@@ -45,8 +47,7 @@ export function EscalationCard({ escalation }: EscalationCardProps) {
           </div>
 
           <p className="mt-1.5 text-xs leading-relaxed text-rose-950/90 dark:text-gray-300">
-            This notice contains high-stakes statutory allegations or financial liabilities that
-            carry severe legal consequences if mishandled. We strongly advise taking your books of accounts to a qualified CA or GST Practitioner.
+            Under NoticeSaathi&apos;s ₹5,00,000 MSME triage policy, this notice involves significant financial exposure or statutory allegations (e.g. Section 74, Section 67, or registration cancellation). Review the draft reply, verify all supporting invoices and records, and consult a qualified Chartered Accountant before filing on the GST portal.
           </p>
 
           <ul className="mt-3 space-y-1.5 text-xs">

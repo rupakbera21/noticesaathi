@@ -49,7 +49,14 @@ function checkFilePathsInText(filePath, text) {
     const candidate = m.replace(/`/g, '')
     if (isCandidateIgnored(candidate)) continue
 
-    if (candidate.startsWith('docs/') || candidate.startsWith('src/') || candidate.startsWith('public/') || candidate.startsWith('scripts/')) {
+    if (
+      candidate.startsWith('docs/') ||
+      candidate.startsWith('src/') ||
+      candidate.startsWith('public/') ||
+      candidate.startsWith('scripts/') ||
+      candidate.startsWith('evals/') ||
+      candidate.startsWith('data/')
+    ) {
       const fullPath = path.join(process.cwd(), candidate)
       if (!fs.existsSync(fullPath)) {
         console.error(`[ERROR] In ${filePath}: Backticked path does not exist: '${candidate}'`)
