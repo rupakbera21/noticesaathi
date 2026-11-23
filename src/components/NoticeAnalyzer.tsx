@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react'
 import { SampleNoticeButtons, SampleKey, getSampleNoticeText } from './SampleNoticeButtons'
 import { NoticeInputCard } from './NoticeInputCard'
 import { NoticeModalsAndResults, AnalysisResponse } from './NoticeModalsAndResults'
+import { DocumentPrinterScene } from './DocumentPrinterScene'
 
 export type { AnalysisResponse }
 
@@ -24,9 +25,23 @@ function getNoticeContextLabel(
 function scrollToNoticeInput() {
   const el = document.getElementById('notice-input')
   if (el) {
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const prefersReducedMotion =
+      typeof window !== 'undefined' &&
+      typeof window.matchMedia === 'function' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
     el.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth' })
     el.focus()
+  }
+}
+
+function scrollToResults() {
+  const el = document.getElementById('analysis-results-section')
+  if (el) {
+    const prefersReducedMotion =
+      typeof window !== 'undefined' &&
+      typeof window.matchMedia === 'function' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    el.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth' })
   }
 }
 
@@ -142,6 +157,13 @@ export function NoticeAnalyzer() {
         loading={state.loading}
         error={state.error}
         onError={msg => state.setError(msg)}
+      />
+      <DocumentPrinterScene
+        loading={state.loading}
+        analysis={state.analysis}
+        submittedText={state.noticeText}
+        uploadedFile={state.uploadedFile}
+        onScrollToResult={scrollToResults}
       />
       <NoticeModalsAndResults
         analysis={state.analysis}

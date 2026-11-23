@@ -115,7 +115,11 @@ export function NoticeModalsAndResults({
   if (!analysis) return null
   return (
     <>
-      <div className="space-y-6 animate-fade-in" data-testid="analysis-results">
+      <div
+        id="analysis-results-section"
+        className="space-y-6 animate-fade-in scroll-mt-24"
+        data-testid="analysis-results"
+      >
         <ActiveNoticeBanner label={noticeContextLabel} onEditNotice={onEditNotice} />
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">

@@ -275,12 +275,12 @@ html.dark .grain-overlay {
 @media (pointer: fine) {
   .hero-interactive-zone {
     cursor:
-      url('/cursors/cursor-light.svg') 0 0,
+      url('/cursors/cursor-light.svg') 4 3,
       auto;
   }
   html.dark .hero-interactive-zone {
     cursor:
-      url('/cursors/cursor-dark.svg') 0 0,
+      url('/cursors/cursor-dark.svg') 4 3,
       auto;
   }
 
