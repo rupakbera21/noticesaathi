@@ -271,32 +271,48 @@ html.dark .grain-overlay {
   }
 }
 
-/* Keep the branded cursor above component-level cursor utilities. */
+/* When custom React cursor is active, hide the native system cursor */
+html.custom-cursor-active,
+html.custom-cursor-active body,
+html.custom-cursor-active * {
+  cursor: none !important;
+}
+
+/* Report highlights marker animation */
+@keyframes reportMarkerReveal {
+  from {
+    background-color: transparent;
+  }
+  to {
+    background-color: var(--report-marker-bg);
+  }
+}
+
 :root {
-  --noticesaathi-cursor:
-    url('/cursors/cursor-light.cur') 5 4,
-    url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAYAAAByDd+UAAAEuUlEQVR4nLyWS28bVRTHz8x4/Bw7jp3ENiRpQhLjpnkpJUhEgQ0oq5ZU4rHgA7DrJ2ATlkiskagEqoSEhPoFukAQFiyoGihKEZA0wU3i+B0/xuN53TuXM3YMjus0bZr2SMczc++d+c3/3P+9Yx5ecPDwgsPRpY1rS9aWzwUoAHwSnYiU3geeqKaL30wmrZ8BbtDzAgtt51je6+LifM+1mdnlz8fH514LSZE5Rkujg+WpvQysV+EcogW0yydMwvRUYHjks8n4UiCeiPguXhwZlPzhSym9usyEMVKrLewB3NXhGZS2Aa+LvhEyzjPhvQuDc1KpYLJKhbJYLOyemZ4eCLgii4xWVxzuiaIsT28D3DsTtA046SiXC/X+QHgpFkuMAOcCTaVwWDSZoXNsZDTqiccTfU4IvO3i+auewCu75fLiPsAdeJpoA17DOcw5BwKhqd7w8LzTITGLWkAJgKJQyKR1Zg+PJ4Zd0cjLMaK6r3hd9USwbzxVLK7kAdaeSHGbadYQOu/o9ZGQFHhpye+NOCl6E5lACIItBtUKgfSexrxeL8zOjrkC/tgluWy+6XfnY3k0FsCvpxqr3aUIHBUk2eNx9/W8Gw6Oev6DEQaEMmCYFraVyjpkMoYVDEnc5ctTIbc7PElIZTnS80ZPrvTqFoI1OMFYHcAZvgLMCPo8H0QikwEsJ2cra4dZ+GM/iVgWd1g0WDGns0jUNtbUAGOeec6srzh9CTTWla2jMrOTgBgfIjTlCvWGXw9KQxM8GodgWW1YQynDhCM4s+EMDJNBLquymsLY0PCAOxq90Fcu0nckYUs4VBZ/QVMdg3YA19A4c+Jg0Dfh8UYXRWcvaymjrHkPwxew7BOE2S3U7sejZhsro7G6ApYo9DlUqA5Fi4Xvc7Beagd2bt7YkTfzRuG3ipzKULOpjFgU7ELarm0creaRtq4b0Kax6prGqfqBYCm5ww3Q8F1WjzE691IcECOplLrd78vKVj/rt1o9R0oatWxTZrdTWuM0vcRrerauq6mcYdU2PKnqTQCxgED2OKC91rBopZxGlQNdl8cE0ctsBTaoocoegtc1NSVoel6py/s5jhNMBZK3Rd3aMdJ0yw96ZgPMMoBPb4r4v6RdPk9OBIqmSMgDw6i85eG9DSn2XRSaPzV1x5FK/3RXlOrfGQ/NB14gWQmYdh8sXA46QvrxmMP8xjgCPk7hDcyPTN0o/q4ZFc7ljBxTRowqVyrcT3IHpU83gcfFzhSE4IN7MBXcl0KYX9Gj93tkWXT7AOOAGiFpd1INZgt+Kd7bUma/alH+q2Bou1/sgIkbuIhlM1HJLPauWh3l67rwTwAyugPytruer1Ewei0qNNQpxgFflXfvbWfl2wAuhMVR3SoquvXEH2e+O3DE3kU1nehJYtS5pkNNKFX/SPv2979GIRWcaxVhZoeqU0Po0oa7zR3MBUefpDl0RhZ4we2tyn/nK/k/f9hUjVs4Bjfpb1sOfKoQTmhHYJw7rLFUyFX6p1Y/UFT54Y/JQvlLAD+W0lsHWKdwhuBObv8Y53fHCxDxo/tcCMG5ctRwFnDebj5i92cFtvoQelXEU6xEDwLGzKZJzgY7DdjqP9f/qKcBzz3+BQAA///GAujSAAAABklEQVQDAGoUof2NxnSsAAAAAElFTkSuQmCC') 5 4,
-    url('/cursors/cursor-light.png') 5 4,
-    url('/cursors/cursor-light.svg') 5 4,
-    auto;
+  --report-marker-bg: rgba(180, 166, 255, 0.42);
 }
 
 :root.dark,
 html.dark {
-  --noticesaathi-cursor:
-    url('/cursors/cursor-dark.cur') 5 4,
-    url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAYAAAByDd+UAAAE7ElEQVR4nLxWWWxUVRj+z723s3amM4UuVCoVIkSCINGoISwSJZEXE55NNMYXDCT6okRNCAEBl7pgggkkxhCNhjS+6JMBoRICghVtmzZgKZ1u02XGLsNM73I2/zNzx16GthRKOMmXc+7ZvvP9/3/+czV4wMWYoY+UfEu4j0WfgUxzoXv67lsxSsiMD97/uzoWr98uLGZawkq8s3fZFexnCA4FtQtSbHjIlKpALFjxQk1l9HOi8TFzKnjj6OHR06mBa037jm7qx3GKEAsh9prNt2/3+dU19SsO+vx6vKaORKqXGPWapq8DUr1p88ad1qrlj49c/usnx0N21+bW3EV5cwoJcWaJALO5luhioucfKgJhUvHoGv3JpUviHz+2YkfTJ3uvb8e5YXXAkvXzKsQDtUndkf29n1YsqtrKGQfmIJiEUIRAdY2hcWwPDfFMNsM6HGvs0LsfrryEa2wo+HheZtY8k1RQMNO8mRCOINTmQBnWVEBqhELrnzmRHLRlTR1U1D6kPxsIxr//6L1k46E3W9fjugAU4qGoeNail7T9T6zZsTgard0gOJRRLgmngjAFLmFynEFvwpFGGZCHVxh+LmCtxQMbXtzyVuyptS8Pnb98PAt3UKmXmLZs9cqtFdWLV22jTIYYKmVMgIMqKZVEKVZmTY9S6L9hiWC5JPUNelXOluuEE9n0/MZdoVVrt/W2tPzgzEZMPLUyRwRg9SNfHmg+YTvackq5IiA2EipfKnKa9yuCc0kdCsGwhIblARJbpJPUMMs4U77r4XLZ+Pb+hlO4nwXT9/d/HwJMOxyd3zllmpkuwaXmIIFFXYUOA8dkSIagFBzHJpQ7ZHzMhEsXU/Ly7ymhGXaU6WPrE4nsV0cO9L/u+vYWv2olitVpbMsc71ZzGJUqcIBTnm9zqWokZhQVMuBMtRnhgsJwMgvNZwZFW8so77zaHU4kxl/ds+vMMijJ115C6RI6/2b6O6iwR6lTMCG1sUYCB5XZeTKKZDRPrGo8BEY1zSufzJkkGg3olZXBVDJ9jZQqLH0tFKndN9jRW1f9zASqW4wilDKMVoZqUdW0MtWWitzQDBKJ+7RQqMyMxf0jviBr6002N3178o0JmCVoikVFrUoASw/u6W5MpXxbbMdGlZQwNJsiU75EElke8WsBn2GWR7QRZGW6kT43MZEc7E5e6P713LEk7jGCSCGyMJ0YZlSoBm1qZXsMPfZczqHyVjIuK2NhbVlD4EpP36VT7W3tvb9caBx1N865uOl+m66bYC6TqtfAzlmjV4kRI+gnWfAZmhFNaOgaqaryJ07/dvzY2Yuf9eDcSZfEcqHuIHUPftvLUhql4J7IGUsP9Pt0kZKy4DMmGEisqxaF0rls13dI1onzEog+xBAijcggplxS7iGEuQjVJPr1j6/1lfnJJF5+idEpKSIU9pFIhLV+8c1LZ3HOMGLMNV1RWVHVbUSzEXoSAExpxO4jOuZTVCcwudbWlg8Npf9ogkIwTMJ0JvGabs5cOpPCIqGZsQdO1dVEx8NhP1lSG01XxqD5xMmd7Tg2DoVnScA8niRvIbP0qWCqQNTtfqVpS7i84WmNmH2Hj27+GfsGoGBKaz6K5kOoilLud0krESEoKJpwoQLjrtXNRVhMST6XWCnO51mYjsB7+okidxjz5sLiHV3QryK5hzkL+i/9DwAA//9YuE3sAAAABklEQVQDALRl2VEm+KRcAAAAAElFTkSuQmCC') 5 4,
-    url('/cursors/cursor-dark.png') 5 4,
-    url('/cursors/cursor-dark.svg') 5 4,
-    auto;
+  --report-marker-bg: rgba(180, 166, 255, 0.28);
 }
 
-html,
-body,
-*,
-*::before,
-*::after {
-  cursor: var(--noticesaathi-cursor) !important;
+.report-highlight-mark {
+  background-color: transparent;
+  color: inherit;
+  border-radius: 4px;
+  padding: 0.1em 0.3em;
+  margin: 0 -0.05em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  animation: reportMarkerReveal 500ms ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .report-highlight-mark {
+    animation: none !important;
+    background-color: var(--report-marker-bg) !important;
+  }
 }
 
 /* ─── Hero Violet Lighting & Reflections ─────────────────────────── */
