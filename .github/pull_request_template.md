@@ -14,3 +14,18 @@
 
 <!-- For code changes: paste the relevant `npm run verify` output or test output. -->
 <!-- For doc changes: describe what was updated and why. -->
+
+## How to verify
+
+- Steps to reproduce:
+- Tests run and results:
+
+## Visual evidence
+
+- Screenshots or video for UI changes:
+- Preview link, if available:
+
+## Anything still open
+
+- Known issues, failed tests, or checks I couldn’t complete:
+- Dependency, environment variable, or deployment changes:
