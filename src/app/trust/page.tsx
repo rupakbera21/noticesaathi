@@ -1,5 +1,6 @@
 import React from 'react'
 import { Header, Footer } from '@/components/HomeHeaderFooter'
+import { InteractiveDots } from '@/components/InteractiveDots'
 import {
   TrustHero,
   TrustArchitectureSection,
@@ -21,6 +22,7 @@ export default function TrustPage() {
       style={{ backgroundColor: 'var(--color-bg)', color: 'var(--color-text)' }}
       className="relative flex min-h-dvh flex-col overflow-hidden canvas-bg"
     >
+      <InteractiveDots />
       <Header />
 
       <main
