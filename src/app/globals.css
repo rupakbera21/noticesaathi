@@ -274,11 +274,18 @@ html.dark .grain-overlay {
 /* Keep the branded cursor above component-level cursor utilities. */
 @media (any-pointer: fine) {
   :root {
-    --noticesaathi-cursor: url('/cursors/cursor-light.svg') 4 3, auto;
+    --noticesaathi-cursor:
+      url('/cursors/cursor-light.png') 4 3,
+      url('/cursors/cursor-light.svg') 4 3,
+      auto;
   }
 
-  :root.dark {
-    --noticesaathi-cursor: url('/cursors/cursor-dark.svg') 4 3, auto;
+  :root.dark,
+  html.dark {
+    --noticesaathi-cursor:
+      url('/cursors/cursor-dark.png') 4 3,
+      url('/cursors/cursor-dark.svg') 4 3,
+      auto;
   }
 
   *,
