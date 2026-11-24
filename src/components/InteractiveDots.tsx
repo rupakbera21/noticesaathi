@@ -19,4 +19,3 @@ export function InteractiveDots({ className = '' }: { className?: string }) {
     </div>
   )
 }
-

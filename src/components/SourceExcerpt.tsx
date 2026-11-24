@@ -11,7 +11,11 @@ export interface ExcerptInfo {
 }
 
 export function getNoticeExcerpt(
-  notice: { taxpayerGstin?: string | null; noticeReferenceNumber?: string | null; taxDemand: number },
+  notice: {
+    taxpayerGstin?: string | null
+    noticeReferenceNumber?: string | null
+    taxDemand: number
+  },
   type: 'tax' | 'interest'
 ): ExcerptInfo | null {
   const isAsmt10 =

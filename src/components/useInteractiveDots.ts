@@ -217,8 +217,7 @@ function setupGridObservers(
   state: CanvasState,
   initGrid: () => void
 ) {
-  const resizeObserver =
-    typeof ResizeObserver !== 'undefined' ? new ResizeObserver(initGrid) : null
+  const resizeObserver = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(initGrid) : null
   if (resizeObserver) resizeObserver.observe(container)
 
   const mutationObserver =

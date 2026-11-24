@@ -16,10 +16,7 @@ export function renderInlineFormatted(text: string): React.ReactNode[] {
     if (part.startsWith('**') && part.endsWith('**') && part.length >= 4) {
       const inner = part.slice(2, -2)
       return (
-        <strong
-          key={index}
-          className="font-bold text-[var(--text-primary)]"
-        >
+        <strong key={index} className="font-bold text-[var(--text-primary)]">
           {inner}
         </strong>
       )
@@ -99,7 +96,9 @@ function cleanHeadingText(line: string): string {
     .trim()
 }
 
-function parseListMatch(line: string): { type: 'ordered' | 'unordered'; num?: string; text: string } | null {
+function parseListMatch(
+  line: string
+): { type: 'ordered' | 'unordered'; num?: string; text: string } | null {
   const orderedMatch = line.match(/^([0-9]+|[০-৯]+|[०-९]+)[\.\)]\s+(.*)$/)
   if (orderedMatch && orderedMatch[1] && orderedMatch[2]) {
     return { type: 'ordered', num: orderedMatch[1], text: orderedMatch[2] }
@@ -114,7 +113,10 @@ function parseListMatch(line: string): { type: 'ordered' | 'unordered'; num?: st
 export function parseExplanationBlocks(rawText: string): Block[] {
   const lines = rawText.split(/\r?\n/)
   const blocks: Block[] = []
-  let currentList: { type: 'ordered' | 'unordered'; items: Array<{ num?: string; text: string }> } | null = null
+  let currentList: {
+    type: 'ordered' | 'unordered'
+    items: Array<{ num?: string; text: string }>
+  } | null = null
   let currentParagraph: string[] = []
 
   const flushParagraph = () => {
@@ -188,9 +190,15 @@ function RenderBlock({
 
   if (block.type === 'ordered' && block.items) {
     return (
-      <ol key={index} className="space-y-2 my-2.5 pl-4 list-decimal marker:font-bold marker:text-[var(--color-primary)]">
+      <ol
+        key={index}
+        className="space-y-2 my-2.5 pl-4 list-decimal marker:font-bold marker:text-[var(--color-primary)]"
+      >
         {block.items.map((item, itemIdx) => (
-          <li key={itemIdx} className="text-xs sm:text-sm leading-relaxed text-[var(--text-secondary)] pl-1">
+          <li
+            key={itemIdx}
+            className="text-xs sm:text-sm leading-relaxed text-[var(--text-secondary)] pl-1"
+          >
             {renderHighlightedText(item.text, highlights)}
           </li>
         ))}
@@ -200,9 +208,15 @@ function RenderBlock({
 
   if (block.type === 'unordered' && block.items) {
     return (
-      <ul key={index} className="space-y-2 my-2.5 pl-4 list-disc marker:text-[var(--color-primary)]">
+      <ul
+        key={index}
+        className="space-y-2 my-2.5 pl-4 list-disc marker:text-[var(--color-primary)]"
+      >
         {block.items.map((item, itemIdx) => (
-          <li key={itemIdx} className="text-xs sm:text-sm leading-relaxed text-[var(--text-secondary)] pl-1">
+          <li
+            key={itemIdx}
+            className="text-xs sm:text-sm leading-relaxed text-[var(--text-secondary)] pl-1"
+          >
             {renderHighlightedText(item.text, highlights)}
           </li>
         ))}
@@ -233,4 +247,3 @@ export function FormattedExplanation({ text }: { text: string }) {
     </div>
   )
 }
-

@@ -12,13 +12,7 @@ interface DocumentPrinterSceneProps {
   onScrollToResult?: () => void
 }
 
-function PrinterSlot({
-  phase,
-  loading,
-}: {
-  phase: AnimationPhase
-  loading: boolean
-}) {
+function PrinterSlot({ phase, loading }: { phase: AnimationPhase; loading: boolean }) {
   return (
     <div className="relative z-20 flex flex-col items-center justify-center my-1">
       {/* Violet-glass lip */}
@@ -204,9 +198,7 @@ export function DocumentPrinterScene({
 
       <PrinterSlot phase={phase} loading={loading} />
 
-      {analysis && (
-        <OutgoingReceiptSheet analysis={analysis} printProgress={printProgress} />
-      )}
+      {analysis && <OutgoingReceiptSheet analysis={analysis} printProgress={printProgress} />}
 
       {showViewResultPill && onScrollToResult && (
         <button

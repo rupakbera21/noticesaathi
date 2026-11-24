@@ -63,11 +63,7 @@ const ACTION_PATTERNS = [
   /यथाযথ জবাব দাখিল করুন/,
 ]
 
-const ALL_CATEGORY_PATTERNS = [
-  AMOUNT_PATTERNS,
-  DEADLINE_PATTERNS,
-  ACTION_PATTERNS,
-]
+const ALL_CATEGORY_PATTERNS = [AMOUNT_PATTERNS, DEADLINE_PATTERNS, ACTION_PATTERNS]
 
 export function findReportHighlights(text: string): HighlightSpan[] {
   if (!text || text.trim().length === 0) return []

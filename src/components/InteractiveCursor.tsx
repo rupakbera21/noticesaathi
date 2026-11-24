@@ -14,13 +14,27 @@ function ArrowheadSvgLight() {
       aria-hidden="true"
     >
       <defs>
-        <linearGradient id="cursor-glass-light" x1="5.5" y1="4.5" x2="21" y2="21" gradientUnits="userSpaceOnUse">
+        <linearGradient
+          id="cursor-glass-light"
+          x1="5.5"
+          y1="4.5"
+          x2="21"
+          y2="21"
+          gradientUnits="userSpaceOnUse"
+        >
           <stop offset="0" stopColor="#7c6ee6" />
           <stop offset="0.4" stopColor="#5547d6" />
           <stop offset="0.75" stopColor="#4338ca" />
           <stop offset="1" stopColor="#322998" />
         </linearGradient>
-        <filter id="cursor-shadow-light" x="0" y="0" width="28" height="28" filterUnits="userSpaceOnUse">
+        <filter
+          id="cursor-shadow-light"
+          x="0"
+          y="0"
+          width="28"
+          height="28"
+          filterUnits="userSpaceOnUse"
+        >
           <feGaussianBlur in="SourceAlpha" stdDeviation="1.1" />
           <feOffset dy="1.2" result="blur" />
           <feFlood floodColor="#1d1656" floodOpacity=".36" />
@@ -63,13 +77,27 @@ function ArrowheadSvgDark() {
       aria-hidden="true"
     >
       <defs>
-        <linearGradient id="cursor-glass-dark" x1="5.5" y1="4.5" x2="21" y2="21" gradientUnits="userSpaceOnUse">
+        <linearGradient
+          id="cursor-glass-dark"
+          x1="5.5"
+          y1="4.5"
+          x2="21"
+          y2="21"
+          gradientUnits="userSpaceOnUse"
+        >
           <stop offset="0" stopColor="#b4a6ff" />
           <stop offset="0.45" stopColor="#6f61e4" />
           <stop offset="0.8" stopColor="#3e33b0" />
           <stop offset="1" stopColor="#241c78" />
         </linearGradient>
-        <filter id="cursor-shadow-dark" x="0" y="0" width="28" height="28" filterUnits="userSpaceOnUse">
+        <filter
+          id="cursor-shadow-dark"
+          x="0"
+          y="0"
+          width="28"
+          height="28"
+          filterUnits="userSpaceOnUse"
+        >
           <feGaussianBlur in="SourceAlpha" stdDeviation="1.2" />
           <feOffset dy="1.4" result="blur" />
           <feFlood floodColor="#070712" floodOpacity=".58" />
