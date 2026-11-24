@@ -12,17 +12,17 @@ export interface Dot {
 }
 
 export const SPACING = 30
-export const RESTING_RADIUS = 0.7
-export const MAX_RADIUS = 1.3
-export const INFLUENCE_RADIUS = 110
+export const RESTING_RADIUS = 1.0
+export const MAX_RADIUS = 1.8
+export const INFLUENCE_RADIUS = 120
 
 export const LIGHT_COLOR = '67, 56, 202'
-export const LIGHT_RESTING_ALPHA = 0.15
-export const LIGHT_MAX_ALPHA = 0.65
+export const LIGHT_RESTING_ALPHA = 0.33
+export const LIGHT_MAX_ALPHA = 0.88
 
 export const DARK_COLOR = '180, 166, 255'
-export const DARK_RESTING_ALPHA = 0.18
-export const DARK_MAX_ALPHA = 0.75
+export const DARK_RESTING_ALPHA = 0.36
+export const DARK_MAX_ALPHA = 0.92
 
 export function getThemeTokens() {
   const dark =
