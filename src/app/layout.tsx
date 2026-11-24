@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Poppins, Noto_Sans_Bengali } from 'next/font/google'
+import { InteractiveCursor } from '@/components/InteractiveCursor'
 import './globals.css'
 
 const poppins = Poppins({
@@ -48,6 +49,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <a href="#main-content" className="skip-link">
           Skip to main content
         </a>
+        <InteractiveCursor />
         {children}
       </body>
     </html>

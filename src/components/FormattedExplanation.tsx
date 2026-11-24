@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useMemo } from 'react'
+import { findReportHighlights, HighlightSpan } from './reportHighlighting'
 
 export interface Block {
   type: 'heading' | 'paragraph' | 'ordered' | 'unordered'
@@ -25,6 +26,63 @@ export function renderInlineFormatted(text: string): React.ReactNode[] {
     }
     return <React.Fragment key={index}>{part}</React.Fragment>
   })
+}
+
+export function renderHighlightedText(
+  text: string,
+  highlights: HighlightSpan[]
+): React.ReactNode[] {
+  if (!highlights || highlights.length === 0) {
+    return renderInlineFormatted(text)
+  }
+
+  const matches: Array<{ phrase: string; index: number; globalIndex: number }> = []
+  highlights.forEach((hl, gIdx) => {
+    const idx = text.indexOf(hl.phrase)
+    if (idx !== -1) {
+      matches.push({ phrase: hl.phrase, index: idx, globalIndex: gIdx })
+    }
+  })
+
+  if (matches.length === 0) {
+    return renderInlineFormatted(text)
+  }
+
+  matches.sort((a, b) => a.index - b.index)
+
+  const nodes: React.ReactNode[] = []
+  let cursor = 0
+
+  for (const m of matches) {
+    if (m.index < cursor) continue
+    if (m.index > cursor) {
+      nodes.push(
+        <React.Fragment key={`pre-${cursor}`}>
+          {renderInlineFormatted(text.slice(cursor, m.index))}
+        </React.Fragment>
+      )
+    }
+    nodes.push(
+      <mark
+        key={`mark-${m.globalIndex}-${m.index}`}
+        className="report-highlight-mark"
+        style={{ animationDelay: `${m.globalIndex * 140}ms` }}
+      >
+        {renderInlineFormatted(m.phrase)}
+      </mark>
+    )
+    cursor = m.index + m.phrase.length
+  }
+
+  if (cursor < text.length) {
+    nodes.push(
+      <React.Fragment key={`post-${cursor}`}>
+        {renderInlineFormatted(text.slice(cursor))}
+      </React.Fragment>
+    )
+  }
+
+  return nodes
 }
 
 function isHeadingLine(line: string): boolean {
@@ -108,14 +166,22 @@ export function parseExplanationBlocks(rawText: string): Block[] {
   return blocks
 }
 
-function RenderBlock({ block, index }: { block: Block; index: number }) {
+function RenderBlock({
+  block,
+  index,
+  highlights,
+}: {
+  block: Block
+  index: number
+  highlights: HighlightSpan[]
+}) {
   if (block.type === 'heading' && block.text) {
     return (
       <h4
         key={index}
         className="text-xs sm:text-sm font-bold uppercase tracking-wider text-[var(--color-primary)] mt-4 mb-2 flex items-center gap-1.5 border-b border-[var(--border-subtle)] pb-1"
       >
-        <span>{block.text}</span>
+        <span>{renderHighlightedText(block.text, highlights)}</span>
       </h4>
     )
   }
@@ -125,7 +191,7 @@ function RenderBlock({ block, index }: { block: Block; index: number }) {
       <ol key={index} className="space-y-2 my-2.5 pl-4 list-decimal marker:font-bold marker:text-[var(--color-primary)]">
         {block.items.map((item, itemIdx) => (
           <li key={itemIdx} className="text-xs sm:text-sm leading-relaxed text-[var(--text-secondary)] pl-1">
-            {renderInlineFormatted(item.text)}
+            {renderHighlightedText(item.text, highlights)}
           </li>
         ))}
       </ol>
@@ -137,7 +203,7 @@ function RenderBlock({ block, index }: { block: Block; index: number }) {
       <ul key={index} className="space-y-2 my-2.5 pl-4 list-disc marker:text-[var(--color-primary)]">
         {block.items.map((item, itemIdx) => (
           <li key={itemIdx} className="text-xs sm:text-sm leading-relaxed text-[var(--text-secondary)] pl-1">
-            {renderInlineFormatted(item.text)}
+            {renderHighlightedText(item.text, highlights)}
           </li>
         ))}
       </ul>
@@ -146,13 +212,14 @@ function RenderBlock({ block, index }: { block: Block; index: number }) {
 
   return (
     <p key={index} className="text-xs sm:text-sm leading-relaxed text-[var(--text-secondary)] mb-3">
-      {block.text ? renderInlineFormatted(block.text) : null}
+      {block.text ? renderHighlightedText(block.text, highlights) : null}
     </p>
   )
 }
 
 export function FormattedExplanation({ text }: { text: string }) {
   const blocks = useMemo(() => parseExplanationBlocks(text), [text])
+  const highlights = useMemo(() => findReportHighlights(text), [text])
 
   if (!text || text.trim().length === 0) {
     return null
@@ -161,8 +228,9 @@ export function FormattedExplanation({ text }: { text: string }) {
   return (
     <div className="space-y-1" data-testid="formatted-explanation">
       {blocks.map((block, idx) => (
-        <RenderBlock key={idx} block={block} index={idx} />
+        <RenderBlock key={idx} block={block} index={idx} highlights={highlights} />
       ))}
     </div>
   )
 }
+
