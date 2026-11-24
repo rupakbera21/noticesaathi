@@ -1,18 +1,19 @@
 <svg width="28" height="28" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="glass" x1="6" y1="5" x2="21" y2="21" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#a16af3"/>
-      <stop offset=".65" stop-color="#bc8bf4"/>
-      <stop offset="1" stop-color="#8c54e2"/>
+    <linearGradient id="glass-dark" x1="5.5" y1="4.5" x2="21" y2="21" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#b4a6ff"/>
+      <stop offset="0.45" stop-color="#6f61e4"/>
+      <stop offset="0.8" stop-color="#3e33b0"/>
+      <stop offset="1" stop-color="#241c78"/>
     </linearGradient>
-    <filter id="shadow" x="0" y="0" width="28" height="28" filterUnits="userSpaceOnUse">
-      <feGaussianBlur in="SourceAlpha" stdDeviation="1.3"/>
-      <feOffset dy="1.5" result="blur"/>
-      <feFlood flood-color="#7543cf" flood-opacity=".38"/>
+    <filter id="shadow-dark" x="0" y="0" width="28" height="28" filterUnits="userSpaceOnUse">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="1.2"/>
+      <feOffset dy="1.4" result="blur"/>
+      <feFlood flood-color="#070712" flood-opacity=".58"/>
       <feComposite in2="blur" operator="in" result="shadow"/>
       <feMerge><feMergeNode in="shadow"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
   </defs>
-  <path d="M 5.3 4.1 Q 6.15 3.55 7.55 4.36 L 21.42 12.05 Q 23.38 13.14 22.27 14.75 Q 21.95 15.17 20.98 15.44 L 14.28 17.17 L 11.21 22.16 Q 10.24 23.63 8.7 22.96 Q 7.89 22.56 7.65 21.12 L 4.43 6.57 Q 4 4.71 5.3 4.1 Z" fill="url(#glass)" fill-opacity=".92" stroke="#a077e9" stroke-opacity=".54" stroke-width=".75" filter="url(#shadow)"/>
-  <path d="M 6.35 5.35 Q 6.68 5.12 7.3 5.49 L 20.46 12.72" fill="none" stroke="#efe0ff" stroke-opacity=".37" stroke-width=".8" stroke-linecap="round"/>
+  <path d="M 5.3 4.1 Q 6.15 3.55 7.55 4.36 L 21.42 12.05 Q 23.38 13.14 22.27 14.75 Q 21.95 15.17 20.98 15.44 L 14.28 17.17 L 11.21 22.16 Q 10.24 23.63 8.7 22.96 Q 7.89 22.56 7.65 21.12 L 4.43 6.57 Q 4 4.71 5.3 4.1 Z" fill="url(#glass-dark)" fill-opacity=".92" stroke="#9d8df8" stroke-opacity=".68" stroke-width=".75" filter="url(#shadow-dark)"/>
+  <path d="M 6.35 5.35 Q 6.68 5.12 7.3 5.49 L 20.46 12.72" fill="none" stroke="#ffffff" stroke-opacity=".55" stroke-width=".8" stroke-linecap="round"/>
 </svg>
