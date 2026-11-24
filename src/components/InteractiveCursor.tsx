@@ -2,6 +2,7 @@
 
 import React, { useRef } from 'react'
 import { useInteractiveCursor } from './useInteractiveCursor'
+import { useRegularGlassCursor } from './useRegularGlassCursor'
 
 function ArrowheadSvgLight() {
   return (
@@ -129,38 +130,69 @@ function ArrowheadSvgDark() {
   )
 }
 
+function RegularGlassRing({
+  isHovering,
+  ringRef,
+  glassCanvasRef,
+}: {
+  isHovering: boolean
+  ringRef: React.RefObject<HTMLDivElement | null>
+  glassCanvasRef: React.RefObject<HTMLCanvasElement | null>
+}) {
+  return (
+    <div
+      ref={ringRef}
+      className={`absolute rounded-full overflow-hidden pointer-events-none transition-all duration-150 ease-out motion-reduce:transition-none ${
+        isHovering ? 'opacity-100 scale-100' : 'opacity-0 scale-50'
+      }`}
+      style={{
+        width: '32px',
+        height: '32px',
+        top: '-16px',
+        left: '-16px',
+        border: '1.75px solid var(--accent-light, #b4a6ff)',
+        boxShadow: '0 0 10px rgba(180, 166, 255, 0.4)',
+        backgroundColor: 'rgba(180, 166, 255, 0.16)',
+      }}
+    >
+      {/* WebGL Regular Glass output canvas (20px pad centered inside 32px circle) */}
+      <canvas
+        ref={glassCanvasRef}
+        className="absolute pointer-events-none"
+        style={{
+          width: '72px',
+          height: '72px',
+          top: '-20px',
+          left: '-20px',
+        }}
+        aria-hidden="true"
+      />
+    </div>
+  )
+}
+
 export function InteractiveCursor() {
   const overlayRef = useRef<HTMLDivElement | null>(null)
   const ringRef = useRef<HTMLDivElement | null>(null)
-  const { isHovering } = useInteractiveCursor(overlayRef, ringRef)
+  const glassCanvasRef = useRef<HTMLCanvasElement | null>(null)
+  const { isHovering, isVisible } = useInteractiveCursor(overlayRef, ringRef)
+
+  useRegularGlassCursor(glassCanvasRef, isHovering, isVisible)
 
   return (
     <div
       ref={overlayRef}
       aria-hidden="true"
       data-testid="interactive-cursor"
+      data-cursor-layer="true"
       className="fixed top-0 left-0 pointer-events-none z-[99999] opacity-0 will-change-transform"
       style={{
         transform: 'translate3d(-9999px, -9999px, 0)',
         transition: 'opacity 150ms ease-out',
       }}
     >
-      {/* Soft lavender ring */}
-      <div
-        ref={ringRef}
-        className={`absolute rounded-full pointer-events-none transition-all duration-150 ease-out motion-reduce:transition-none ${
-          isHovering ? 'opacity-100 scale-100' : 'opacity-0 scale-50'
-        }`}
-        style={{
-          width: '32px',
-          height: '32px',
-          top: '-16px',
-          left: '-16px',
-          border: '1.75px solid var(--accent-light, #b4a6ff)',
-          backgroundColor: 'rgba(180, 166, 255, 0.16)',
-          boxShadow: '0 0 10px rgba(180, 166, 255, 0.4)',
-        }}
-      />
+      {/* Regular Glass hover ring with WebGL shader output */}
+      <RegularGlassRing isHovering={isHovering} ringRef={ringRef} glassCanvasRef={glassCanvasRef} />
 
       {/* Theme matched glass arrowhead */}
       <ArrowheadSvgLight />

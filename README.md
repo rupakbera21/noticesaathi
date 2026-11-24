@@ -97,6 +97,8 @@ Results recorded in `evals/results/baseline-eval.json`:
 | **fast-check**            | Property Testing (`^3.23.2`)             | Property-based testing for interest and late fee calculation engines        |
 | **jest-axe**              | Accessibility Testing (`^9.0.0`)         | Automated WCAG AA accessibility compliance verification                     |
 | **@playwright/test**      | End-to-End Testing (`^1.49.1`)           | Multi-viewport visual and interaction testing across 4 viewports            |
+| **@ybouane/liquidglass**  | WebGL Glass Shader (`^1.0.3`)            | WebGL optical refraction shader for interactive cursor hover ring           |
+| **html-to-image**         | DOM Texture Capture (`^1.11.13`)         | In-browser DOM rasterization for WebGL liquid glass background sampling     |
 
 ---
 
