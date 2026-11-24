@@ -37,10 +37,19 @@ export function useInteractiveCursor(
 
   useEffect(() => {
     if (typeof window === 'undefined') return
-    const isTouchDevice = () => window.matchMedia('(pointer: coarse)').matches
+
+    const deactivate = () => {
+      setIsVisible(false)
+      document.documentElement.classList.remove('custom-cursor-active')
+      if (overlayRef.current) overlayRef.current.style.opacity = '0'
+    }
 
     const onPointerMove = (e: PointerEvent) => {
-      if (e.pointerType === 'touch' || isTouchDevice()) return
+      if (e.pointerType === 'touch' || e.pointerType === 'pen') {
+        deactivate()
+        return
+      }
+
       const overlay = overlayRef.current
       if (!overlay) return
 
@@ -59,11 +68,19 @@ export function useInteractiveCursor(
       }
     }
 
+    const onPointerDown = (e: PointerEvent) => {
+      if (e.pointerType === 'touch' || e.pointerType === 'pen') {
+        deactivate()
+      }
+    }
+
     window.addEventListener('pointermove', onPointerMove, { passive: true })
+    window.addEventListener('pointerdown', onPointerDown, { passive: true })
     const cleanupLeave = handlePointerEnterLeave(overlayRef, setIsVisible)
 
     return () => {
       window.removeEventListener('pointermove', onPointerMove)
+      window.removeEventListener('pointerdown', onPointerDown)
       cleanupLeave()
       document.documentElement.classList.remove('custom-cursor-active')
     }

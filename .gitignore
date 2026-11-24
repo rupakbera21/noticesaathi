@@ -26,6 +26,7 @@ coverage/
 
 # Local screenshots and test reports (never commit screenshots)
 screenshots/
+recordings/
 local-screenshots/
 playwright-report/
 test-results/

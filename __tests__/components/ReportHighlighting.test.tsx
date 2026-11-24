@@ -30,7 +30,9 @@ Statutory Context & Review:
     expect(enHighlights.length).toBeGreaterThanOrEqual(2)
     expect(enHighlights.length).toBeLessThanOrEqual(4)
     expect(enHighlights.some(h => h.phrase.includes('₹45,500'))).toBe(true)
-    expect(enHighlights.some(h => h.phrase.includes('check your actual date of receipt'))).toBe(true)
+    expect(enHighlights.some(h => h.phrase.includes('check your actual date of receipt'))).toBe(
+      true
+    )
 
     const hiHighlights = findReportHighlights(hiSample)
     expect(hiHighlights.length).toBeGreaterThanOrEqual(2)

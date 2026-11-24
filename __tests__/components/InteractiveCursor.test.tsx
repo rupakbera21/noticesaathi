@@ -83,4 +83,57 @@ describe('InteractiveCursor Component', () => {
     document.body.appendChild(disabledBtn)
     expect(isInteractiveTarget(disabledBtn)).toBe(false)
   })
+
+  it('activates custom cursor on physical mouse move even when primary pointer reports coarse', () => {
+    // Simulate device reporting coarse primary pointer (e.g. Windows touchscreen laptop with mouse)
+    window.matchMedia = jest.fn().mockImplementation((query: string) => ({
+      matches: query.includes('(pointer: coarse)'),
+      media: query,
+      onchange: null,
+      addListener: jest.fn(),
+      removeListener: jest.fn(),
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
+      dispatchEvent: jest.fn(),
+    }))
+
+    const { container } = render(<InteractiveCursor />)
+    const overlay = container.querySelector('[data-testid="interactive-cursor"]') as HTMLElement
+
+    act(() => {
+      window.dispatchEvent(
+        new PointerEvent('pointermove', {
+          clientX: 320,
+          clientY: 240,
+          pointerType: 'mouse',
+        })
+      )
+    })
+
+    expect(document.documentElement.classList.contains('custom-cursor-active')).toBe(true)
+    expect(overlay.style.transform).toBe('translate3d(320px, 240px, 0)')
+    expect(overlay.style.opacity).toBe('1')
+  })
+
+  it('leaves native behavior in place and deactivates custom cursor on touch input', () => {
+    const { container } = render(<InteractiveCursor />)
+    const overlay = container.querySelector('[data-testid="interactive-cursor"]') as HTMLElement
+
+    // Mouse activates
+    act(() => {
+      window.dispatchEvent(
+        new PointerEvent('pointermove', { clientX: 100, clientY: 100, pointerType: 'mouse' })
+      )
+    })
+    expect(document.documentElement.classList.contains('custom-cursor-active')).toBe(true)
+
+    // Touch event deactivates custom cursor and leaves native behavior
+    act(() => {
+      window.dispatchEvent(
+        new PointerEvent('pointerdown', { clientX: 120, clientY: 120, pointerType: 'touch' })
+      )
+    })
+    expect(document.documentElement.classList.contains('custom-cursor-active')).toBe(false)
+    expect(overlay.style.opacity).toBe('0')
+  })
 })
