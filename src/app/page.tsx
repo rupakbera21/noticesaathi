@@ -2,6 +2,7 @@ import React from 'react'
 import { NoticeAnalyzer } from '@/components/NoticeAnalyzer'
 import { Header, Footer } from '@/components/HomeHeaderFooter'
 import { HomeHero } from '@/components/HomeHero'
+import { InteractiveDots } from '@/components/InteractiveDots'
 import {
   HowItWorksSection,
   SupportedNoticesSection,
@@ -16,6 +17,7 @@ export default function HomePage() {
       style={{ backgroundColor: 'var(--color-bg)', color: 'var(--color-text)' }}
       className="relative flex min-h-dvh flex-col overflow-hidden canvas-bg"
     >
+      <InteractiveDots />
       <Header />
 
       <main

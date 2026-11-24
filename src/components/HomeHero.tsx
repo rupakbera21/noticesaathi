@@ -2,7 +2,6 @@
 
 import React from 'react'
 import { HeroDocumentPreview } from './HeroDocumentPreview'
-import { InteractiveDots } from './InteractiveDots'
 
 export function HomeHero() {
   function handleAnalyzeClick() {
@@ -27,7 +26,6 @@ export function HomeHero() {
 
   return (
     <section className="relative w-full max-w-6xl mx-auto py-8 md:py-14">
-      <InteractiveDots />
       <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
         {/* Left Editorial Column */}
         <div className="lg:col-span-6 space-y-6 text-left">

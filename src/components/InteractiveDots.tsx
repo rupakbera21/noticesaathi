@@ -13,13 +13,10 @@ export function InteractiveDots({ className = '' }: { className?: string }) {
     <div
       ref={containerRef}
       aria-hidden="true"
-      className={`absolute inset-0 -z-10 pointer-events-none select-none overflow-hidden ${className}`}
-      style={{
-        maskImage: 'linear-gradient(to bottom, black 0%, black 72%, transparent 100%)',
-        WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 72%, transparent 100%)',
-      }}
+      className={`fixed inset-0 pointer-events-none select-none overflow-hidden z-0 ${className}`}
     >
       <canvas ref={canvasRef} className="block w-full h-full" />
     </div>
   )
 }
+

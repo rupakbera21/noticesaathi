@@ -13,16 +13,16 @@ export interface Dot {
 
 export const SPACING = 30
 export const RESTING_RADIUS = 1.0
-export const MAX_RADIUS = 1.8
-export const INFLUENCE_RADIUS = 120
+export const MAX_RADIUS = 2.0
+export const INFLUENCE_RADIUS = 135
 
 export const LIGHT_COLOR = '67, 56, 202'
-export const LIGHT_RESTING_ALPHA = 0.33
-export const LIGHT_MAX_ALPHA = 0.88
+export const LIGHT_RESTING_ALPHA = 0.35
+export const LIGHT_MAX_ALPHA = 0.95
 
 export const DARK_COLOR = '180, 166, 255'
-export const DARK_RESTING_ALPHA = 0.36
-export const DARK_MAX_ALPHA = 0.92
+export const DARK_RESTING_ALPHA = 0.38
+export const DARK_MAX_ALPHA = 0.98
 
 export function getThemeTokens() {
   const dark =
@@ -105,8 +105,8 @@ export function stepDotPhysics(
   const deltaAlpha = dot.targetAlpha - dot.currentAlpha
 
   if (Math.abs(deltaRadius) > 0.008 || Math.abs(deltaAlpha) > 0.005) {
-    dot.currentRadius += deltaRadius * 0.2
-    dot.currentAlpha += deltaAlpha * 0.2
+    dot.currentRadius += deltaRadius * 0.25
+    dot.currentAlpha += deltaAlpha * 0.25
     return true
   }
 
@@ -176,18 +176,12 @@ function updateCanvasDimensions(
 }
 
 function attachPointerTracking(
-  heroParent: HTMLElement,
   container: HTMLElement,
   state: CanvasState,
   wakeAnimation: () => void
 ) {
-  const prefersReducedMotion = () =>
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  const isTouchOnly = () =>
-    window.matchMedia('(hover: none) and (pointer: coarse)').matches
-
-  const onPointerMove = (e: PointerEvent) => {
-    if (prefersReducedMotion() || isTouchOnly()) return
+  const onPointerMove = (e: MouseEvent | PointerEvent) => {
+    if ('pointerType' in e && e.pointerType === 'touch') return
     const rect = container.getBoundingClientRect()
     state.pointerX = e.clientX - rect.left
     state.pointerY = e.clientY - rect.top
@@ -196,17 +190,56 @@ function attachPointerTracking(
   }
 
   const onPointerLeave = () => {
-    if (prefersReducedMotion() || isTouchOnly()) return
     state.isPointerInside = false
     wakeAnimation()
   }
 
-  heroParent.addEventListener('pointermove', onPointerMove, { passive: true })
-  heroParent.addEventListener('pointerleave', onPointerLeave, { passive: true })
+  if (typeof window !== 'undefined') {
+    window.addEventListener('pointermove', onPointerMove, { passive: true })
+    window.addEventListener('mousemove', onPointerMove, { passive: true })
+    document.addEventListener('mouseleave', onPointerLeave, { passive: true })
+    window.addEventListener('blur', onPointerLeave, { passive: true })
+  }
 
   return () => {
-    heroParent.removeEventListener('pointermove', onPointerMove)
-    heroParent.removeEventListener('pointerleave', onPointerLeave)
+    if (typeof window !== 'undefined') {
+      window.removeEventListener('pointermove', onPointerMove)
+      window.removeEventListener('mousemove', onPointerMove)
+      document.removeEventListener('mouseleave', onPointerLeave)
+      window.removeEventListener('blur', onPointerLeave)
+    }
+  }
+}
+
+function setupGridObservers(
+  container: HTMLElement,
+  ctx: CanvasRenderingContext2D,
+  state: CanvasState,
+  initGrid: () => void
+) {
+  const resizeObserver =
+    typeof ResizeObserver !== 'undefined' ? new ResizeObserver(initGrid) : null
+  if (resizeObserver) resizeObserver.observe(container)
+
+  const mutationObserver =
+    typeof MutationObserver !== 'undefined'
+      ? new MutationObserver(() => {
+          if (!state.isAnimating) {
+            const { colorRgb, restingAlpha } = getThemeTokens()
+            drawStaticGrid(ctx, state.dots, state.width, state.height, colorRgb, restingAlpha)
+          }
+        })
+      : null
+  if (mutationObserver) {
+    mutationObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class'],
+    })
+  }
+
+  return () => {
+    if (resizeObserver) resizeObserver.disconnect()
+    if (mutationObserver) mutationObserver.disconnect()
   }
 }
 
@@ -264,38 +297,17 @@ export function useInteractiveDotsCanvas(
       }
     }
 
-    const heroParent = container.parentElement || container
-    const cleanupPointer = attachPointerTracking(heroParent, container, state, wakeAnimation)
-
-    const resizeObserver =
-      typeof ResizeObserver !== 'undefined' ? new ResizeObserver(initGrid) : null
-    if (resizeObserver) {
-      resizeObserver.observe(container)
-    }
-
-    const mutationObserver =
-      typeof MutationObserver !== 'undefined'
-        ? new MutationObserver(() => {
-            if (!state.isAnimating) {
-              const { colorRgb, restingAlpha } = getThemeTokens()
-              drawStaticGrid(ctx, state.dots, state.width, state.height, colorRgb, restingAlpha)
-            }
-          })
-        : null
-    if (mutationObserver) {
-      mutationObserver.observe(document.documentElement, {
-        attributes: true,
-        attributeFilter: ['class'],
-      })
-    }
+    const cleanupPointer = attachPointerTracking(container, state, wakeAnimation)
+    const cleanupObservers = setupGridObservers(container, ctx, state, initGrid)
+    window.addEventListener('resize', initGrid, { passive: true })
 
     initGrid()
 
     return () => {
       if (state.rafId) cancelAnimationFrame(state.rafId)
       cleanupPointer()
-      if (resizeObserver) resizeObserver.disconnect()
-      if (mutationObserver) mutationObserver.disconnect()
+      cleanupObservers()
+      window.removeEventListener('resize', initGrid)
     }
   }, [containerRef, canvasRef])
 }
