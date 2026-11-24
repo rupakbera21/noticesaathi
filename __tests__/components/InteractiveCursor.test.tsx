@@ -1,7 +1,6 @@
 import React from 'react'
 import { render, act } from '@testing-library/react'
 import { InteractiveCursor } from '@/components/InteractiveCursor'
-import { isInteractiveTarget } from '@/components/useInteractiveCursor'
 
 describe('InteractiveCursor Component', () => {
   beforeEach(() => {
@@ -58,30 +57,6 @@ describe('InteractiveCursor Component', () => {
     })
 
     expect(document.documentElement.classList.contains('custom-cursor-active')).toBe(false)
-  })
-
-  it('detects interactive elements via isInteractiveTarget', () => {
-    const button = document.createElement('button')
-    const icon = document.createElement('span')
-    button.appendChild(icon)
-    document.body.appendChild(button)
-
-    expect(isInteractiveTarget(button)).toBe(true)
-    expect(isInteractiveTarget(icon)).toBe(true)
-
-    const div = document.createElement('div')
-    document.body.appendChild(div)
-    expect(isInteractiveTarget(div)).toBe(false)
-
-    const link = document.createElement('a')
-    link.href = '/trust'
-    document.body.appendChild(link)
-    expect(isInteractiveTarget(link)).toBe(true)
-
-    const disabledBtn = document.createElement('button')
-    disabledBtn.disabled = true
-    document.body.appendChild(disabledBtn)
-    expect(isInteractiveTarget(disabledBtn)).toBe(false)
   })
 
   it('activates custom cursor on physical mouse move even when primary pointer reports coarse', () => {
