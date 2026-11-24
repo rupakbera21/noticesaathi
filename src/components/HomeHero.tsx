@@ -25,7 +25,7 @@ export function HomeHero() {
   }
 
   return (
-    <section className="w-full max-w-6xl mx-auto py-8 md:py-14 hero-interactive-zone">
+    <section className="w-full max-w-6xl mx-auto py-8 md:py-14">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
         {/* Left Editorial Column */}
         <div className="lg:col-span-6 space-y-6 text-left">

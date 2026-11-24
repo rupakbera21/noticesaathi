@@ -271,26 +271,20 @@ html.dark .grain-overlay {
   }
 }
 
-/* ─── Violet-Glass Native Cursor (Scoped to Hero on Fine-Pointer Devices) ─── */
-@media (pointer: fine) {
-  .hero-interactive-zone {
-    cursor:
-      url('/cursors/cursor-light.svg') 4 3,
-      auto;
-  }
-  html.dark .hero-interactive-zone {
-    cursor:
-      url('/cursors/cursor-dark.svg') 4 3,
-      auto;
+/* Keep the branded cursor above component-level cursor utilities. */
+@media (any-pointer: fine) {
+  :root {
+    --noticesaathi-cursor: url('/cursors/cursor-light.svg') 4 3, auto;
   }
 
-  .hero-interactive-zone button,
-  .hero-interactive-zone a,
-  .hero-interactive-zone input,
-  .hero-interactive-zone textarea,
-  .hero-interactive-zone [role='tab'],
-  .hero-interactive-zone [role='button'] {
-    cursor: pointer;
+  :root.dark {
+    --noticesaathi-cursor: url('/cursors/cursor-dark.svg') 4 3, auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    cursor: var(--noticesaathi-cursor) !important;
   }
 }
 
