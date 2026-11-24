@@ -99,6 +99,7 @@ Results recorded in `evals/results/baseline-eval.json`:
 | **@playwright/test**      | End-to-End Testing (`^1.49.1`)           | Multi-viewport visual and interaction testing across 4 viewports            |
 | **@ybouane/liquidglass**  | WebGL Glass Shader (`^1.0.3`)            | WebGL optical refraction shader for interactive cursor hover ring           |
 | **html-to-image**         | DOM Texture Capture (`^1.11.13`)         | In-browser DOM rasterization for WebGL liquid glass background sampling     |
+| **patch-package**         | Package Patch Tool (`^8.0.1`)            | Post-install patch support for npm dependencies                             |
 
 ---
 
