@@ -272,27 +272,31 @@ html.dark .grain-overlay {
 }
 
 /* Keep the branded cursor above component-level cursor utilities. */
-@media (any-pointer: fine) {
-  :root {
-    --noticesaathi-cursor:
-      url('/cursors/cursor-light.png') 4 3,
-      url('/cursors/cursor-light.svg') 4 3,
-      auto;
-  }
+:root {
+  --noticesaathi-cursor:
+    url('/cursors/cursor-light.cur') 4 3,
+    url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAYAAAByDd+UAAAEbUlEQVR4nLyWbWwURRjHn5nd2927bbF3XKu8CKZVaRUjXzQhtdRaE9AE9IP6GTHExLcENcH4SohN/EBKogQbtLFgRayNFQlSY0kMJFJT7Qdrub4GbLC9Vkjv9t72bndmfPbuLNfegcIVnuTJzs7szG/+z/PMZCncZJOu0E/gBhnNfdlY29vQsL53W3Yj9EaAc4EkZUODr0xpbW2Z6ADYrGXBiwrNXYz2dP/d4y9X670+mfSdMaIf7u6tPTX05DCO2egi60XZvJAKgSpT3Fk0vnZdibL3UEP/jud/3wfwtAqLpHZeSBGZXrCiQmW3r3KbvqUKe++DmufaWvZgiLe4cUiGIqG0QJ9gHARnAD6fbIZDLNG4qfzxzi8PTG6o/rYax11QREHRgr2ZbAnBiSgtlaxYhEdq7tXlj75o6H/9pYH9xYS4IJBzR6XApyMVhN+vsnK/Fiuv0FLvNlVvO3Sg+evrDXE+kKeLR2ScCAeI7HSIQdBY8C/LaHzMv7Gr85PrCnHBHHKGHDvzRKWC2QKY07YEqIqcnJywwpWVHrrvSGP/zlcGP76WEOcDRVphOofcUcgIpJ+YT+fJ8d3nddslqhbWNVf87aY1zx452Hz8/4Y4D8gdRzW2A2bIZshDvzRtkr7uGe38H7MShpkzHLPiUmR8MHWp7pGK2mPffBqsW9NZg9MVuEqI5UKdjhJgDpCkj8jJzgn3L99Puks9PsqSCZEwzwrNKzHdpzLdq7IVlWVG1boSvaVj02+HDw62NzW/8SLAsRQulc78fwEzucPL7OK0SY+2ntcvjIRl22REpZwQUIim+YRpREloNiRhqmHg10k36xBiw+YV9M3d92y9q2b//Vu3k3qA70y4fC2mLVe29OOJmZMlpcr6VSv18PjZqPzZ3qElknNEEBZMEMnlEb2CuPyyTW6lQpRKKD/FTItKNmaC0ZSdlKruK4PtO9aS8fGkteetnx84PfzUUBbKCyvEM9DdFdROdU95KFCRSNj0oklplJ57dWry8z5JohYhVHBOqFerX+7WVyxjQl/uTNW1svrAKMBrLwysXH3nktXq0tvaAR6tA+iJZ1WKPIXGLH/oaPsFIBjWeMSWooIYhjW2azr0Va/LxaOBgImTXbhbCwvDh27PeXU1kRizJFmmFIuKjYx4ErhuCOAWA6At6QDzFCbiNsWiYbGIJZlZ2Ez48JmxMSkM4MHJHIF+LAYTN5tEN/D8qQhM0qGhZdiOoZvoCo5Z+J2F4ewSVykaAkaMEUtQIzC16wlFkeOjoyrC5FkcjAKcSOUUAZnvL5OMWidyZegh/O5uhP5gQ86EuZA+/ODpJhd17aSEhEeC72xRFC0+PBxFEEfgHQhrs7LJF3m7LNyGnG9FnkJG6Z8elZ4bD77/jKaV8EAgjCF0I/C4k/R/YYVMXKGdZ/N+MTL/McKLRaFjTjDJcVT2kwObK+tibcFv4ghuoAoXjmCe5Fi2nOcd3GJtYbwpXL71HUV5V9NiAxf2LSps4eI3xf4BAAD//4Ddt0QAAAAGSURBVAMAGLEvsUkpO04AAAAASUVORK5CYII=') 4 3,
+    url('/cursors/cursor-light.png') 4 3,
+    url('/cursors/cursor-light.svg') 4 3,
+    auto;
+}
 
-  :root.dark,
-  html.dark {
-    --noticesaathi-cursor:
-      url('/cursors/cursor-dark.png') 4 3,
-      url('/cursors/cursor-dark.svg') 4 3,
-      auto;
-  }
+:root.dark,
+html.dark {
+  --noticesaathi-cursor:
+    url('/cursors/cursor-dark.cur') 4 3,
+    url('data:image/png;base64,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') 4 3,
+    url('/cursors/cursor-dark.png') 4 3,
+    url('/cursors/cursor-dark.svg') 4 3,
+    auto;
+}
 
-  *,
-  *::before,
-  *::after {
-    cursor: var(--noticesaathi-cursor) !important;
-  }
+html,
+body,
+*,
+*::before,
+*::after {
+  cursor: var(--noticesaathi-cursor) !important;
 }
 
 /* ─── Hero Violet Lighting & Reflections ─────────────────────────── */
